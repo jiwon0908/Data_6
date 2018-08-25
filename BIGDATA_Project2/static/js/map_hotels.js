@@ -164,8 +164,8 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 		};
 
 			var mapOptions = {
-				zoom: 14,
-				center: new google.maps.LatLng(48.865633, 2.321236),
+				zoom: 12,
+				center: new google.maps.LatLng(37.540705, 126.956764),
 				mapTypeId: google.maps.MapTypeId.ROADMAP,
 
 				mapTypeControl: false,
@@ -454,7 +454,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 					marker = new google.maps.Marker({
 						position: new google.maps.LatLng(item.location_latitude, item.location_longitude),
 						map: mapObject,
-						icon: 'img/pins/' + key + '.png',
+						icon: 'static/img/pins/' + key + '.png',
 					});
 
 					if ('undefined' === typeof markers[key])
@@ -500,7 +500,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 				maxWidth: 0,
 				pixelOffset: new google.maps.Size(10, 92),
 				closeBoxMargin: '',
-				closeBoxURL: "img/close_infobox.png",
+				closeBoxURL: "static/img/close_infobox.png",
 				isHidden: false,
 				alignBottom: true,
 				pane: 'floatPane',
