@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,url_for
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
@@ -7,10 +7,19 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 def show_home():
     return render_template('index.html')
 
+@app.route('/faq')
+def faq():
+    return render_template("faq.html")
+
+
+
 @app.route('/<path>')
 def show_path(path):
     if path:
-        return render_template('%s.html' % path)
+        if path.find("faq")!=-1:
+            return render_template(path)
+        else:
+              return render_template('%s.html' % path)
     else:
         return render_template('404.html')
 
