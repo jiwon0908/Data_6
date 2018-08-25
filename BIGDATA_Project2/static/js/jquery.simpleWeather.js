@@ -13,9 +13,9 @@
   $.extend({
     simpleWeather: function(options){
       options = $.extend({
-        location: '',
+        location: 'Seoul, Korea',
         woeid: '',
-        unit: 'f',
+        unit: 'c',
         success: function(weather){},
         error: function(message){}
       }, options);

@@ -17,31 +17,31 @@ $message_contact = $_POST['message_contact'];
 $verify_contact   = $_POST['verify_contact'];
 
 if(trim($name_contact) == '') {
-	echo '<div class="error_message">You must enter your Name.</div>';
+	echo '<div class="error_message">성을 입력해야 합니다.</div>';
 	exit();
 } else if(trim($lastname_contact ) == '') {
-	echo '<div class="error_message">You must enter your Last name.</div>';
+	echo '<div class="error_message">이름을 입력해야 합니다.</div>';
 	exit();
 } else if(trim($email_contact) == '') {
-	echo '<div class="error_message">Please enter a valid email address.</div>';
+	echo '<div class="error_message">유효한 이메일 주소를 입력해주세요.</div>';
 	exit();
 } else if(!isEmail($email_contact)) {
-	echo '<div class="error_message">You have enter an invalid e-mail address, try again.</div>';
+	echo '<div class="error_message">유효하지 않은 이메일 주소를 입력하셨습니다. 다시 시도해주세요.</div>';
 	exit();
 	} else if(trim($phone_contact) == '') {
-	echo '<div class="error_message">Please enter a valid phone number.</div>';
+	echo '<div class="error_message">유효한 전화번호를 입력해주세요.</div>';
 	exit();
 } else if(!is_numeric($phone_contact)) {
-	echo '<div class="error_message">Phone number can only contain numbers.</div>';
+	echo '<div class="error_message">전화번호는 숫자만 포함해야 합니다.</div>';
 	exit();
 } else if(trim($message_contact) == '') {
-	echo '<div class="error_message">Please enter your message.</div>';
+	echo '<div class="error_message">메세지를 입력해주세요.</div>';
 	exit();
 } else if(!isset($verify_contact) || trim($verify_contact) == '') {
-	echo '<div class="error_message"> Please enter the verification number.</div>';
+	echo '<div class="error_message"> 인증 숫자를 입력해주세요.</div>';
 	exit();
-} else if(trim($verify_contact) != '4') {
-	echo '<div class="error_message">The verification number you entered is incorrect.</div>';
+} else if(trim($verify_contact) != '5') {
+	echo '<div class="error_message">입력하신 인증 숫자가 정확하지 않습니다.</div>';
 	exit();
 }
 
@@ -51,14 +51,14 @@ if(get_magic_quotes_gpc()) {
 
 
 //$address = "HERE your email address";
-$address = "info@domain.com";
+$address = "korra0501@gmail.com";
 
 
 // Below the subject of the email
-$e_subject = 'You\'ve been contacted by ' . $name_contact . '.';
+$e_subject = '동행 - You\'ve been contacted by ' . $name_contact . '.';
 
 // You can change this if you feel that you need to.
-$e_body = "You have been contacted by $name_contact $lastname_contact with additional message is as follows." . PHP_EOL . PHP_EOL;
+$e_body = "$name_contact $lastname_contact 님이 다음과 같은 메세지를 보내셨습니다." . PHP_EOL . PHP_EOL;
 $e_content = "\"$message_contact\"" . PHP_EOL . PHP_EOL;
 $e_reply = "You can contact $lastname_contact via email, $email_contact or via phone $phone_contact";
 
@@ -71,17 +71,17 @@ $headers .= "Content-type: text/plain; charset=utf-8" . PHP_EOL;
 $headers .= "Content-Transfer-Encoding: quoted-printable" . PHP_EOL;
 
 $user = "$email_contact";
-$usersubject = "Thank You";
-$userheaders = "From: info@udema.com\n";
-$usermessage = "Thank you for contact UDEMA. We will reply shortly!";
+$usersubject = "감사합니다";
+$userheaders = "From: korra0501@gmail.com\n";
+$usermessage = "동행에 문의를 넣어주셔서 감사합니다. 답장이 올 때까지 조금만 기다려주세요!";
 mail($user,$usersubject,$usermessage,$userheaders);
 
 if(mail($address, $e_subject, $msg, $headers)) {
 
 	// Success message
 	echo "<div id='success_page' style='padding:25px 0'>";
-	echo "<strong >Email Sent.</strong><br>";
-	echo "Thank you <strong>$name_contact</strong>,<br> your message has been submitted. We will contact you shortly.";
+	echo "<strong >이메일 전송 완료.</strong><br>";
+	echo "<strong>$name_contact</strong>님 감사합니다.<br> 문의가 접수 완료되었습니다. 가까운 시일 안에 답장드리겠습니다.";
 	echo "</div>";
 
 } else {

@@ -13,7 +13,7 @@ def faq():
 
 @app.route('/<path>')
 def show_path(path):
-        return render_template('%s.html' % path)
+    return render_template('%s.html' % path)
 
 @app.errorhandler(404)
 def page_not_found(error):
