@@ -122,42 +122,42 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-4 col-md-6">
-					<a class="box_topic" href="{{ url_for('faq', _anchor='loading') }}">
+					<a class="box_topic" href="{{ url_for('faq', _anchor='top') }}">
 						<span><i class="pe-7s-hourglass"></i></span>
 						<h3>웹사이트 로딩</h3>
 						<p style="text-align:center;">페이지가 로딩이 되지 않거나, <br>사진이 보이지 않으신가요?</p>
 					</a>
 				</div>
 				<div class="col-lg-4 col-md-6">
-					<a class="box_topic" href="#0">
+					<a class="box_topic" href="{{ url_for('faq', _anchor='mm') }}">
 						<i class="pe-7s-users"></i>
 						<h3>로그인</h3>
 						<p style="text-align:center;">회원가입, 회원탈퇴, 로그인을 하실 때 <br>문제가 생기셨나요?</p>
 					</a>
 				</div>
 				<div class="col-lg-4 col-md-6">
-					<a class="box_topic" href="#0">
+					<a class="box_topic" href="{{ url_for('faq', _anchor='login_error') }}">
 						<i class="pe-7s-map-2"></i>
 						<h3>연락처</h3>
 						<p style="text-align:center;">사이트에 게재되어 있는<br> 연락처(위치, 전화번호) 정보가 정확하지 않나요?</p>
 					</a>
 				</div>
 				<div class="col-lg-4 col-md-6">
-					<a class="box_topic" href="#0">
+					<a class="box_topic" href="{{ url_for('faq', _anchor='loading') }}">
 						<i class="pe-7s-id"></i>
 						<h3>회원 정보 변경</h3>
 						<p style="text-align:center;">회원정보 변경사항이 반영되지 않나요?</p>
 					</a>
 				</div>
 				<div class="col-lg-4 col-md-6">
-					<a class="box_topic" href="#0">
+					<a class="box_topic" href="{{ url_for('faq', _anchor='share') }}">
 						<i class="pe-7s-share"></i>
 						<h3>공유</h3>
 						<p style="text-align:center;">글이 공유되지 않나요?</p>
 					</a>
 				</div>
 				<div class="col-lg-4 col-md-6">
-					<a class="box_topic" href="#0">
+					<a class="box_topic" href="{{ url_for('faq', _anchor='etc') }}">
 						<i class="pe-7s-helm"></i>
 						<h3>기타</h3>
 						<p>혹시 그 외 다른 문제가 있으신가요?</p>
@@ -176,12 +176,12 @@
 				</div>
 				<div class="list_articles add_bottom_30 clearfix">
 					<ul>
-						<li><a href="{{ url_for('faq', _anchor='login_error') }}"><i class="icon_documents_alt"></i>사이트 로그인이 안 될 경우 어떻게 하나요?</a></li>
-						<li><a href="#0"><i class="icon_documents_alt"></i>사이트의 정보가 정확하지 않아요!</a></li>
-						<li><a href="#0"><i class="icon_documents_alt"></i>나의 관심사를 수정하고 싶어요</a></li>
-						<li><a href="#0"><i class="icon_documents_alt"></i>사이트의 사진이 보이지 않을 때는 어떻게 하나요?</a></li>
-						<li><a href="#0"><i class="icon_documents_alt"></i>아이디/비밀번호가 기억나지 않아요</a></li>
-						<li><a href="#0"><i class="icon_documents_alt"></i>사이트의 정보가 정확하지 않아요</a></li>
+						<li><a href="{{ url_for('faq', _anchor='mm') }}"><i class="icon_documents_alt"></i>사이트 로그인이 안 될 경우 어떻게 하나요?</a></li>
+						<li><a href="{{ url_for('faq', _anchor='login_error') }}"><i class="icon_documents_alt"></i>내 위치와 상관 없는 곳의 정보가 나와요</a></li>
+						<li><a href="{{ url_for('faq', _anchor='loading') }}"><i class="icon_documents_alt"></i>나의 관심사를 수정하고 싶어요</a></li>
+						<li><a href="{{ url_for('faq', _anchor='top') }}"><i class="icon_documents_alt"></i>사이트의 사진이 보이지 않을 때는 어떻게 하나요?</a></li>
+						<li><a href="{{ url_for('faq', _anchor='mm') }}"><i class="icon_documents_alt"></i>아이디/비밀번호가 기억나지 않아요</a></li>
+						<li><a href="{{ url_for('faq', _anchor='login_error') }}"><i class="icon_documents_alt"></i>사이트의 정보가 정확하지 않아요</a></li>
 					</ul>
 				</div>
 				<!-- /list_articles -->
