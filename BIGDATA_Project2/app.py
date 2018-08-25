@@ -11,17 +11,13 @@ def show_home():
 def faq():
     return render_template("faq.html")
 
-
-
 @app.route('/<path>')
 def show_path(path):
-    if path:
-        if path.find("faq")!=-1:
-            return render_template(path)
-        else:
-              return render_template('%s.html' % path)
-    else:
-        return render_template('404.html')
+        return render_template('%s.html' % path)
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html')
 
 @app.after_request
 def add_header(response):
