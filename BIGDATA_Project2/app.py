@@ -5,6 +5,7 @@ from flask_admin import Admin
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+
 # 프로그램 내의 파이썬 파일
 from config import Config
 from database import *
@@ -55,7 +56,12 @@ def faq():
 
 @app.route('/<path>')
 def show_path(path):
-    return render_template('%s.html' % path)
+    if path=='program':
+        import database
+        data = database.fetch_db()
+        return render_template('program.html', data=data)
+    else:
+        return render_template('%s.html' % path)
 
 @app.errorhandler(404)
 def page_not_found(error):
