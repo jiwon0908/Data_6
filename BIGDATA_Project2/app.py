@@ -14,6 +14,7 @@ from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, login_user
+from flask_mail import Mail
 
 # 프로그램 내의 파이썬 파일
 from database import *
@@ -22,11 +23,10 @@ app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # 캐시 설정
 app.config['SECRET_KEY'] = '빅데이터고려대학교6조'
 app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///userdata.db'
-admin = Admin(app, name='microblog', template_mode='bootstrap4')
+
 db = SQLAlchemy(app)
 mail = Mail(app)
 Bootstrap(app)
-db= SQLAlchemy(app)
 login_manager= LoginManager()
 login_manager.init_app(app)
 login_manager.login_view= 'login'
@@ -78,6 +78,12 @@ def login():
         flash('잘못된 이메일/비밀번호 입니다')
     return render_template('login.html', title='login', form=form)
 
+@app.route('/program')
+def program():
+    import database
+    data = database.fetch_db()
+    return render_template('program.html', data=data)
+
 @app.route('/mypage')
 @login_required
 def mypage():
@@ -89,7 +95,8 @@ def logout():
     logout_user()
     return redirect(url_for('show_home'))
 
-  @app.route('/')
+@app.route('/')
+def home():
     return render_template('coming_soon.html')
   
 @app.route('/index')
@@ -130,11 +137,6 @@ def faq(path):
     else:
         flash('잘못된 이메일/비밀번호 입니다')
     return render_template('%s.html' % path, form=form)
-
-@app.route('/program')
-    import database
-    data = database.fetch_db()
-    return render_template('program.html', data=data)
 
 @app.errorhandler(404)
 def page_not_found(error):
