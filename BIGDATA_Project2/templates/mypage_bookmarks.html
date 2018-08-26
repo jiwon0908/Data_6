@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-{% import "bootstrap/wtf.html" as wtf %}
 
 <head>
     <meta charset="utf-8">
@@ -27,7 +26,6 @@
   <link href="static/admin_section/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
   <!-- Your custom styles -->
   <link href="static/admin_section/css/custom.css" rel="stylesheet">
-
 	
 </head>
 
@@ -95,14 +93,9 @@
             <a class="dropdown-item" href="mypage_messages">
               <strong>동행</strong>
               <span class="small float-right text-muted">00:00 AM</span>
-              <div class="dropdown-message small">'동행'이 어떻게 시작했는지 궁금하세요? 홈페이지의 '새소식' 및 '이용 안내' 탭을 참고하세요. 어떤 목표를 가지고 설립되었고, 어떻게 이용할 수 있는지 한 눈에 알 수 있습니다.</div>
+              <div class="dropdown-message small">동행의 일원이 된 것을 진심으로 축하드립니다! 앞으로도 함께해 주세요.</div>
             </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="mypage_messages">
-              <strong>동행</strong>
-              <span class="small float-right text-muted">00:00 AM</span>
-              <div class="dropdown-message small">동행의 일원이 된 것을 진심으로 축하드립니다!  앞으로 동행은 여러분들께 노후 생활을 함께 고민하고, 함께 걸어나가는 동행자가 되겠습니다.</div>
-            </a>
             <a class="dropdown-item small" href="mypage_messages">모든 쪽지 보기</a>
           </div>
         </li>
@@ -167,83 +160,61 @@
         <li class="breadcrumb-item">
           <a href="mypage">한 눈에 보기</a>
         </li>
+        <li class="breadcrumb-item active">찜한 목록</li>
       </ol>
-	  <!-- Icon Cards-->
-      <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-primary o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-envelope-open"></i>
-              </div>
-              <div class="mr-5"><h5>2개의 새로운 메세지</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="mypage_messages">
-              <span class="float-left">자세히 보기</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-star"></i>
-              </div>
-				<div class="mr-5"><h5>0개의 새로운 리뷰</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="mypage_reviews">
-              <span class="float-left">자세히 보기</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-success o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-calendar-check-o"></i>
-              </div>
-              <div class="mr-5"><h5>0개의 새로운 예약</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">곧 추가될 예정입니다</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-danger o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-heart"></i>
-              </div>
-              <div class="mr-5"><h5>0개의 새로운 찜 목록</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="mypage_bookmarks">
-              <span class="float-left">자세히 보기</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
+		<div class="box_general">
+			<div class="header_box">
+				<h2 class="d-inline-block">내가 찜한 목록</h2>
+				<div class="filter">
+					<select name="orderby" class="selectbox">
+						<option value="Any time">전체</option>
+						<option value="Latest">최신 순</option>
+						<option value="Oldest">오래된 순</option>
+					</select>
+				</div>
+			</div>
+			<div class="list_general">
+				<ul>
+					<li>
+						<figure><img src="static/admin_section/img/item_1.jpg" alt=""></figure>
+						<small>실내 프로그램</small>
+						<h4>맷돌댄스</h4>
+						<p>강남종합복지관</p>
+						<p><a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> 자세히 보기</a></p>
+						<ul class="buttons">
+							<li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> 삭제</a></li>
+						</ul>
+					</li>
+					<li>
+						<figure><img src="static/admin_section/img/learn-english.jpg" alt=""></figure>
+						<small>실내 프로그램</small>
+						<h4>영어 회화</h4>
+						<p>서초노인종합복지관</p>
+						<p><a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> 자세히 보기</a></p>
+						<ul class="buttons">
+							<li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> 삭제</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 		</div>
-		<!-- /cards -->
-		<h2></h2>
-		<div class="box_general padding_bottom">
-		 <img src="static/admin_section/img/beach.jpg" width="100%" height="100%" style="margin:15px 0 15px 0;"></img>
-		</div>
+		<!-- /box_general-->
+		<nav aria-label="...">
+			<ul class="pagination pagination-sm add_bottom_30">
+				<li class="page-item disabled">
+					<a class="page-link" href="#" tabindex="-1">이전</a>
+				</li>
+				<li class="page-item"><a class="page-link" href="#">1</a></li>
+				<li class="page-item">
+					<a class="page-link" href="#">다음</a>
+				</li>
+			</ul>
+		</nav>
+		<!-- /pagination-->
 	  </div>
-	  <!-- /.container-fluid-->
+	  <!-- /container-fluid-->
    	</div>
-    <!-- /.container-wrapper-->
+    <!-- /container-wrapper-->
     <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
@@ -287,8 +258,6 @@
 	<script src="static/admin_section/vendor/jquery.magnific-popup.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="static/admin_section/js/admin.js"></script>
-	<!-- Custom scripts for this page-->
-    <script src="static/admin_section/js/admin-charts.js"></script>
 	
 </body>
 </html>

@@ -15,11 +15,16 @@ from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, login_user
 
+# 프로그램 내의 파이썬 파일
+from database import *
 
 app = Flask(__name__)
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-app.config['SECRET_KEY']= 'bigdata-6'
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # 캐시 설정
+app.config['SECRET_KEY'] = '빅데이터고려대학교6조'
 app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///userdata.db'
+admin = Admin(app, name='microblog', template_mode='bootstrap4')
+db = SQLAlchemy(app)
+mail = Mail(app)
 Bootstrap(app)
 db= SQLAlchemy(app)
 login_manager= LoginManager()
@@ -84,8 +89,10 @@ def logout():
     logout_user()
     return redirect(url_for('show_home'))
 
+  @app.route('/')
+    return render_template('coming_soon.html')
+  
 @app.route('/index')
-@app.route('/')
 def show_home():
     form = LoginForm()
     if form.validate_on_submit():
@@ -98,21 +105,21 @@ def show_home():
         flash('잘못된 이메일/비밀번호 입니다')
     return render_template('index.html', form=form)
 
-@app.route('/faq')
-def faq():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            if check_password_hash(user.password, form.password.data):
-                login_user(user, remember=form.remember_me.data)
-                return redirect(url_for('show_home'))
-    else:
-        flash('잘못된 이메일/비밀번호 입니다')
-    return render_template("faq.html", form=form)
+# @app.route('/faq')
+# def faq():
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#         user = User.query.filter_by(username=form.username.data).first()
+#         if user:
+#             if check_password_hash(user.password, form.password.data):
+#                 login_user(user, remember=form.remember_me.data)
+#                 return redirect(url_for('show_home'))
+#     else:
+#         flash('잘못된 이메일/비밀번호 입니다')
+#     return render_template("faq.html", form=form)
 
 @app.route('/<path>')
-def show_path(path):
+def faq(path):
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -123,6 +130,11 @@ def show_path(path):
     else:
         flash('잘못된 이메일/비밀번호 입니다')
     return render_template('%s.html' % path, form=form)
+
+@app.route('/program')
+    import database
+    data = database.fetch_db()
+    return render_template('program.html', data=data)
 
 @app.errorhandler(404)
 def page_not_found(error):
