@@ -1,6 +1,6 @@
 //First slide weather
 $.simpleWeather({
-    location: 'Bangkok, Thailand',
+    location: 'Seoul, Korea',
     woeid: '',
     unit: 'c',
     success: function(weather) {
@@ -15,7 +15,7 @@ $.simpleWeather({
 
 //Second slide weather
  $.simpleWeather({
-    location: 'Dubai, United Arab Emirates',
+    location: 'Busan, Korea',
     woeid: '',
     unit: 'c',
     success: function(weather) {
@@ -30,7 +30,7 @@ $.simpleWeather({
 
 //Third slide weather
  $.simpleWeather({
-    location: 'Cairo, Egypt',
+    location: 'Toyko, Japan',
     woeid: '',
     unit: 'c',
     success: function(weather) {
@@ -45,7 +45,7 @@ $.simpleWeather({
 
 //Fourth slide weather
  $.simpleWeather({
-    location: 'Nassau, The Bahamas',
+    location: 'Washington D.C., United States',
     woeid: '',
     unit: 'c',
     success: function(weather) {
@@ -60,7 +60,7 @@ $.simpleWeather({
 
 //fifth slide weather
  $.simpleWeather({
-    location: 'Rome, Italy',
+    location: 'Beijing, China',
     woeid: '',
     unit: 'c',
     success: function(weather) {
