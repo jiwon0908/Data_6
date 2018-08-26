@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
+{% import "bootstrap/wtf.html" as wtf %}
+
 
 <head>
     <meta charset="utf-8">
@@ -368,42 +370,27 @@
 		<div class="small-dialog-header">
 			<h3>로그인</h3>
 		</div>
-		<form>
+		<form method="post" action="login" novalidate>
+            {{ form.hidden_tag()}}
 			<div class="sign-in-wrapper">
-				<a href="#0" class="social_bt facebook">페이스북으로 로그인</a>
-				<a href="#0" class="social_bt google">구글계정으로 로그인</a>
-				<div class="divider"><span>혹은</span></div>
 				<div class="form-group">
-					<label>이메일</label>
-					<input type="email" class="form-control" name="email" id="email">
+                    {{ wtf.form_field(form.username) }}
 					<i class="icon_mail_alt"></i>
 				</div>
 				<div class="form-group">
-					<label>비밀번호</label>
-					<input type="password" class="form-control" name="password" id="password" value="">
+				     {{ wtf.form_field(form.password) }}
 					<i class="icon_lock_alt"></i>
 				</div>
 				<div class="clearfix add_bottom_15">
 					<div class="checkboxes float-left">
-						<label class="container_check">로그인 유지
-						  <input type="checkbox">
+                         {{ wtf.form_field(form.remember_me) }}
 						  <span class="checkmark"></span>
 						</label>
 					</div>
-					<div class="float-right mt-1"><a id="forgot" href="javascript:void(0);">비밀번호를 잊어버렸나요?</a></div>
 				</div>
 				<div class="text-center"><input type="submit" value="로그인" class="btn_1 full-width"></div>
 				<div class="text-center">
-					계정이 없으신가요? <a href="register.html">회원가입</a>
-				</div>
-				<div id="forgot_pw">
-					<div class="form-group">
-						<label>비밀번호를 재설정할 메일주소 입력</label>
-						<input type="email" class="form-control" name="email_forgot" id="email_forgot">
-						<i class="icon_mail_alt"></i>
-					</div>
-					<p>아래 버튼을 누르시면 비밀번호를 재설정 할 수 있는 링크가 메일로 발송됩니다.</p>
-					<div class="text-center"><input type="submit" value="비밀번호 재설정" class="btn_1"></div>
+					계정이 없으신가요? <a href="register">회원가입</a>
 				</div>
 			</div>
 		</form>

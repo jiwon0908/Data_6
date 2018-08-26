@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+{% import "bootstrap/wtf.html" as wtf %}
 
 <head>
     <meta charset="utf-8">
@@ -40,32 +41,25 @@
 			<figure>
 				<a href="index"><img src="static/img/logo_sticky.png" width="155" height="36" data-retina="true" alt="" class="logo_sticky"></a>
 			</figure>
-			  <form>
-				<div class="access_social">
-				<a href="#0" class="social_bt facebook">페이스북으로 로그인</a>
-				<a href="#0" class="social_bt google">구글계정으로 로그인</a>
-				</div>
-				<div class="divider"><span>혹은</span></div>
+			  <form  method="post" action="login" novalidate>
+                  {{ form.hidden_tag()}}
 				<div class="form-group">
-					<label>이메일</label>
-					<input type="email" class="form-control" name="email" id="email">
+                    {{ wtf.form_field(form.username) }}
 					<i class="icon_mail_alt"></i>
 				</div>
 				<div class="form-group">
-					<label>비밀번호</label>
-					<input type="password" class="form-control" name="password" id="password" value="">
+                    {{ wtf.form_field(form.password) }}
 					<i class="icon_lock_alt"></i>
 				</div>
 				<div class="clearfix add_bottom_30">
 					<div class="checkboxes float-left">
-						<label class="container_check">로그인 유지
-						  <input type="checkbox">
+						<label class="container_check">
+    			    	  {{ wtf.form_field(form.remember_me) }}
 						  <span class="checkmark"></span>
 						</label>
 					</div>
-					<div class="float-right mt-1"><a id="forgot" href="{{ url_for('reset_password_request') }}">비밀번호를 잊어버리셨나요?</a></div>
 				</div>
-				<a href="#0" class="btn_1 rounded full-width">로그인</a>
+                  <button class="btn_1 rounded full-width" type="submit">로그인</button>
 				<div class="text-center add_top_10">처음 오셨나요? <strong><a href="register">회원가입!</a></strong></div>
 			</form>
 			<div class="copy">© 2018 고려대학교 BIGDATA X CAMPUS 6조</div>
