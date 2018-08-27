@@ -1,9 +1,10 @@
 # 설치해야 할 외부 라이브러리
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from flask_mail import Mail
 from flask_admin import Admin
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from database import *
 
 # 프로그램 내의 파이썬 파일
 from config import Config
@@ -53,6 +54,14 @@ def show_home():
 def faq():
     return render_template("faq.html")
 
+
+@app.route('/center-detail', methods=['get'])
+def search():
+    center = request.args.get("welfare")
+    center_data = get_welfare_center(center)
+    return render_template('center-detail.html', data= center_data)
+
+
 @app.route('/<path>')
 def show_path(path):
     return render_template('%s.html' % path)
@@ -70,6 +79,9 @@ def add_header(response):
     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
