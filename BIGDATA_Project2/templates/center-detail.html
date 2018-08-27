@@ -51,20 +51,21 @@
 
             })(Array.prototype);
 
+
             var mapObject,
                 markers = [],
                 markersData = {
                     'Marker': [
                         {
-                            type_point: 'Paris Centre',
-                            name: 'Mariott Hotel',
+                            type_point: '{{ data['address'].split(' ')[1] }}',
+                            name:'{{ data['location'] }}',
                             location_latitude: {{ data['lat'] }},
                             location_longitude: {{ data['long'] }},
-                            map_image_url: 'img/thumb_map_single_hotel.jpg',
+                            map_image_url: '{{ data['image'] }}',
                             rate: 'Superb | 7.5',
-                            name_point: 'Mariott Hotel',
+                            name_point: '{{ data['location'] }}',
                             get_directions_start_address: '',
-                            phone: '+3934245255'
+                            phone: '{{ data['phone_num'] }}'
                         }
                     ]
 
@@ -390,7 +391,7 @@
                 return new InfoBox({
                     content:
                     '<div class="marker_info" id="marker_info">' +
-                    '<img src="' + item.map_image_url + '" alt=""/>' +
+                    '<img src="' + item.map_image_url + '" width=100% height=50% alt=""/>' +
                     '<span>' +
                     '<span class="infobox_rate">' + item.rate + '</span>' +
                     '<h3>' + item.name_point + '</h3>' +
