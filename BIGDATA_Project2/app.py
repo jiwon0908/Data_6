@@ -210,6 +210,13 @@ def recommend_leisure():
     random_listing = define_listing()
     return render_template('recommend_leisure.html', data=program_list, random_listing=random_listing)
 
+@app.route('/recommend_leisure_list')
+@login_required
+def recommend_leisure_list():
+    _, program_list = recommend_welfare_center_program(current_user.email, current_user.password)
+    random_listing = define_listing()
+    return render_template('recommend_leisure_list.html', data=program_list, random_listing=random_listing)
+
 @app.route('/worklist', methods=['get'])
 def worklist():
     email = request.args.get('email')

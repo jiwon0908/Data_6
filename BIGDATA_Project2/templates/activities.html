@@ -402,7 +402,7 @@ window.onload = function () {
             return new InfoBox({
                 content:
                 '<div class="marker_info" id="marker_info">' +
-                '<img src="' + item.map_image_url + '" alt=""/>' +
+                '<img src="' + item.map_image_url + '" width="240" height="140" alt=""/>' +
                 '<span>' +
                 '<span class="infobox_rate">' + item.rate + '</span>' +
                 '<h3>' + item.name_point + '</h3>' +
@@ -645,7 +645,7 @@ window.onload = function () {
                                         <div class="wrapper">
                                             <div class="price">{{ data[i]['type_point'] }}</div>
                                             <h3><a href={{ data[i]['url_point'] }}><strong>{{ data[i]['name'] }}</strong></a></h3>
-                                            <p>{{ data[i]['act_content'] }}<br>
+                                            <p><strong>개요:</strong>{{ data[i]['act_content'] }}<br>
                                                 <strong>참고사항:</strong> {{ data[i]['act_ref'] }}<br>
                                                 <strong>입장료:</strong> {{ data[i]['act_fee'] }}</p>
                                             <span class="price"><strong>{{ data[i]['act_day'] }}</strong>  {{ data[i]['act_start'] }} ~ {{ data[i]['act_end'] }}</span>

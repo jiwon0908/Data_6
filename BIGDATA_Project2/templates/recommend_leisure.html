@@ -386,7 +386,7 @@ window.onload = function () {
             return new InfoBox({
                 content:
                 '<div class="marker_info" id="marker_info">' +
-                '<img src="' + item.map_image_url + '" alt=""/>' +
+                '<img src="' + item.map_image_url + '" width="240" height="140" alt=""/>' +
                 '<span>' +
                 '<span class="infobox_rate">' + item.rate + '</span>' +
                 '<h3>' + item.name_point + '</h3>' +
@@ -412,7 +412,7 @@ window.onload = function () {
         };
 
     });
-}
+};
 </script>
 </head>
 
@@ -536,7 +536,7 @@ window.onload = function () {
                                             <h3><strong>{{ data[i]['edu_name'] }}</strong></h3>
                                             <p>수업내용: {{ data[i]['edu_content'] }}<br>
                                                 참고사항: {{ data[i]['edu_ref'] }}<br>
-                                                수업료: {{ data[i]['edu_fee'] }} 원</p>
+                                                수업료: {{ data[i]['edu_fee'] }}</p>
                                             <span class="price"><strong>{{ data[i]['edu_day'] }}</strong>  {{ data[i]['edu_start'] }} ~ {{ data[i]['edu_end'] }}, <i>{{ data[i]['edu_duration'] }}분</i> </span>
                                         </div>
                                         <ul>
