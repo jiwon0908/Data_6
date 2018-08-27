@@ -1,28 +1,20 @@
 # coding: utf-8
 
-# 파이썬 2.7버전의 경우
-# import sys
-# if sys.version_info.major < 3:
-#     reload(sys)
-#sys.setdefaultencoding('utf8')
+import sys
+if sys.version_info.major < 3:
+    reload(sys)
+sys.setdefaultencoding('utf8')
 
 from flask import Flask, render_template, url_for,redirect, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SelectField, RadioField
 from wtforms.validators import DataRequired,InputRequired, Email,Length
 from flask import render_template, flash, redirect
-import os
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, login_user
 from flask_mail import Mail
-
-
-
-# 프로그램 내의 파이썬 파일
-from database import *
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # 캐시 설정
@@ -177,9 +169,12 @@ def my_review():
     review_info = get_review(email, order)
     return render_template('mypage_reviews.html' , data=review_info)
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html')
 
-@app.route('/<path>')
-def faq(path):
+@app.route('/faq')
+def faq():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -189,11 +184,8 @@ def faq(path):
                 return redirect(url_for('show_home'))
     else:
         flash('잘못된 이메일/비밀번호 입니다')
-    return render_template("faq.html", form=form)
+    return render_template('faq.html', form=form)
 
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('404.html')
 
 @app.route('/<path>')
 def path(path):
