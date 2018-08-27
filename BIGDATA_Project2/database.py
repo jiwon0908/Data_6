@@ -89,7 +89,18 @@ def get_my_page(email):
 
     return data
 
-def fetch_welfare_center_program():
+
+def register_wish(email, center, lecture, flag):
+    if flag == True:
+        sql = "insert into lecture_wish values('{}','{}','{}')".format(email, lecture, center)
+        db_engine.execute(sql)
+    else:
+        sql = "delete from lecture_wish where email='{}' and center='{}' and lecture='{}'".format(email,center,lecture)
+        db_engine.execute(sql)
+
+
+
+def fetch_welfare_center_program(email):
     center = db_engine.execute("SELECT * FROM welfare_center")
     center_df = pd.DataFrame(center.fetchall(),
                              columns=('location', 'lat', 'long', 'phone_num', 'address', 'center_url', 'target',
@@ -117,6 +128,12 @@ def fetch_welfare_center_program():
                                   'eduday_Sta', 'eduday_End', 'entry_Num', 'receipt_Sta', 'receipt_End', 'day', 'ref',
                                   'content', 'url'))
 
+    wish_program = db_engine.execute("select * from lecture_wish where email='{}'".format(email))
+    wish_program = pd.DataFrame(wish_program.fetchall(), columns=('email','lecture_Name','location'))
+    wish_program = program_df.merge(wish_program, on=['lecture_Name', 'location'], right_index=True)
+    program_df['wish_flag'] = "wish_bt"
+    program_df.loc[wish_program.index.tolist(), 'wish_flag'] = "wish_bt liked"
+
     program_list = []
     program_photo_num = {'A':1, 'B':5, 'C':1, 'D':5, 'E':1, 'F':5, 'G':1, 'H':1} # static/img/program에 들어있는 각 대분류별 사진 개수
     for _,data2 in program_df.iterrows():
@@ -141,7 +158,8 @@ def fetch_welfare_center_program():
                                                  'edu_ref': data2.ref,
                                                  'edu_content': data2.content,
                                                  'edu_category': [data2.category_L, data2.category_S],
-                                                 'edu_entrynum': data2.entry_Num
+                                                 'edu_entrynum': data2.entry_Num,
+                                                 'wish_flag' : data2.wish_flag
                              })
 
     return center_list, program_list

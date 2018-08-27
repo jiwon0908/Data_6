@@ -30,6 +30,30 @@
 	<script src="static/js/modernizr.js"></script>
 
 <script type="text/javascript">
+window.onload = function () {
+
+    for( i=0; i <30; i++){
+        $("#wish_btn"+i).click(function(){
+            $.ajax({
+            type:"POST",
+            url:"./register_wish",
+            data : {class : $(this).attr("class"), info : $(this).attr("href")},
+            dataType : "json",
+            success: function(json){
+                {#alert("AAAAA");#}
+                {#console.log(xml);#}
+            },
+            error: function(xhr, status, error) {
+                alert("error");
+            }
+        });
+    });
+    }
+
+};
+
+
+
 $('#collapseMap').on('shown.bs.collapse', function(e){
 	(function(A) {
 
@@ -608,30 +632,58 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 				<div class="col-lg-9">
 					<div class="isotope-wrapper">
 						<div class="row">
-                            {%  for program in data[:30] %}
-							<div class={{ random_listing }}>
+                            {%  for i in range(30) %}
+
+							<div class="{{ random_listing }}">
 								<div class="box_grid">
 									<figure>
-										<a href="#0" class="wish_bt"></a>
-										<a href={{ program['url_point'] }}><img src='{{ program['map_image_url'] }}' class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>자세히 보기</span></div></a>
-										<small>{{ program['type_point'] }}</small>
+                                        <a id="wish_btn{{ i }}"  href="#{{ email }} {{ data[i]['edu_name'] }} {{ data[i]['name'] }}" class="{{ data[i]['wish_flag'] }}"></a>
+                                        <script>
+                                            $( '#wish_btn0' ).addClass( "wish_bt" );</script>
+										<a href={{ data[i]['url_point'] }}><img src='{{ data[i]['map_image_url'] }}' class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>자세히 보기</span></div></a>
+										<small>{{ data[i]['type_point'] }}</small>
 									</figure>
 									<div class="wrapper">
-                                        <div class="price"><a href={{ program['center_url'] }}><strong>{{ program['name'] }}</strong></a></div>
-										<h3><strong>{{ program['edu_name'] }}</strong></h3>
-										<p>수업내용: {{ program['edu_content'] }}<br>
-                                       참고사항: {{ program['edu_ref'] }}<br>
-                                       수업료: {{ program['edu_fee'] }} 원</p>
-										<span class="price"><strong>{{ program['edu_day'] }}</strong>  {{ program['edu_start'] }} ~ {{ program['edu_end'] }}, <i>{{ program['edu_duration'] }}분</i> </span>
+                                        <div class="price"><a href={{ data[i]['center_url'] }}><strong>{{ data[i]['name'] }}</strong></a></div>
+										<h3><strong>{{ data[i]['edu_name'] }}</strong></h3>
+										<p>수업내용: {{ data[i]['edu_content'] }}<br>
+                                       참고사항: {{ data[i]['edu_ref'] }}<br>
+                                       수업료: {{ data[i]['edu_fee'] }} 원</p>
+										<span class="price"><strong>{{ data[i]['edu_day'] }}</strong>  {{ data[i]['edu_start'] }} ~ {{ data[i]['edu_end'] }}, <i>{{ data[i]['edu_duration'] }}분</i> </span>
 									</div>
 									<ul>
-                                        <li><i class="ti-export"></i><a href={{ program['url_point'] }}>  외부 링크</a></li>
-										<li><div class="score"><span>{{ program['edu_category'][0] }}<em>{{ program['edu_category'][1] }}</em></span><strong>8.9</strong></div></li>
+                                        <li><i class="ti-export"></i><a href={{ data[i]['url_point'] }}>  외부 링크</a></li>
+										<li><div class="score"><span>{{ data[i]['edu_category'][0] }}<em>{{ data[i]['edu_category'][1] }}</em></span><strong>8.9</strong></div></li>
 									</ul>
 								</div>
 							</div>
 							<!-- /box_grid -->
                             {%  endfor %}
+{#                            {%  for program in (data[:30]) %}#}
+{##}
+{#							<div class="{{ random_listing }}">#}
+{#								<div class="box_grid">#}
+{#									<figure>#}
+{#                                        <a id="wish_btn{{ count }}"  href="#{{ email }} {{ program['edu_name'] }} {{ program['name'] }}" class="wish_bt"></a>#}
+{#										<a href={{ program['url_point'] }}><img src='{{ program['map_image_url'] }}' class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>자세히 보기</span></div></a>#}
+{#										<small>{{ program['type_point'] }}</small>#}
+{#									</figure>#}
+{#									<div class="wrapper">#}
+{#                                        <div class="price"><a href={{ program['center_url'] }}><strong>{{ program['name'] }}</strong></a></div>#}
+{#										<h3><strong>{{ program['edu_name'] }}</strong></h3>#}
+{#										<p>수업내용: {{ program['edu_content'] }}<br>#}
+{#                                       참고사항: {{ program['edu_ref'] }}<br>#}
+{#                                       수업료: {{ program['edu_fee'] }} 원</p>#}
+{#										<span class="price"><strong>{{ program['edu_day'] }}</strong>  {{ program['edu_start'] }} ~ {{ program['edu_end'] }}, <i>{{ program['edu_duration'] }}분</i> </span>#}
+{#									</div>#}
+{#									<ul>#}
+{#                                        <li><i class="ti-export"></i><a href={{ program['url_point'] }}>  외부 링크</a></li>#}
+{#										<li><div class="score"><span>{{ program['edu_category'][0] }}<em>{{ program['edu_category'][1] }}</em></span><strong>8.9</strong></div></li>#}
+{#									</ul>#}
+{#								</div>#}
+{#							</div>#}
+{#							<!-- /box_grid -->#}
+{#                            {%  endfor %}#}
 						</div>
 						<!-- /row -->
 				</div>
