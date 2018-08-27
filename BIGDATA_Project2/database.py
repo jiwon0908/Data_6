@@ -10,6 +10,12 @@ from concurrent import futures
 db_engine = create_engine('sqlite:///DB.db', echo=True)
 user_engine = create_engine('sqlite:///userdata.db', echo=True)
 
+# 키: 카테고리 알파벳/숫자    값: 카테고리 대분류, 소분류(한글)
+category= db_engine.execute("SELECT * FROM lecture_category").fetchall()
+category_dict = {'A':'문화예술 관람', 'B':'문화예술 참여', 'C': '스포츠 관람',
+                 'D': '스포츠 참여', 'E':'관광', 'F':'취미&오락', 'G':'휴식', 'H':'사회활동'}
+for item in category:
+    category_dict[item[2]] = item[3]
 
 def insert_welfare_review(email, content, rating, name, location):
     date = datetime.datetime.now().date()
@@ -292,6 +298,7 @@ def get_wishlist(email):
     return center_list, result_dict
 
 
+# 복지관 데이터 모으기
 def fetch_welfare_center_program(email):
     center = db_engine.execute("SELECT * FROM welfare_center")
     center_df = pd.DataFrame(center.fetchall(),
@@ -348,14 +355,14 @@ def fetch_welfare_center_program(email):
                                                  'edu_day': data2.day,
                                                  'edu_ref': data2.ref,
                                                  'edu_content': data2.content,
-                                                 'edu_category': [data2.category_L, data2.category_S],
+                                                 'edu_category': [data2.category_L, data2.category_S, category_dict[data2.category_L], category_dict[data2.category_S]],
                                                  'edu_entrynum': data2.entry_Num,
                                                  'wish_flag' : data2.wish_flag
                              })
 
     return center_list, program_list
 
-# 야외활동
+# 야외활동 데이터 모으기
 def fetch_activity(email):
     act = db_engine.execute("SELECT * FROM outdoor")
     act_df = pd.DataFrame(act.fetchall(),
@@ -390,7 +397,7 @@ def fetch_activity(email):
                                  'act_day': data3.day,
                                  'act_ref': data3.notice,
                                  'act_content': data3.summary,
-                                 'act_category': [data3.category_L, data3.category_S],
+                                 'act_category': [data3.category_L, data3.category_S, category_dict[data3.category_L], category_dict[data3.category_S]],
                                   'wish_flag': data3.wish_flag
                              })
 
