@@ -92,8 +92,7 @@ def get_my_page(email):
 def fetch_welfare_center_program():
     center = db_engine.execute("SELECT * FROM welfare_center")
     center_df = pd.DataFrame(center.fetchall(),
-                             columns=('location', 'lat', 'long', 'phone_num', 'address', 'center_url', 'target',
-                                      'image'))  # target은 이용대상.
+                             columns=('location', 'lat', 'long', 'phone_num', 'address', 'center_url', 'target', 'image'))  # target은 이용대상.
 
     center_list = []
     for _, data in center_df.iterrows():
@@ -148,10 +147,37 @@ def fetch_welfare_center_program():
 
 # 야외활동
 def fetch_activity():
-    center = db_engine.execute("SELECT * FROM outdoor")
-    center_df = pd.DataFrame(center.fetchall(),
+    act = db_engine.execute("SELECT * FROM outdoor")
+    act_df = pd.DataFrame(act.fetchall(),
                              columns=('location', 'category_L', 'category_S', 'field', 'address', 'image', 'phone_num',
-                                      'lat', 'long', 'eduday_Sta', 'eduday_End', 'edutime_Sta'))  # target은 이용대상.
+                                      'lat', 'long', 'eduday_Sta', 'eduday_End', 'edutime_Sta', 'edutime_End', 'day',
+                                      'url', 'fee', 'notice', 'summary'))
+    activitiy_list = []
+    for _, data3 in act_df.iterrows():
+        activitiy_list.append({'type_point': re.findall('\S+구', center_df.loc[row_index, 'address'])[0],
+                                                'name': data2.location,
+                                                'location_latitude': center_df.loc[row_index, 'lat'],
+                                                'location_longitude': center_df.loc[row_index, 'long'],
+                                                'map_image_url': 'static/img/program/'+str(data2.category_L)+str(random.randrange(0,program_photo_num[data2.category_L]))+'.jpg',
+                                                'rate':'' ,
+                                                'name_point': data2.location,
+                                                'get_directions_start_address': '',
+                                                'phone': center_df.loc[row_index, 'phone_num'],
+                                                'url_point': data2.url,
+                                                'center_url': 'center-detail?welfare='+data2.location,
+                                                 'edu_name': data2.lecture_Name,
+                                                 'edu_start': str(data2.edutime_Sta)[:5],
+                                                 'edu_end': str(data2.edutime_End)[:5],
+                                                 'edu_duration': int(data2.edu_duration),
+                                                 'edu_fee': data2.fee,
+                                                 'edu_day': data2.day,
+                                                 'edu_ref': data2.ref,
+                                                 'edu_content': data2.content,
+                                                 'edu_category': [data2.category_L, data2.category_S],
+                                                 'edu_entrynum': data2.entry_Num
+                             })
+
+
 
 # 보여주는 페이지의 순서 정렬
 def define_listing():

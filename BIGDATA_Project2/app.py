@@ -19,8 +19,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, login_user
 from flask_mail import Mail
 
-
-
 # 프로그램 내의 파이썬 파일
 from database import *
 
