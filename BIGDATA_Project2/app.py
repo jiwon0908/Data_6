@@ -1,8 +1,11 @@
 # coding: utf-8
-import sys
-if sys.version_info.major < 3:
-    reload(sys)
-sys.setdefaultencoding('utf8')
+
+# 파이썬 2.7버전의 경우
+# import sys
+# if sys.version_info.major < 3:
+#     reload(sys)
+#sys.setdefaultencoding('utf8')
+
 from flask import Flask, render_template, url_for,redirect, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SelectField
@@ -81,8 +84,8 @@ def login():
 @app.route('/program')
 def program():
     import database
-    data = database.fetch_db()
-    return render_template('program.html', data=data)
+    center_list, program_list = database.fetch_welfare_center_program()
+    return render_template('program.html')
 
 @app.route('/mypage')
 @login_required
