@@ -62,7 +62,7 @@
                             location_latitude: {{ data[0]['lat'] }},
                             location_longitude: {{ data[0]['long'] }},
                             map_image_url: '{{ data[0]['image'] }}',
-                            rate: 'Superb | 7.5',
+                            rate: 'Rating | {{ data[1]['mean'] }}',
                             name_point: '{{ data[0]['location'] }}',
                             get_directions_start_address: '',
                             phone: '{{ data[0]['phone_num'] }}'
@@ -540,7 +540,7 @@
                                         <div class="row">
                                             <div class="col-lg-10 col-9">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 90%"
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ data[1]['star5'] }}%"
                                                          aria-valuenow="{{ data[1]['star5'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
@@ -552,7 +552,7 @@
                                         <div class="row">
                                             <div class="col-lg-10 col-9">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 95%"
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ data[1]['star4'] }}%"
                                                          aria-valuenow="{{ data[1]['star4'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
@@ -564,8 +564,8 @@
                                         <div class="row">
                                             <div class="col-lg-10 col-9">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 60%"
-                                                         aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ data[1]['star3'] }}%"
+                                                         aria-valuenow="{{ data[1]['star3'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 col-3">
@@ -576,7 +576,7 @@
                                         <div class="row">
                                             <div class="col-lg-10 col-9">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 20%"
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ data[1]['star2'] }}%"
                                                          aria-valuenow="{{ data[1]['star2'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
@@ -588,7 +588,7 @@
                                         <div class="row">
                                             <div class="col-lg-10 col-9">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 0"
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ data[1]['star1'] }}%"
                                                          aria-valuenow="{{ data[1]['star1'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
@@ -619,7 +619,7 @@
                                             {% endfor %}
                                         </div>
                                         <div class="rev-info">
-                                            {{ review['name'] }} – {{ review['date'] }}
+                                            {{ review['name'] }} / {{ review['date'] }}
                                         </div>
                                         <div class="rev-text">
                                             <p>
@@ -707,7 +707,8 @@
 
                         <div class="add-review">
                             <h5>Leave a Review</h5>
-                            <form>
+                            <form action="/center-detail" method="post" name="review">
+{#                            <form>#}
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Name and Lastname *</label>
@@ -741,6 +742,7 @@
                                                   style="height:130px;"></textarea>
                                     </div>
                                     <div class="form-group col-md-12 add_top_20">
+                                        <input name="location" type="hidden" value="{{ data[0]['location'] }}">
                                         <input type="submit" value="Submit" class="btn_1" id="submit-review">
                                     </div>
                                 </div>

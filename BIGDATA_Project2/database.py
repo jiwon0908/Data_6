@@ -2,9 +2,20 @@ from sqlalchemy import create_engine
 import pandas as pd
 import random
 import re
+import datetime
 
 db_engine = create_engine('sqlite:///DB.db', echo=True)
 user_engine = create_engine('sqlite:///userdata.db', echo=True)
+
+
+def insert_welfare_review(email, content, rating, name, location):
+    date = datetime.datetime.now().date()
+    sql = "insert into welfare_review values('{}','{}','{}',{},'{}','{}')".format(email, date, content, rating, name,
+                                                                                  location)
+
+    user_engine.execute(sql)
+
+
 
 def get_welfare_center(center):
     result = db_engine.execute("select * from welfare_center where location = '{}'".format(center)).fetchall()
@@ -12,7 +23,7 @@ def get_welfare_center(center):
                    'address': result[0][4], 'center_url': result[0][5], 'target': result[0][6], 'image': result[0][7]}
 
     review = user_engine.execute("select * from welfare_review where location = '{}'".format(center))
-    review_frame = pd.DataFrame(review.fetchall(), columns=('email', 'date', 'content', 'rating', 'name','location'))
+    review_frame = pd.DataFrame(review.fetchall(), columns=('email', 'date', 'content', 'rating', 'name', 'location'))
     review_info = {}
     review_list = []
     for _, data in review_frame.iterrows():
@@ -24,14 +35,13 @@ def get_welfare_center(center):
     review_len = len(review_frame)
     review_info['len'] = review_len
 
-    if review_len !=0:
-        review_info['mean'] = review_frame.rating.mean()
-
-        review_info['star5'] = len(review_frame[review_frame.rating==5])/review_len
-        review_info['star4'] = len(review_frame[review_frame.rating==4])/review_len
-        review_info['star3'] = len(review_frame[review_frame.rating==3])/review_len
-        review_info['star2'] = len(review_frame[review_frame.rating==2])/review_len
-        review_info['star1'] = len(review_frame[review_frame.rating==1])/review_len
+    if review_len != 0:
+        review_info['mean'] = round(review_frame.rating.mean(),1)
+        review_info['star5'] = len(review_frame[review_frame.rating == 5]) / review_len * 100
+        review_info['star4'] = len(review_frame[review_frame.rating == 4]) / review_len * 100
+        review_info['star3'] = len(review_frame[review_frame.rating == 3]) / review_len * 100
+        review_info['star2'] = len(review_frame[review_frame.rating == 2]) / review_len * 100
+        review_info['star1'] = len(review_frame[review_frame.rating == 1]) / review_len * 100
 
     return (result_dict, review_info)
 
@@ -58,10 +68,11 @@ def fetch_welfare_center_program():
     programs = db_engine.execute("SELECT * FROM welfare_lecture")
     program_df = pd.DataFrame(programs.fetchall(),
                               columns=(
-                              'lecture_Name', 'category_L', 'category_S', 'edutime_Sta', 'edutime_End', 'edu_duration',
-                              'location', 'fee',
-                              'eduday_Sta', 'eduday_End', 'entry_Num', 'receipt_Sta', 'receipt_End', 'day', 'ref',
-                              'content', 'url'))
+                                  'lecture_Name', 'category_L', 'category_S', 'edutime_Sta', 'edutime_End',
+                                  'edu_duration',
+                                  'location', 'fee',
+                                  'eduday_Sta', 'eduday_End', 'entry_Num', 'receipt_Sta', 'receipt_End', 'day', 'ref',
+                                  'content', 'url'))
 
     program_list = []
     program_photo_num = {'A':1, 'B':5, 'C':1, 'D':5, 'E':1, 'F':5, 'G':1, 'H':1} # static/img/program에 들어있는 각 대분류별 사진 개수

@@ -19,6 +19,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, login_user
 from flask_mail import Mail
 
+
+
 # 프로그램 내의 파이썬 파일
 from database import *
 
@@ -133,6 +135,21 @@ def center_detail_get():
     center = request.args.get("welfare")
     center_data = get_welfare_center(center)
     return render_template('center-detail.html', data= center_data)
+
+@app.route('/center-detail', methods=['post'])
+def center_review_register():
+
+    name = request.form['name_review']
+    email = request.form['email_review']
+    rating = request.form['rating_review']
+    content = request.form['review_text']
+    location = request.form['location']
+
+    insert_welfare_review(email, content, rating, name, location)
+    center_data = get_welfare_center(location)
+
+    return render_template('center-detail.html', data= center_data)
+
 
 
 @app.route('/<path>')
