@@ -24,7 +24,10 @@
 
     <!-- YOUR CUSTOM CSS -->
     <link href="static/css/custom.css" rel="stylesheet">
-	
+
+     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
 
 <body id="register_bg">
@@ -41,34 +44,67 @@
 			<figure>
 				<a href="index"><img src="static/img/logo_sticky.png" width="155" height="36" data-retina="true" alt="" class="logo_sticky"></a>
 			</figure>
-			<form action="" method="post" action="register" novalidate>
+			<form action="" method="post" action="#survey-dialog" name="reg1"novalidate >
                 {{ form.hidden_tag() }}
 				<div class="form-group">
                     {{ wtf.form_field(form.username) }}
-					<i class="ti-user"></i>
 				</div>
 				<div class="form-group">
                     {{ wtf.form_field(form.address) }}
 				</div>
 				<div class="form-group">
                     {{ wtf.form_field(form.email) }}
-					<i class="icon_mail_alt"></i>
 				</div>
 				<div class="form-group">
                     {{ wtf.form_field(form.password) }}
-					<i class="icon_lock_alt"></i>
-				</div>
-				<div class="form-group">
 				</div>
 				<div id="pass-info" class="clearfix"></div>
-				<button  class="btn_1 rounded full-width add_top_30" type="submit">지금 가입하세요!</button>
+                <button  class="btn_1 rounded full-width add_top_30" type="button" data-toggle="modal" data-target="#exampleModalLong">지금 가입하세요!</button>
 				<div class="text-center add_top_10">이미 계정이 있으십니까? <strong><a href="login">로그인</a></strong></div>
 			</form>
 			<div class="copy">© 2018 고려대학교 BIG DATA X CAMPUS 6조</div>
 		</aside>
 	</div>
 	<!-- /login -->
-	
+
+           <!-- Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="false">
+   <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">설문 조사</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form method="post" action="register" name="reg2"novalidate>
+      <div class="modal-body">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.health.label }} {{ wtf.form_field(form.health) }}
+                {{ form.group.label }} {{ wtf.form_field(form.group) }}
+                {{ form.self_develop.label }} {{ wtf.form_field(form.self_develop) }}
+                {{ form.IT.label }} {{ wtf.form_field(form.IT) }}
+                {{ form.sports.label }} {{ wtf.form_field(form.sports) }}
+                {{ form.music.label }} {{ wtf.form_field(form.music) }}
+                {{ form.history.label }} {{ wtf.form_field(form.history) }}
+                {{ form.study.label }} {{ wtf.form_field(form.study) }}
+                {{ form.walk.label }} {{ wtf.form_field(form.walk) }}
+                {{ form.art.label }} {{ wtf.form_field(form.art) }}
+                {{ form.handicap.label }} {{ wtf.form_field(form.handicap) }}
+                {{ form.indoor.label }} {{ wtf.form_field(form.indoor) }}
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn_1 rounded add_top_30" data-dismiss="modal">닫기</button>
+        <button  class="btn_1 rounded add_top_30" id = "myform" onclick="submitter()"  type="submit">제출하기</button>
+      </div>
+        </form>
+        <button> just nothing</button>
+    </div>
+  </div>
+</div>
+
 	<!-- COMMON SCRIPTS -->
     <script src="static/js/jquery-2.2.4.min.js"></script>
     <script src="static/js/common_scripts.js"></script>
@@ -77,8 +113,51 @@
 	
 	<!-- SPECIFIC SCRIPTS -->
 	<script src="static/js/pw_strenght.js"></script>
-	
-	
-  
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script language = "JavaScript" >
+        function submitter( ){
+         console.log('asdasdsad')
+        $.post("demo_test_post.asp",
+            {
+                username: document.reg1.username,
+                email: document.reg1.email,
+                password: document.reg1.password,
+                address: document.reg1.address,
+                health: document.reg2.health,
+                group: document.reg2.group,
+                self_develop: document.reg2.self_develop,
+                IT: document.reg2.IT,
+                sports: document.reg2.sports,
+                music: document.reg2.music,
+                history: document.reg2.history,
+                walk: document.reg2.walk,
+                art: document.reg2.art,
+                handicap: document.reg2.handicap,
+                indoor: document.reg2.indoor
+            }
+        });
+        }
+    </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $.post("demo_test_post.asp",
+        {
+            username: document.reg1.username,
+                email: document.reg1.email,
+        },
+        function(data,status){
+            alert("Data: " + data + "\nStatus: " + status);
+        });
+    });
+});
+</script>
+
+
 </body>
 </html>
