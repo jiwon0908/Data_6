@@ -113,6 +113,16 @@ def survey():
         form.username.default= form.username.data
     return render_template('survey.html', form= form)
 
+@app.route('/search', methods=['get'])
+def search():
+    email = request.args.get("email")
+    name = request.args.get("name")
+    local = request.args.get("local", "0")
+    category = request.args.get("category", "0")
+    _, data = welfare_search(email, name, local, category)
+    random_listing = define_listing()
+
+    return render_template("search-program.html", data=data, len=len(data), random_listing=random_listing, email=email)
 
 @app.route('/store', methods=['GET', 'POST'])
 def store():

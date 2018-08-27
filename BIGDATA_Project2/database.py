@@ -19,6 +19,81 @@ def insert_welfare_review(email, content, rating, name, location):
     user_engine.execute(sql)
 
 
+def welfare_search(email, name, local, category):
+
+    if local=='0' and category == '0':
+        sql = "select * from (select * from welfare_center) as a inner join (select * from welfare_lecture where lecture_Name like  '%{}%') as b on a.location = b.location".format(name)
+    elif local == '0':
+        sql = "select * from (select * from welfare_center) as a inner join (select * from welfare_lecture where lecture_Name like  '%{}%' and category_L='{}') as b on a.location = b.location".format(local, name)
+    elif category == '0':
+        sql = "select * from (select * from welfare_center where address like '%{}%') as a inner join (select * from welfare_lecture where lecture_Name like  '%{}%') as b on a.location = b.location".format(local, name)
+    else:
+        sql = "select * from (select * from welfare_center where address like '%{}%') as a inner join (select * from welfare_lecture where lecture_Name like  '%{}%' and category_L='{}') as b on a.location = b.location".format(local, name, category)
+
+    df = pd.DataFrame(db_engine.execute(sql).fetchall(),
+                      columns=('location1','lat','long','phone_num','address', 'center_url', 'target', 'image',  'lecture_Name', 'category_L', 'category_S', 'edutime_Sta', 'edutime_End',
+                                  'edu_duration',
+                                  'location', 'fee',
+                                  'eduday_Sta', 'eduday_End', 'entry_Num', 'receipt_Sta', 'receipt_End', 'day', 'ref',
+                                  'content', 'url'))
+
+    center_df = df[['location', 'lat', 'long', 'phone_num', 'address', 'center_url', 'target','image']]
+
+    center_list = []
+    for _, data in center_df.iterrows():
+        center_list.append({'type_point': re.findall('\S+구', data.address)[0],
+                            'name': data.location,
+                            'location_latitude': data.lat,
+                            'location_longitude': data.long,
+                            'map_image_url': data.image,
+                            'rate': '',
+                            'name_point': data.location,
+                            'get_directions_start_address': '',
+                            'phone': data.phone_num,
+                            'url_point': data.center_url})
+
+    program_df = df[['lecture_Name', 'category_L', 'category_S', 'edutime_Sta', 'edutime_End',
+                                  'edu_duration',
+                                  'location', 'fee',
+                                  'eduday_Sta', 'eduday_End', 'entry_Num', 'receipt_Sta', 'receipt_End', 'day', 'ref',
+                                  'content', 'url']]
+
+
+    wish_program = db_engine.execute("select email, lecture, center from lecture_wish where email='{}' and category='indoor'".format(email))
+    wish_program = pd.DataFrame(wish_program.fetchall(), columns=('email','lecture_Name','location'))
+    wish_program = program_df.merge(wish_program, on=['lecture_Name', 'location'], right_index=True)
+    program_df['wish_flag'] = "wish_bt"
+    program_df.loc[wish_program.index.tolist(), 'wish_flag'] = "wish_bt liked"
+
+    program_list = []
+    program_photo_num = {'A':1, 'B':5, 'C':1, 'D':5, 'E':1, 'F':5, 'G':1, 'H':1} # static/img/program에 들어있는 각 대분류별 사진 개수
+    for _,data2 in program_df.iterrows():
+        row_index = center_df[center_df.location==data2.location].index[0]
+        program_list.append({'type_point': re.findall('\S+구', center_df.loc[row_index, 'address'])[0],
+                                                'name': data2.location,
+                                                'location_latitude': center_df.loc[row_index, 'lat'],
+                                                'location_longitude': center_df.loc[row_index, 'long'],
+                                                'map_image_url': 'static/img/program/'+str(data2.category_L)+str(random.randrange(0,program_photo_num[data2.category_L]))+'.jpg',
+                                                'rate':'' ,
+                                                'name_point': data2.location,
+                                                'get_directions_start_address': '',
+                                                'phone': center_df.loc[row_index, 'phone_num'],
+                                                'url_point': data2.url,
+                                                'center_url': 'center-detail?welfare='+data2.location,
+                                                 'edu_name': data2.lecture_Name,
+                                                 'edu_start': str(data2.edutime_Sta)[:5],
+                                                 'edu_end': str(data2.edutime_End)[:5],
+                                                 'edu_duration': int(data2.edu_duration),
+                                                 'edu_fee': data2.fee,
+                                                 'edu_day': data2.day,
+                                                 'edu_ref': data2.ref,
+                                                 'edu_content': data2.content,
+                                                 'edu_category': [data2.category_L, data2.category_S],
+                                                 'edu_entrynum': data2.entry_Num,
+                                                 'wish_flag' : data2.wish_flag
+                             })
+
+    return center_list, program_list
 
 def get_welfare_center(center):
     result = db_engine.execute("select * from welfare_center where location = '{}'".format(center)).fetchall()
