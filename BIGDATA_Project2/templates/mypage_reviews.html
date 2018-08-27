@@ -40,7 +40,7 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="mypage">
+          <a class="nav-link" href="mypage?email={{ data['email'] }}">
             <i class="fa fa-fw fa-dashboard"></i>
             <span class="nav-link-text">한 눈에 보기</span>
           </a>
@@ -52,7 +52,7 @@
           </a>
         </li>
 		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
-          <a class="nav-link" href="mypage_reviews">
+          <a class="nav-link" href="mypage_reviews?email={{ data['email'] }}">
             <i class="fa fa-fw fa-star"></i>
             <span class="nav-link-text">리뷰</span>
           </a>

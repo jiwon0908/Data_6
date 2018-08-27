@@ -79,6 +79,16 @@ def get_review(email, order):
     return review_info
 
 
+def get_my_page(email):
+    review_len = user_engine.execute("select count(*) from welfare_review where email='{}'".format(email)).fetchall()[0][0]
+    print(review_len)
+
+    data = {}
+    data['email'] = email
+    data['review_len'] = review_len
+
+    return data
+
 def fetch_welfare_center_program():
     center = db_engine.execute("SELECT * FROM welfare_center")
     center_df = pd.DataFrame(center.fetchall(),
