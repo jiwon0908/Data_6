@@ -632,10 +632,15 @@
 				<div class="col-lg-9">
 					<div class="isotope-wrapper">
 						<div class="row">
-                            {%  for program in data[:30] %}
+                            {%  for i in range(30) %}
                             <div class="{{ random_listing }}">
 							    <div class="box_grid">
                                     <figure>
+                                        <a id="wish_btn{{ i }}"
+                                               href="#{{ email }} {{ data[i]['edu_name'] }} {{ data[i]['name'] }} work"
+                                               class="{{ data[i]['wish_flag'] }}"></a>
+                                            <script>
+                                                $('#wish_btn0').addClass("wish_bt");</script>
 										<a href="#0" class="wish_bt"></a>
 										<a href={{ program['url_point'] }}><img src='{{ program['map_image_url'] }}' class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>자세히 보기</span></div></a>
 										<small>{{ program['type_point'] }}</small>
