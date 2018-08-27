@@ -616,14 +616,16 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 										<small>종로구</small>
 									</figure>
 									<div class="wrapper">
-                                        <div class="cat_star">dd</div>
-										<h3><a href="hotel-detail.html">댄스댄스</a></h3>
-										<p>복지관 - </p>
-										<span class="price"><strong>위치: </strong> 종로구 </span>
+                                        <div class="price"><strong>{{ data[0]['name'] }}</strong></div>
+										<h3><a href="#"><strong>{{ data[0]['edu_name'] }}</strong></a></h3>
+										<p>수업내용: {{ data[0]['edu_content'] }}</p>
+                                       <p>참고사항: {{ data[0]['edu_ref'] }}</p>
+                                       <p>수업료: {{ data[0]['edu_fee'] }} 원</p>
+										<span class="price"><strong>{{ data[0]['edu_day'] }}</strong>  {{ data[0]['edu_start'] }} ~ {{ data[0]['edu_end'] }} </span>
 									</div>
 									<ul>
-                                        <li><i class="ti-export"></i><a href="url">  바로가기</a></li>
-										<li><div class="score"><span>Superb<em>350 Reviews</em></span><strong>8.9</strong></div></li>
+                                        <li><i class="ti-export"></i><a href={{ data[0]['url_point'] }}>  외부 링크</a></li>
+										<li><div class="score"><span>{{ data[0]['edu_category'][0] }}<em>{{ data[0]['edu_category'][1] }}</em></span><strong>8.9</strong></div></li>
 									</ul>
 								</div>
 							</div>

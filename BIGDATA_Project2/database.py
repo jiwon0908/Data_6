@@ -76,6 +76,17 @@ def fetch_welfare_center_program():
                                                 'name_point': data2.location,
                                                 'get_directions_start_address': '',
                                                 'phone': center_df.loc[row_index, 'phone_num'],
-                                                'url_point': data2.url})
+                                                'url_point': data2.url,
+                                                 'edu_name': data2.lecture_Name,
+                                                 'edu_start': data2.edutime_Sta,
+                                                 'edu_end': data2.edutime_End,
+                                                 'edu_duration': data2.edu_duration,
+                                                 'edu_fee': data2.fee,
+                                                 'edu_day': data2.day,
+                                                 'edu_ref': data2.ref,
+                                                 'edu_content': data2.content,
+                                                 'edu_category': [data2.category_L, data2.category_S],
+                                                 'edu_entrynum': data2.entry_Num
+                             })
 
     return center_list, program_list
