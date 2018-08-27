@@ -15,6 +15,7 @@ from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, login_user
 from flask_mail import Mail
+import pandas as pd
 
 # 프로그램 내의 파이썬 파일
 from database import *
@@ -77,6 +78,14 @@ class User(UserMixin, db.Model ):
     art = db.Column(db.Integer())
     handicap = db.Column(db.Integer())
     indoor = db.Column(db.Integer())
+    # culture_view= db.Column(db.REAL())
+    # culture_parti = db.Column(db.REAL())
+    # sport_view= db.Column(db.REAL())
+    # sport_parti = db.Column(db.REAL())
+    # sightsee = db.Column(db.REAL())
+    # entertain = db.Column(db.REAL())
+    # rest = db.Column(db.REAL())
+    # social_act = db.Column(db.REAL())
 
 class Survey(FlaskForm):
     user=StringField()
@@ -86,7 +95,8 @@ def register():
     form= RegisterForm()
     if form.validate_on_submit():
         hashed_password= generate_password_hash(form.password.data, method='sha256')
-        new_user= User(username=form.username.data, email=form.email.data, password=hashed_password, address= form.address.data.decode('utf-8'), health=form.data.health.data, group=form.group.data, self_develop=form.self_develop.data, IT= form.IT.data, sports=form.sports.data, music=form.music.data, hisory=form.history.data, walk= form.walk.data, art= form.art.data, handicap=form.handicap.data, indoor=form.indoor.data)
+        # new_user= User(username=form.username.data, email=form.email.data, password=hashed_password, address= form.address.data.decode('utf-8'), health=form.data.health.data, group=form.group.data, self_develop=form.self_develop.data, IT= form.IT.data, sports=form.sports.data, music=form.music.data, hisory=form.history.data, walk= form.walk.data, art= form.art.data, handicap=form.handicap.data, indoor=form.indoor.data)
+        new_user= User(username=form.username.data, email=form.email.data, password=hashed_password, address= form.address.data.decode('utf-8'))
         db.session.add(new_user)
         db.session.commit()
     return render_template('register.html',form=form)
