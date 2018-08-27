@@ -265,6 +265,16 @@ def reg_wish_ajax():
     register_wish(email, center, lecture,category, flag)
     return json.dumps({'status': 'OK'})
 
+@app.route('/remove_wish', methods=['post'])
+def remove_wish_ajax():
+    info = request.form['info'][1:].split(' ')
+    email = info[0]
+    lecture = info[1]
+    center = info[2]
+
+    remove_wish(email, lecture, center)
+    return json.dumps({'status': 'OK'})
+
 
 @app.route('/faq')
 def faq():
