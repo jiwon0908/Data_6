@@ -37,15 +37,16 @@ def fetch_welfare_center_program():
 
     program_list = []
     for _,data2 in program_df.iterrows():
-        program_list.append({'type_point': re.findall('\S+구', center_df[center_df.location==data2.location].location[0])[0],
-                                                'name': data2.location,
-                                                'location_latitude': data2.lat,
-                                                'location_longitude': data2.long,
-                                                'map_image_url': data2.image,
-                                                'rate':'' ,
-                                                'name_point': data2.location,
-                                                'get_directions_start_address': '',
-                                                'phone': program_df[program_df.location==data2.location].phone_num[0],
-                                                'url_point': data2.url})
+        row_index = center_df[center_df.location == data2.location].index[0]
+        program_list.append({'type_point': re.findall('\S+구', center_df.loc[row_index, 'address'])[0],
+                             'name': data2.location,
+                             'location_latitude': center_df.loc[row_index, 'lat'],
+                             'location_longitude': center_df.loc[row_index, 'long'],
+                             'map_image_url': '',  # data2.image
+                             'rate': '',
+                             'name_point': data2.location,
+                             'get_directions_start_address': '',
+                             'phone': center_df.loc[row_index, 'phone_num'],
+                             'url_point': data2.url})
 
     return center_list, program_list
