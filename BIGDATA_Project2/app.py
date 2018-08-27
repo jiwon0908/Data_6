@@ -92,21 +92,29 @@ class Survey(FlaskForm):
 
 @app.route('/register',  methods=['GET', 'POST'])
 def register():
-    form=RegisterForm()
+    form = RegisterForm()
+    if form.validate_on_submit():
+        print("!!!!!")
+        # if request.method == 'POST':
+        hashed_password = generate_password_hash(form.password.data, method='sha256')
+        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password,
+                        address=form.address.data.decode('utf-8'))
+        print("!!!!!")
+        db.session.add(new_user)
+        db.session.commit()
+        form.email.default = form.email.data
+        form.username.default = form.username.data
+        print("!!!!!")
+        return render_template('survey.html', form=form)
     return render_template('register.html', form=form)
 
 @app.route('/survey', methods=['GET', 'POST'])
 def survey():
     if request.method=='POST':
         form = RegisterForm()
-        if form.validate_on_submit():
-            hashed_password = generate_password_hash(form.password.data, method='sha256')
-            new_user = User(username=form.username.data, email=form.email.data, password=hashed_password, address=form.address.data.decode('utf-8'))
-            db.session.add(new_user)
-            db.session.commit()
-            form.email.default= form.email.data
-            form.username.default= form.username.data
-        return render_template('survey.html', form= form)
+        form.email.default= form.email.data
+        form.username.default= form.username.data
+    return render_template('survey.html', form= form)
 
 
 @app.route('/store', methods=['GET', 'POST'])
