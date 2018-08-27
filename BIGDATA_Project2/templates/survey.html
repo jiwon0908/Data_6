@@ -41,30 +41,26 @@
 			<figure>
 				<a href="index"><img src="static/img/logo_sticky.png" width="155" height="36" data-retina="true" alt="" class="logo_sticky"></a>
 			</figure>
-			<form action="" method="post" action="register" novalidate>
+			<form method="post" action="store" novalidate>
                 {{ form.hidden_tag() }}
-				<div class="form-group">
-                    {{ wtf.form_field(form.username) }}
-					<i class="ti-user"></i>
-				</div>
-				<div class="form-group">
-                    {{ wtf.form_field(form.address) }}
-				</div>
-				<div class="form-group">
-                    {{ wtf.form_field(form.email) }}
-					<i class="icon_mail_alt"></i>
-				</div>
-				<div class="form-group">
-                    {{ wtf.form_field(form.password) }}
-					<i class="icon_lock_alt"></i>
-				</div>
-				<div class="form-group">
-				</div>
-				<div id="pass-info" class="clearfix"></div>
-				<button  class="btn_1 rounded full-width add_top_30" type="submit">지금 가입하세요!</button>
-				<div class="text-center add_top_10">이미 계정이 있으십니까? <strong><a href="login">로그인</a></strong></div>
-			</form>
+			    <div class="form-group">
+                    {{ wtf.form_field(form.email)}}
+                {{ form.health.label }} {{ wtf.form_field(form.health) }}
+                {{ form.group.label }} {{ wtf.form_field(form.group) }}
+                {{ form.self_develop.label }} {{ wtf.form_field(form.self_develop) }}
+                {{ form.IT.label }} {{ wtf.form_field(form.IT) }}
+                {{ form.sports.label }} {{ wtf.form_field(form.sports) }}
+                {{ form.music.label }} {{ wtf.form_field(form.music) }}
+                {{ form.history.label }} {{ wtf.form_field(form.history) }}
+                {{ form.study.label }} {{ wtf.form_field(form.study) }}
+                {{ form.walk.label }} {{ wtf.form_field(form.walk) }}
+                {{ form.art.label }} {{ wtf.form_field(form.art) }}
+                {{ form.handicap.label }} {{ wtf.form_field(form.handicap) }}
+                {{ form.indoor.label }} {{ wtf.form_field(form.indoor) }}
+            </div>
+            <button  class="btn_1 rounded add_top_30" type="submit">제출하기</button>
 			<div class="copy">© 2018 고려대학교 BIG DATA X CAMPUS 6조</div>
+            </form>
 		</aside>
 	</div>
 	<!-- /login -->
