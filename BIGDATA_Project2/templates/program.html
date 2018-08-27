@@ -608,128 +608,30 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 				<div class="col-lg-9">
 					<div class="isotope-wrapper">
 						<div class="row">
-							<div class="col-md-6 isotope-item popular">
+                            {%  for program in data[:30] %}
+							<div class={{ random_listing }}>
 								<div class="box_grid">
 									<figure>
 										<a href="#0" class="wish_bt"></a>
-										<a href="hotel-detail.html"><img src="static/img/hotel_1.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
-										<small>종로구</small>
+										<a href={{ program['url_point'] }}><img src='{{ program['map_image_url'] }}' class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>자세히 보기</span></div></a>
+										<small>{{ program['type_point'] }}</small>
 									</figure>
 									<div class="wrapper">
-                                        <div class="price"><strong>{{ data[0]['name'] }}</strong></div>
-										<h3><a href="#"><strong>{{ data[0]['edu_name'] }}</strong></a></h3>
-										<p>수업내용: {{ data[0]['edu_content'] }}</p>
-                                       <p>참고사항: {{ data[0]['edu_ref'] }}</p>
-                                       <p>수업료: {{ data[0]['edu_fee'] }} 원</p>
-										<span class="price"><strong>{{ data[0]['edu_day'] }}</strong>  {{ data[0]['edu_start'] }} ~ {{ data[0]['edu_end'] }} </span>
+                                        <div class="price"><a href={{ program['center_url'] }}><strong>{{ program['name'] }}</strong></a></div>
+										<h3><strong>{{ program['edu_name'] }}</strong></h3>
+										<p>수업내용: {{ program['edu_content'] }}<br>
+                                       참고사항: {{ program['edu_ref'] }}<br>
+                                       수업료: {{ program['edu_fee'] }} 원</p>
+										<span class="price"><strong>{{ program['edu_day'] }}</strong>  {{ program['edu_start'] }} ~ {{ program['edu_end'] }}, <i>{{ program['edu_duration'] }}분</i> </span>
 									</div>
 									<ul>
-                                        <li><i class="ti-export"></i><a href={{ data[0]['url_point'] }}>  외부 링크</a></li>
-										<li><div class="score"><span>{{ data[0]['edu_category'][0] }}<em>{{ data[0]['edu_category'][1] }}</em></span><strong>8.9</strong></div></li>
+                                        <li><i class="ti-export"></i><a href={{ program['url_point'] }}>  외부 링크</a></li>
+										<li><div class="score"><span>{{ program['edu_category'][0] }}<em>{{ program['edu_category'][1] }}</em></span><strong>8.9</strong></div></li>
 									</ul>
 								</div>
 							</div>
 							<!-- /box_grid -->
-							<div class="col-md-6 isotope-item latest">
-								<div class="box_grid">
-									<figure>
-										<a href="#0" class="wish_bt"></a>
-										<a href="hotel-detail.html"><img src="img/hotel_2.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
-										<small>Paris Centre</small>
-									</figure>
-									<div class="wrapper">
-										<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-										<h3><a href="hotel-detail.html">Mariott Hotel</a></h3>
-										<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cu.</p>
-										<span class="price">From <strong>$124</strong> /per person</span>
-									</div>
-									<ul>
-										<li><i class="ti-eye"></i> 164 views</li>
-										<li><div class="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div></li>
-									</ul>
-								</div>
-							</div>
-							<!-- /box_grid -->
-							<div class="col-md-6 isotope-item popular">
-								<div class="box_grid">
-									<figure>
-										<a href="#0" class="wish_bt"></a>
-										<a href="hotel-detail.html"><img src="img/hotel_3.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
-										<small>Paris Centre</small>
-									</figure>
-									<div class="wrapper">
-										<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-										<h3><a href="hotel-detail.html">Lumiere Hotel</a></h3>
-										<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cu.</p>
-										<span class="price">From <strong>$25</strong> /per person</span>
-									</div>
-									<ul>
-										<li><i class="ti-eye"></i> 164 views</li>
-										<li><div class="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div></li>
-									</ul>
-								</div>
-							</div>
-							<!-- /box_grid -->
-							<div class="col-md-6 isotope-item latest">
-								<div class="box_grid">
-									<figure>
-										<a href="#0" class="wish_bt"></a>
-										<a href="hotel-detail.html"><img src="img/hotel_4.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
-										<small>Paris Centre</small>
-									</figure>
-									<div class="wrapper">
-										<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-										<h3><a href="hotel-detail.html">Concorde Hotel</a></h3>
-										<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cu.</p>
-										<span class="price">From <strong>$45</strong> /per person</span>
-									</div>
-									<ul>
-										<li><i class="ti-eye"></i> 164 views</li>
-										<li><div class="score"><span>Superb<em>350 Reviews</em></span><strong>9.0</strong></div></li>
-									</ul>
-								</div>
-							</div>
-							<!-- /box_grid -->
-							<div class="col-md-6 isotope-item popular">
-								<div class="box_grid">
-									<figure>
-										<a href="#0" class="wish_bt"></a>
-										<a href="hotel-detail.html"><img src="img/hotel_5.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
-										<small>Paris Centre</small>
-									</figure>
-									<div class="wrapper">
-										<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-										<h3><a href="hotel-detail.html">Louvre Hotel</a></h3>
-										<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cu.</p>
-										<span class="price">From <strong>$65</strong> /per person</span>
-									</div>
-									<ul>
-										<li><i class="ti-eye"></i> 164 views</li>
-										<li><div class="score"><span>Good<em>350 Reviews</em></span><strong>7.5</strong></div></li>
-									</ul>
-								</div>
-							</div>
-							<!-- /box_grid -->
-							<div class="col-md-6 isotope-item latest">
-								<div class="box_grid">
-									<figure>
-										<a href="#0" class="wish_bt"></a>
-										<a href="hotel-detail.html"><img src="img/hotel_6.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
-										<small>Paris Centre</small>
-									</figure>
-									<div class="wrapper">
-										<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-										<h3><a href="hotel-detail.html">Concorde Hotel</a></h3>
-										<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cu.</p>
-										<span class="price">From <strong>$95</strong> /per person</span>
-									</div>
-									<ul>
-										<li><i class="ti-eye"></i> 164 views</li>
-										<li><div class="score"><span>Good<em>350 Reviews</em></span><strong>7.8</strong></div></li>
-									</ul>
-								</div>
-							</div>
-							<!-- /box_grid -->
+                            {%  endfor %}
 						</div>
 						<!-- /row -->
 				</div>

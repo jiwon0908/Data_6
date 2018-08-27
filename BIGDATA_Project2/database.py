@@ -82,16 +82,17 @@ def fetch_welfare_center_program():
                                                 'name': data2.location,
                                                 'location_latitude': center_df.loc[row_index, 'lat'],
                                                 'location_longitude': center_df.loc[row_index, 'long'],
-                                                'map_image_url': 'static/img/program/'+str(data2.category_L)+str(random.randrange(0,program_photo_num[data2.category_L])),
+                                                'map_image_url': 'static/img/program/'+str(data2.category_L)+str(random.randrange(0,program_photo_num[data2.category_L]))+'.jpg',
                                                 'rate':'' ,
                                                 'name_point': data2.location,
                                                 'get_directions_start_address': '',
                                                 'phone': center_df.loc[row_index, 'phone_num'],
                                                 'url_point': data2.url,
+                                                'center_url': 'center-detail?welfare='+data2.location,
                                                  'edu_name': data2.lecture_Name,
-                                                 'edu_start': data2.edutime_Sta,
-                                                 'edu_end': data2.edutime_End,
-                                                 'edu_duration': data2.edu_duration,
+                                                 'edu_start': str(data2.edutime_Sta)[:5],
+                                                 'edu_end': str(data2.edutime_End)[:5],
+                                                 'edu_duration': int(data2.edu_duration),
                                                  'edu_fee': data2.fee,
                                                  'edu_day': data2.day,
                                                  'edu_ref': data2.ref,
@@ -101,3 +102,9 @@ def fetch_welfare_center_program():
                              })
 
     return center_list, program_list
+
+# 보여주는 페이지의 순서 정렬
+def define_listing():
+    return "col-md-6 isotope-item " + random.choice(['popular', 'latest'])
+
+
