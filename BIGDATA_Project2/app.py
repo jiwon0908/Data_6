@@ -89,6 +89,12 @@ def program():
     random_listing = define_listing()
     return render_template('program.html', data=program_list, random_listing=random_listing)
 
+@app.route('/worklist')
+def worklist():
+    program_list = fetch_job_program()
+    random_listing = define_listing()
+    return render_template('worklist.html', data=program_list, random_listing=random_listing)
+
 @app.route('/mypage')
 @login_required
 def mypage():
@@ -175,6 +181,8 @@ def faq(path):
     else:
         flash('잘못된 이메일/비밀번호 입니다')
     return render_template('%s.html' % path, form=form)
+
+
 
 @app.errorhandler(404)
 def page_not_found(error):

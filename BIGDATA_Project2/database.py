@@ -17,8 +17,6 @@ def insert_welfare_review(email, content, rating, name, location):
 
     user_engine.execute(sql)
 
-
-
 def get_welfare_center(center):
     result = db_engine.execute("select * from welfare_center where location = '{}'".format(center)).fetchall()
     result_dict = {'location': result[0][0], 'lat': result[0][1], 'long': result[0][2], 'phone_num': result[0][3],
@@ -135,6 +133,38 @@ def fetch_welfare_center_program():
                              })
 
     return center_list, program_list
+
+def fetch_job_program():
+    programs = db_engine.execute("SELECT * FROM jobs")
+    program_df = pd.DataFrame(programs.fetchall(),
+                              columns=('companyName', 'jobName', 'fee', 'career', 'working_Area', 'register_Start', 'register_End', 'url', 'address', 'lat', 'long'
+                                  ))
+
+    program_list = []
+    for _,data2 in program_df.iterrows():
+        program_list.append({'type_point': re.findall('\S+구', data2.address)[0],
+                                                'name': data2.jobName,
+                                                'company_name': data2.companyName,
+                                                'phone': '',
+                                                'location_latitude': data2.lat,
+                                                'location_longitude': data2.long,
+                                                'map_image_url': 'static/img/program/' + str(data2.category_L) + str(random.randrange(0, program_photo_num[data2.category_L])) + '.jpg',
+                                                'rate':'' ,
+                                                'name_point': data2.jobName,
+                                                'get_directions_start_address': '',
+                                                'url_point': data2.url,
+                                                'job_registerstart': str(data2.register_Start)[:5],
+                                                'job_registerend': str(data2.register_End)[:5],
+                                                'fee': data2.fee,
+                                                'job_addr': data2.address,
+                                                'working_area': data2.working_Area,
+                                                'career' : data2.career,
+
+                             })
+
+    return program_list
+
+
 
 # 보여주는 페이지의 순서 정렬
 def define_listing():
