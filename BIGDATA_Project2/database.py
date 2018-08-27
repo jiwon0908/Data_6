@@ -146,6 +146,13 @@ def fetch_welfare_center_program():
 
     return center_list, program_list
 
+# 야외활동
+def fetch_activity():
+    center = db_engine.execute("SELECT * FROM outdoor")
+    center_df = pd.DataFrame(center.fetchall(),
+                             columns=('location', 'category_L', 'category_S', 'field', 'address', 'image', 'phone_num',
+                                      'lat', 'long', 'eduday_Sta', 'eduday_End', 'edutime_Sta'))  # target은 이용대상.
+
 # 보여주는 페이지의 순서 정렬
 def define_listing():
     return "col-md-6 isotope-item " + random.choice(['popular', 'latest'])
