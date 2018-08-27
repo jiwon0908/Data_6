@@ -86,7 +86,8 @@ def login():
 @app.route('/program')
 def program():
     _, program_list = fetch_welfare_center_program()
-    return render_template('program.html', data=program_list)
+    random_listing = define_listing()
+    return render_template('program.html', data=program_list, random_listing=random_listing)
 
 @app.route('/mypage')
 @login_required
