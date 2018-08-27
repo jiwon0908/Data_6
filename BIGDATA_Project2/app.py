@@ -64,7 +64,7 @@ def register():
     form= RegisterForm()
     if form.validate_on_submit():
         hashed_password= generate_password_hash(form.password.data, method='sha256')
-        new_user= User(username=form.username.data, email=form.email.data, password=hashed_password, address= form.address.data.decode('utf-8'))
+        new_user= User(username=form.username.data, email=form.email.data, password=hashed_password, address= form.address.data)
         db.session.add(new_user)
         db.session.commit()
         return '<h1>'+form.username.data+'</h1>'
@@ -74,7 +74,7 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user= User.query.filter_by(username= form.username.data).first()
+        user= User.query.filter_by(email= form.username.data).first()
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember= form.remember_me.data)
@@ -86,12 +86,16 @@ def login():
 @app.route('/program')
 def program():
     _, program_list = fetch_welfare_center_program()
-    return render_template('program.html', data=program_list)
+    random_listing = define_listing()
+    return render_template('program.html', data=program_list, random_listing=random_listing)
 
-@app.route('/mypage')
+@app.route('/mypage', methods=['get'])
 @login_required
 def mypage():
-    return render_template('mypage.html', name= current_user.username)
+    email = request.args.get("email")
+    data = get_my_page(email)
+
+    return render_template('mypage.html', name= current_user.username, data=data)
 
 @app.route('/logout')
 @login_required
