@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 import pandas as pd
+import random
 import re
 
 db_engine = create_engine('sqlite:///DB.db', echo=True)
@@ -63,17 +64,18 @@ def fetch_welfare_center_program():
                               'content', 'url'))
 
     program_list = []
+    program_photo_num = {'A':1, 'B':5, 'C':1, 'D':5, 'E':1, 'F':5, 'G':1, 'H':1} # static/img/program에 들어있는 각 대분류별 사진 개수
     for _,data2 in program_df.iterrows():
-        row_index = center_df[center_df.location == data2.location].index[0]
+        row_index = center_df[center_df.location==data2.location].index[0]
         program_list.append({'type_point': re.findall('\S+구', center_df.loc[row_index, 'address'])[0],
-                             'name': data2.location,
-                             'location_latitude': center_df.loc[row_index, 'lat'],
-                             'location_longitude': center_df.loc[row_index, 'long'],
-                             'map_image_url': '',  # data2.image
-                             'rate': '',
-                             'name_point': data2.location,
-                             'get_directions_start_address': '',
-                             'phone': center_df.loc[row_index, 'phone_num'],
-                             'url_point': data2.url})
-        
+                                                'name': data2.location,
+                                                'location_latitude': center_df.loc[row_index, 'lat'],
+                                                'location_longitude': center_df.loc[row_index, 'long'],
+                                                'map_image_url': 'static/img/program/'+str(data2.category_L)+str(random.randrange(0,program_photo_num[data2.category_L])),
+                                                'rate':'' ,
+                                                'name_point': data2.location,
+                                                'get_directions_start_address': '',
+                                                'phone': center_df.loc[row_index, 'phone_num'],
+                                                'url_point': data2.url})
+
     return center_list, program_list
