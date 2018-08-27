@@ -12,7 +12,7 @@
     <title>동행 | 서울시 어르신 여가,교육,일자리 정보 시스템</title>
 
     <!-- Favicons-->
-    <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="static/img/favicon.png" type="image/x-icon">
     <link rel="apple-touch-icon" type="image/x-icon" href="static/img/apple-touch-icon-57x57-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="static/img/apple-touch-icon-72x72-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="static/img/apple-touch-icon-114x114-precomposed.png">
@@ -641,20 +641,19 @@
                                                class="{{ data[i]['wish_flag'] }}"></a>
                                             <script>
                                                 $('#wish_btn0').addClass("wish_bt");</script>
-										<a href="#0" class="wish_bt"></a>
-										<a href={{ program['url_point'] }}><img src='{{ program['map_image_url'] }}' class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>자세히 보기</span></div></a>
-										<small>{{ program['type_point'] }}</small>
+										<a href={{ data[i]['url_point'] }}><img src='{{ data[i]['map_image_url'] }}' class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>자세히 보기</span></div></a>
+										<small>{{ data[i]['type_point'] }}</small>
 									</figure>
 									<div class="wrapper">
-										<div class="price"><a href={{ program['url_point'] }}><strong>{{ program['company_name'] }}</strong></a></div>
-										<h3><strong>{{ program['name'] }}</strong></h3>
-                                       희망경력: {{ program['career'] }}<br>
-                                       시급/월급: {{ program['fee'] }} </p>
-										<span class="price"> 등록기간: {{ program['job_registerstart'] }} ~ {{ program['job_registerend'] }} </span>
+										<div class="price"><a href={{ data[i]['url_point'] }}><strong>{{ data[i]['company_name'] }}</strong></a></div>
+                                        <h3><a href={{ data[i]['url_point'] }}><strong>{{ data[i]['name'] }}</strong></a></h3>
+                                       희망 경력: {{ data[i]['career'] }}<br>
+                                       시급/월급: {{ data[i]['fee'] }} </p>
+										<span class="price"> 모집기간: {{ data[i]['job_registerstart'] }} ~ {{ data[i]['job_registerend'] }} </span>
 									</div>
 									<ul>
-										<li><i class="ti-eye"></i> 164 views</li>
-										<li><div class="score"><span>Superb<em>350 Reviews</em></span><strong>8.9</strong></div></li>
+										<li><i class="ti-export"></i><a href={{ data[i]['url_point'] }}> 외부 링크</a></li>
+										<li><div class="score"><span>현재 구인중<em>조기 마감될 수 있습니다</em></span><strong>모집</strong></div></li>
 									</ul>
 								</div>
 							</div>

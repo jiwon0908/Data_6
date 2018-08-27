@@ -121,12 +121,17 @@ def get_wish(email):
         data = {}
         if wish_data.category == "indoor":
             data['category'] = "실내프로그램"
+        elif wish_data.category == "work":
+            data['category'] = "일자리"
         elif wish_data.category == "activity":
             data['category'] = "야외프로그램"
         data['lecture'] = wish_data.lecture
         data['center'] = wish_data.center
         data['url'] = wish_data.url
-        data['image'] = 'static/img/program/'+str(wish_data.category_L)+str(random.randrange(0,program_photo_num[wish_data.category_L]))+'.jpg'
+        if data['category'] == "일자리":
+            data['image'] = 'static/img/jobs/취업'+str(random.randrange(0,program_photo_num[wish_data.category_L]))+'.jpg'
+        else:
+            data['image'] = 'static/img/program/'+str(wish_data.category_L)+str(random.randrange(0,8))+'.jpg'
         result_list.append(data)
     result_dict['wish'] = result_list
     result_dict['len'] = len(result_list)
@@ -291,11 +296,11 @@ def fetch_activity(email):
 
     activitiy_list = []
     for _, data3 in act_df.iterrows():
-        activitiy_list.append({'type_point': data3.address,
+        activitiy_list.append({'type_point': data3.image,
                                 'name': data3.location,
                                 'location_latitude': data3.lat,
                                 'location_longitude': data3.long,
-                                'map_image_url': data3.image,
+                                'map_image_url': data3.address,
                                 'rate':'' ,
                                 'name_point': data3.location,
                                 'get_directions_start_address': '',
@@ -316,11 +321,17 @@ def fetch_activity(email):
 
     return activitiy_list
 
-def fetch_job_program():
+def fetch_job_program(email):
     programs = db_engine.execute("SELECT * FROM jobs")
     program_df = pd.DataFrame(programs.fetchall(),
                               columns=('companyName', 'jobName', 'fee', 'career', 'working_Area', 'register_Start', 'register_End', 'url', 'address', 'lat', 'long'
                                   ))
+
+    wish_program = db_engine.execute("select email, lecture, center from lecture_wish where email='{}' and category='work'".format(email))
+    wish_program = pd.DataFrame(wish_program.fetchall(), columns=('email','jobName','companyName'))
+    wish_program = program_df.merge(wish_program, on=['jobName', 'companyName'], right_index=True)
+    program_df['wish_flag'] = "wish_bt"
+    program_df.loc[wish_program.index.tolist(), 'wish_flag'] = "wish_bt liked"
 
     program_list = []
     for _,data2 in program_df.iterrows():
@@ -342,7 +353,7 @@ def fetch_job_program():
                                                 'job_addr': data2.address,
                                                 'working_area': data2.working_Area,
                                                 'career' : data2.career,
-
+                                                'wish_flag': data2.wish_flag
                              })
 
     return program_list

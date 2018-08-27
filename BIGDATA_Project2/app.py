@@ -210,11 +210,12 @@ def recommend_leisure():
     random_listing = define_listing()
     return render_template('recommend_leisure.html', data=program_list, random_listing=random_listing)
 
-@app.route('/worklist')
+@app.route('/worklist', methods=['get'])
 def worklist():
-    program_list = fetch_job_program()
+    email = request.args.get('email')
+    program_list = fetch_job_program(email)
     random_listing = define_listing()
-    return render_template('worklist.html', data=program_list, random_listing=random_listing)
+    return render_template('worklist.html', data=program_list, random_listing=random_listing, email=email)
 
 @app.route('/index')
 def show_home():

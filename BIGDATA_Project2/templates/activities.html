@@ -12,7 +12,7 @@
     <title>동행 | 서울시 어르신 여가,교육,일자리 정보 시스템</title>
 
     <!-- Favicons-->
-    <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="static/img/favicon.png" type="image/x-icon">
     <link rel="apple-touch-icon" type="image/x-icon" href="static/img/apple-touch-icon-57x57-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="static/img/apple-touch-icon-72x72-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="static/img/apple-touch-icon-114x114-precomposed.png">
@@ -643,7 +643,7 @@ window.onload = function () {
                                             <small>{{ data[i]['act_field'] }}</small>
                                         </figure>
                                         <div class="wrapper">
-                                            <div class="price"><strong>{{ data[i]['type_point'] }}</strong></div>
+                                            <div class="price">{{ data[i]['type_point'] }}</div>
                                             <h3><a href={{ data[i]['url_point'] }}><strong>{{ data[i]['name'] }}</strong></a></h3>
                                             <p>{{ data[i]['act_content'] }}<br>
                                                 <strong>참고사항:</strong> {{ data[i]['act_ref'] }}<br>
@@ -848,10 +848,10 @@ window.onload = function () {
 		 $("#range").ionRangeSlider({
             hide_min_max: true,
             keyboard: true,
-            min: 30,
-            max: 180,
-            from: 60,
-            to: 130,
+            min: 0,
+            max: 20,
+            from: 1,
+            to: 10,
             type: 'double',
             step: 1,
             prefix: "Km ",
