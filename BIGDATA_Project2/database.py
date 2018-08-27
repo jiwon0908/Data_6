@@ -2,6 +2,8 @@ from sqlalchemy import create_engine
 import pandas as pd
 import re
 import datetime
+from concurrent import futures
+
 
 db_engine = create_engine('sqlite:///DB.db', echo=True)
 user_engine = create_engine('sqlite:///userdata.db', echo=True)
@@ -43,6 +45,37 @@ def get_welfare_center(center):
         review_info['star1'] = len(review_frame[review_frame.rating == 1]) / review_len * 100
 
     return (result_dict, review_info)
+
+
+def get_review(email, order):
+    review = user_engine.execute("select date, content, rating, name, location from welfare_review where email='{}' order by date {}".format(email, "desc" if order else ""))
+    review_frame = pd.DataFrame(review.fetchall(), columns=('date', 'content', 'rating', 'name', 'location'))
+    review_info = {}
+    review_info['email'] = email
+    review_info['name'] = review_frame.iloc[0]['name']
+
+    def get_location_img(location):
+        img_url = db_engine.execute("select image from welfare_center where location='{}'".format(location)).fetchall()[0]
+        print(img_url)
+        return pd.DataFrame({'location':location, 'image':img_url})
+
+    executor = futures.ThreadPoolExecutor(max_workers=5)
+    return_list = [executor.submit(get_location_img, location) for location in review_frame.location.unique()]
+    futures.wait(return_list)
+
+    img_df = pd.DataFrame()
+    for result in return_list:
+        img_df = img_df.append(result.result(), ignore_index=True)
+    review_frame = review_frame.merge(img_df, how='left', on='location')
+
+    review_list = []
+    for _, data in review_frame.iterrows():
+        review_list.append(
+            {'date': data.date, 'content': data.content, 'rating': data.rating,'location': data.location, 'image':data.image})
+    review_info['review'] = review_list
+
+
+    return review_info
 
 
 def fetch_welfare_center_program():

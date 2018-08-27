@@ -153,6 +153,16 @@ def center_review_register():
 
 
 
+@app.route('/mypage_reviews', methods=['get'])
+def my_review():
+    email = request.args.get("email")
+    order = request.args.get("orderby", "Latest")
+    order = True if order == "Latest" else False
+
+    review_info = get_review(email, order)
+    return render_template('mypage_reviews.html' , data=review_info)
+
+
 @app.route('/<path>')
 def faq(path):
     form = LoginForm()
