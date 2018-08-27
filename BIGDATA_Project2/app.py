@@ -157,13 +157,12 @@ def center_review_register():
     return render_template('center-detail.html', data= center_data)
 
 
-#
-# @app.route('/mypage_bookmarks', methods=['get'])
-# def my_wish():
-#     email = request.args.get("email")
-#
-#
-#     return render_template('center-detail.html', data= center_data)
+
+@app.route('/mypage_bookmarks', methods=['get'])
+def my_wish():
+    email = request.args.get("email")
+    data = get_wish(email)
+    return render_template('mypage_bookmarks.html', data= data)
 
 @app.route('/mypage_reviews', methods=['get'])
 def my_review():
@@ -182,14 +181,28 @@ def reg_wish_ajax():
     email = info[0]
     lecture = info[1]
     center = info[2]
+    category = info[3]
 
     flag = request.form['class']
     if flag == "wish_bt liked":
         flag = True
     else:
         flag = False
-    register_wish(email, center, lecture, flag)
+    register_wish(email, center, lecture,category, flag)
     return json.dumps({'status': 'OK'})
+
+
+@app.route('/remove_wish', methods=['post'])
+def remove_wish_ajax():
+    info = request.form['info'][1:].split(' ')
+    email = info[0]
+    lecture = info[1]
+    center = info[2]
+
+    remove_wish(email, lecture, center)
+    return json.dumps({'status': 'OK'})
+
+
 
 
 @app.route('/<path>')

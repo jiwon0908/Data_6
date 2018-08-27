@@ -51,9 +51,12 @@ def get_welfare_center(center):
 def get_review(email, order):
     review = user_engine.execute("select date, content, rating, name, location from welfare_review where email='{}' order by date {}".format(email, "desc" if order else ""))
     review_frame = pd.DataFrame(review.fetchall(), columns=('date', 'content', 'rating', 'name', 'location'))
+
+    name = user_engine.execute("select username from user where email='{}'".format(email)).fetchall()[0][0]
+
     review_info = {}
     review_info['email'] = email
-    review_info['name'] = review_frame.iloc[0]['name']
+    review_info['name'] = name
 
     def get_location_img(location):
         img_url = db_engine.execute("select image from welfare_center where location='{}'".format(location)).fetchall()[0]
@@ -90,13 +93,43 @@ def get_my_page(email):
     return data
 
 
-def register_wish(email, center, lecture, flag):
+def register_wish(email, center, lecture, category, flag):
     if flag == True:
-        sql = "insert into lecture_wish values('{}','{}','{}')".format(email, lecture, center)
+        sql = "insert into lecture_wish values('{}','{}','{}','{}')".format(email, lecture, center, category)
         db_engine.execute(sql)
     else:
         sql = "delete from lecture_wish where email='{}' and center='{}' and lecture='{}'".format(email,center,lecture)
         db_engine.execute(sql)
+
+
+def remove_wish(email, lecture, center):
+    sql = "delete from lecture_wish where email='{}' and lecture='{}' and center = '{}'".format(email, lecture, center)
+    db_engine.execute(sql)
+
+
+def get_wish(email):
+    wish_datas = db_engine.execute("select a.category_L, a.url, b.lecture, b.center from (select * from welfare_lecture) "
+                                  "as a inner join (select * from lecture_wish where email='{}') as b "
+                                  "on a.lecture_Name = b.lecture and a.location=b.center".format(email))
+    wish_datas = pd.DataFrame(wish_datas.fetchall(), columns=('category_L','url', 'lecture', 'center'))
+
+    result_dict = {}
+    result_dict['email'] = email
+    result_dict['category'] = '실내프로그램'
+    result_list = []
+    program_photo_num = {'A': 1, 'B': 5, 'C': 1, 'D': 5, 'E': 1, 'F': 5, 'G': 1, 'H': 1}
+    for _, wish_data in wish_datas.iterrows():
+        data = {}
+        data['lecture'] = wish_data.lecture
+        data['center'] = wish_data.center
+        data['url'] = wish_data.url
+        data['image'] = 'static/img/program/'+str(wish_data.category_L)+str(random.randrange(0,program_photo_num[wish_data.category_L]))+'.jpg'
+        result_list.append(data)
+    result_dict['wish'] = result_list
+    result_dict['len'] = len(result_list)
+
+    print(result_list)
+    return result_dict
 
 
 
@@ -128,7 +161,7 @@ def fetch_welfare_center_program(email):
                                   'eduday_Sta', 'eduday_End', 'entry_Num', 'receipt_Sta', 'receipt_End', 'day', 'ref',
                                   'content', 'url'))
 
-    wish_program = db_engine.execute("select * from lecture_wish where email='{}'".format(email))
+    wish_program = db_engine.execute("select email, lecture, center from lecture_wish where email='{}' and category='indoor'".format(email))
     wish_program = pd.DataFrame(wish_program.fetchall(), columns=('email','lecture_Name','location'))
     wish_program = program_df.merge(wish_program, on=['lecture_Name', 'location'], right_index=True)
     program_df['wish_flag'] = "wish_bt"
