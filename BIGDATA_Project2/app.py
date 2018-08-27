@@ -43,7 +43,7 @@ def load_user(user_id):
 
 class RegisterForm(FlaskForm):
     add_choices=[('강남구', '강남구'), ('강동구', '강동구'), ('강북구', '강북구'), ('강서구', '강서구'),('관악구', '관악구'),('광진구', '광진구'),('구로구', '구로구'),('금천구', '금천구'),('노원구', '노원구'),('도봉구', '도봉구'),('동대문구', '동대문구'),('동작구', '동작구'),('마포구', '마포구'),('서대문구', '서대문구'),('서초구', '서초구'),('성동구', '성동구'),('성북구', '성북구'),('송파구', '송파구'),('양천구', '양천구'),('영등포구', '영등포구'),('용산구', '용산구'),('은평구', '은평구'),('종로구', '종로구'),('중랑구', '중랑구'),('중구','중구')]
-    survey_choices=[(1, '예'), (0, '아니오')]
+    survey_choices=[(0, '예'), (1, '아니오')]
     email= StringField('이메일',validators=[InputRequired(),Email(message='이메일 형식으로 써주세요')])
     username = StringField('이름', validators=[InputRequired()])
     password = PasswordField('비밀번호', validators=[InputRequired()])
@@ -62,44 +62,96 @@ class RegisterForm(FlaskForm):
     indoor= RadioField("12. 귀하는 실내 활동을 좋아합니까?", validators=[InputRequired()], choices=survey_choices)
 
 class User(UserMixin, db.Model ):
-    id= db.Column(db.Integer, primary_key=True)
-    username= db.Column(db.String())
-    email= db.Column(db.String(), unique=True)
-    password= db.Column(db.String())
-    address= db.Column(db.String())
-    health= db.Column(db.Integer())
-    group= db.Column(db.Integer())
-    self_develop= db.Column(db.Integer())
-    IT= db.Column(db.Integer())
-    sports= db.Column(db.Integer())
-    music= db.Column(db.Integer())
-    history= db.Column(db.Integer())
-    walk= db.Column(db.Integer())
-    art = db.Column(db.Integer())
-    handicap = db.Column(db.Integer())
-    indoor = db.Column(db.Integer())
-    # culture_view= db.Column(db.REAL())
-    # culture_parti = db.Column(db.REAL())
-    # sport_view= db.Column(db.REAL())
-    # sport_parti = db.Column(db.REAL())
-    # sightsee = db.Column(db.REAL())
-    # entertain = db.Column(db.REAL())
-    # rest = db.Column(db.REAL())
-    # social_act = db.Column(db.REAL())
+    id= db.Column(db.Integer, primary_key=True, nullable=False)
+    username= db.Column(db.String(), nullable=False)
+    email= db.Column(db.String(), unique=True, nullable=False)
+    password= db.Column(db.String(), nullable=False)
+    address= db.Column(db.String(), nullable=False)
+    health= db.Column(db.Integer(), nullable=True)
+    group= db.Column(db.Integer(),nullable=True)
+    self_develop= db.Column(db.Integer(),nullable=True)
+    IT= db.Column(db.Integer(),nullable=True)
+    sports= db.Column(db.Integer(),nullable=True)
+    music= db.Column(db.Integer(),nullable=True)
+    history= db.Column(db.Integer(),nullable=True)
+    walk= db.Column(db.Integer(),nullable=True)
+    art = db.Column(db.Integer(),nullable=True)
+    handicap = db.Column(db.Integer(),nullable=True)
+    indoor = db.Column(db.Integer(),nullable=True)
+    culture_view= db.Column(db.REAL(),nullable=True)
+    culture_parti = db.Column(db.REAL(),nullable=True)
+    sport_view= db.Column(db.REAL(),nullable=True)
+    sport_parti = db.Column(db.REAL(),nullable=True)
+    sightsee = db.Column(db.REAL(),nullable=True)
+    entertain = db.Column(db.REAL(),nullable=True)
+    rest = db.Column(db.REAL(),nullable=True)
+    social_act = db.Column(db.REAL(),nullable=True)
 
 class Survey(FlaskForm):
     user=StringField()
 
 @app.route('/register',  methods=['GET', 'POST'])
 def register():
-    form= RegisterForm()
-    if form.validate_on_submit():
-        hashed_password= generate_password_hash(form.password.data, method='sha256')
-        # new_user= User(username=form.username.data, email=form.email.data, password=hashed_password, address= form.address.data.decode('utf-8'), health=form.data.health.data, group=form.group.data, self_develop=form.self_develop.data, IT= form.IT.data, sports=form.sports.data, music=form.music.data, hisory=form.history.data, walk= form.walk.data, art= form.art.data, handicap=form.handicap.data, indoor=form.indoor.data)
-        new_user= User(username=form.username.data, email=form.email.data, password=hashed_password, address= form.address.data.decode('utf-8'))
-        db.session.add(new_user)
-        db.session.commit()
-    return render_template('register.html',form=form)
+    form=RegisterForm()
+    return render_template('register.html', form=form)
+
+@app.route('/survey', methods=['GET', 'POST'])
+def survey():
+    if request.method=='POST':
+        form = RegisterForm()
+        if form.validate_on_submit():
+            hashed_password = generate_password_hash(form.password.data, method='sha256')
+            new_user = User(username=form.username.data, email=form.email.data, password=hashed_password, address=form.address.data.decode('utf-8'))
+            db.session.add(new_user)
+            db.session.commit()
+            form.email.default= form.email.data
+            form.username.default= form.username.data
+        return render_template('survey.html', form= form)
+
+
+@app.route('/store', methods=['GET', 'POST'])
+def store():
+    if request.method== 'POST':
+        form= RegisterForm()
+        user= User.query.filter_by(email= form.email.data).first()
+        if user:
+            user.health= form.health.data
+            user.group= form.group.data
+            user.self_develop= form.self_develop.data
+            user.IT= form.IT.data
+            user.sports= form.sports.data
+            user.music= form.music.data
+            user.history= form.history.data
+            user.walk= form.walk.data
+            user.art= form.art.data
+            user.handicap= form.handicap.data
+            user.indoor= form.indoor.data
+
+            sql= sql = "select culture_view, culture_parti, sport_view, sport_parti , sightsee, entertain, rest , social_act from question_score"
+            result = engine.execute(sql)
+            question_scores = pd.DataFrame(result.fetchall(),
+                                           columns=(
+                                           '문화예술관람활동', '문화예술참여활동', '스포츠관람활동', '스포츠참여활동', '관광활동', '취미오락활동', '휴식활동',
+                                           '사회활동'))
+
+            select_list= [form.health.data, form.group.data, form.self_develop.data, form.IT.data, form.sports.data, form.music.data, form.history.data, form.walk.data, form.art.data, form.handicap.data, form.indoor.data]
+            user_scores = pd.DataFrame(columns=(question_scores.columns))
+
+            for index, data in enumerate(select_list):
+                user_scores = user_scores.append(question_scores.iloc[2 * index + int(data)], ignore_index=True)
+            user_scores = user_scores.sum(axis=0)
+
+            user.culture_view= user_scores['문화예술관람활동']
+            user.culture_parti = user_scores['문화예술참여활동']
+            user.sport_view = user_scores['스포츠관람활동']
+            user.sport_parti = user_scores['스포츠참여활동']
+            user.sightsee = user_scores['관광활동']
+            user.entertain = user_scores['취미오락활동']
+            user.rest = user_scores['휴식활동']
+            user.social_act = user_scores['사회활동']
+            db.session.commit()
+            new_form= LoginForm()
+    return render_template('index.html', form= new_form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
