@@ -41,7 +41,7 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="mypage">
+          <a class="nav-link" href="mypage?email={{ data['email'] }}">
             <i class="fa fa-fw fa-dashboard"></i>
             <span class="nav-link-text">한 눈에 보기</span>
           </a>
@@ -53,7 +53,7 @@
           </a>
         </li>
 		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
-          <a class="nav-link" href="mypage_reviews">
+          <a class="nav-link" href="mypage_reviews?email={{ data['email'] }}">
             <i class="fa fa-fw fa-star"></i>
             <span class="nav-link-text">리뷰</span>
           </a>
@@ -192,9 +192,9 @@
               <div class="card-body-icon">
                 <i class="fa fa-fw fa-star"></i>
               </div>
-				<div class="mr-5"><h5>0개의 새로운 리뷰</h5></div>
+				<div class="mr-5"><h5>{{ data['review_len'] }}개의 새로운 리뷰</h5></div>
             </div>
-            <a class="card-footer text-white clearfix small z-1" href="mypage_reviews">
+            <a class="card-footer text-white clearfix small z-1" href="mypage_reviews?email={{ data['email'] }}">
               <span class="float-left">자세히 보기</span>
               <span class="float-right">
                 <i class="fa fa-angle-right"></i>

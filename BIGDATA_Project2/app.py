@@ -1,8 +1,11 @@
 # coding: utf-8
-import sys
-if sys.version_info.major < 3:
-    reload(sys)
-sys.setdefaultencoding('utf8')
+
+# 파이썬 2.7버전의 경우
+# import sys
+# if sys.version_info.major < 3:
+#     reload(sys)
+#sys.setdefaultencoding('utf8')
+
 from flask import Flask, render_template, url_for,redirect, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SelectField, RadioField
@@ -15,7 +18,9 @@ from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, login_user
 from flask_mail import Mail
+
 import pandas as pd
+import json
 
 # 프로그램 내의 파이썬 파일
 from database import *
@@ -94,12 +99,8 @@ class Survey(FlaskForm):
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        print("!!!!!")
-        # if request.method == 'POST':
-        hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password,
-                        address=form.address.data.decode('utf-8'))
-        print("!!!!!")
+        hashed_password= generate_password_hash(form.password.data, method='sha256')
+        new_user= User(username=form.username.data, email=form.email.data, password=hashed_password, address= form.address.data)
         db.session.add(new_user)
         db.session.commit()
         form.email.default = form.email.data
@@ -174,16 +175,27 @@ def login():
         flash('잘못된 이메일/비밀번호 입니다')
     return render_template('login.html', title='login', form=form)
 
-@app.route('/program')
+@app.route('/program', methods=['get'])
 def program():
-    import database
-    data = database.fetch_db()
-    return render_template('program.html', data=data)
+    email = request.args.get('email')
+    _, program_list = fetch_welfare_center_program(email)
+    random_listing = define_listing()
+    return render_template('program.html', data=program_list, random_listing=random_listing, email=email)
 
-@app.route('/mypage')
+@app.route('/activities', methods=['get'])
+def activity():
+    email = request.args.get('email')
+    act_list = fetch_activity(email)
+    random_listing = define_listing()
+    return render_template('activities.html', data=act_list, random_listing=random_listing, email=email)
+
+@app.route('/mypage', methods=['get'])
 @login_required
 def mypage():
-    return render_template('mypage.html', name= current_user.username)
+    email = request.args.get("email")
+    data = get_my_page(email)
+
+    return render_template('mypage.html', name= current_user.username, data=data)
 
 @app.route('/logout')
 @login_required
@@ -208,18 +220,62 @@ def show_home():
         flash('잘못된 이메일/비밀번호 입니다')
     return render_template('index.html', form=form)
 
-@app.route('/faq')
-def faq():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            if check_password_hash(user.password, form.password.data):
-                login_user(user, remember=form.remember_me.data)
-                return redirect(url_for('show_home'))
+@app.route('/center-detail', methods=['get'])
+def center_detail_get():
+    center = request.args.get("welfare")
+    center_data = get_welfare_center(center)
+    return render_template('center-detail.html', data= center_data)
+
+@app.route('/center-detail', methods=['post'])
+def center_review_register():
+
+    name = request.form['name_review']
+    email = request.form['email_review']
+    rating = request.form['rating_review']
+    content = request.form['review_text']
+    location = request.form['location']
+
+    insert_welfare_review(email, content, rating, name, location)
+    center_data = get_welfare_center(location)
+
+    return render_template('center-detail.html', data= center_data)
+
+
+#
+# @app.route('/mypage_bookmarks', methods=['get'])
+# def my_wish():
+#     email = request.args.get("email")
+#
+#
+#     return render_template('center-detail.html', data= center_data)
+
+@app.route('/mypage_reviews', methods=['get'])
+def my_review():
+    email = request.args.get("email")
+    order = request.args.get("orderby", "Latest")
+    order = True if order == "Latest" else False
+
+    review_info = get_review(email, order)
+    return render_template('mypage_reviews.html' , data=review_info)
+
+
+
+@app.route('/register_wish', methods=['post'])
+def reg_wish_ajax():
+    info = request.form['info'][1:].split(' ')
+    email = info[0]
+    lecture = info[1]
+    center = info[2]
+    category = info[3]
+
+    flag = request.form['class']
+    if flag == "wish_bt liked":
+        flag = True
     else:
-        flash('잘못된 이메일/비밀번호 입니다')
-    return render_template("faq.html", form=form)
+        flag = False
+    register_wish(email, center, lecture,category, flag)
+    return json.dumps({'status': 'OK'})
+
 
 @app.errorhandler(404)
 def page_not_found(error):
