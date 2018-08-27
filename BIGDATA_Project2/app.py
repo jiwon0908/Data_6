@@ -237,6 +237,9 @@ def worklist():
 @app.route('/index')
 def show_home():
     form = LoginForm()
+    program_rand = fetch_random_program('program')
+    job_rand = fetch_random_program('job')
+    act_rand = fetch_random_program('activity')
     if form.validate_on_submit():
         user= User.query.filter_by(username= form.username.data).first()
         if user:
@@ -245,7 +248,7 @@ def show_home():
                 return redirect(url_for('show_home'))
     else:
         flash('잘못된 이메일/비밀번호 입니다')
-    return render_template('index.html', form=form)
+    return render_template('index.html', form=form, les_data=program_rand, job_data=job_rand, act_data=act_rand)
 
 @app.route('/center-detail', methods=['get'])
 def center_detail_get():

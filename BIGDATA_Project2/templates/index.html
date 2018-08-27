@@ -134,7 +134,7 @@
 							<div class="col-lg-3">
 								<select class="wide2">
 									<option>분야 선택</option>
-									<option>여가</option>
+									<option>여가&교육</option>
 									<option>취업</option>
 								</select>
 							</div>
@@ -158,96 +158,38 @@
 				<p>이번 주 가장 인기 있었던 실내 여가&교육 프로그램은 무엇일까요?</p>
 			</div>
 			<div id="reccomended" class="owl-carousel owl-theme">
-				<div class="item">
-					<div class="box_grid">
-						<figure>
-							<a href="#0" class="wish_bt"></a>
-							<img src="static/img/tour_1.jpg" class="img-fluid" alt="" width="800" height="533"/>
-							<small>Historic</small>
-						</figure>
-						<div class="wrapper">
-							<h3><a href="tour-detail.html">Arc Triomphe</a></h3>
-							<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cu.</p>
-						</div>
-						<ul>
-							<li><i class="icon_clock_alt"></i> 1h 30min</li>
-							<li><div class="score"><span>Superb<em>350 Reviews</em></span><strong>8.9</strong></div></li>
-						</ul>
-					</div>
-				</div>
-				<!-- /item -->
-				<div class="item">
-					<div class="box_grid">
-						<figure>
-							<a href="#0" class="wish_bt"></a>
-							<img src="static/img/tour_2.jpg" class="img-fluid" alt="" width="800" height="533"/>
-							<small>Churches</small>
-						</figure>
-						<div class="wrapper">
-							<h3><a href="tour-detail.html">Notredam</a></h3>
-							<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cu.</p>
+            {% for i in range(4) %}
+                <div class="item">
+               <div class="box_grid">
+                  <figure>
+                    <a href="#" class="wish_bt"></a>
+                     <img src="{{ les_data[i]['map_image_url']}}" class="img-fluid" alt="" width="800" height="533"/>
+                     <small>{{ les_data[i]['type_point']}}</small>
+                  </figure>
+                  <div class="wrapper">
+                        <div class="price">
+                            <a href={{ les_data[i]['center_url'] }}><strong>{{ les_data[i]['name'] }}</strong></a>
                         </div>
-						<ul>
-							<li><i class="icon_clock_alt"></i> 1h 30min</li>
-							<li><div class="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div></li>
-						</ul>
-					</div>
-				</div>
-				<!-- /item -->
-				<div class="item">
-					<div class="box_grid">
-						<figure>
-							<a href="#0" class="wish_bt"></a>
-							<img src="static/img/tour_3.jpg" class="img-fluid" alt="" width="800" height="533"/>
-							<small>Historic</small>
-						</figure>
-						<div class="wrapper">
-							<h3><a href="tour-detail.html">Versailles</a></h3>
-							<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cu.</p>
-                        </div>
-						<ul>
-							<li><i class="icon_clock_alt"></i> 1h 30min</li>
-							<li><div class="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div></li>
-						</ul>
-					</div>
-				</div>
-				<!-- /item -->
-				<div class="item">
-					<div class="box_grid">
-						<figure>
-							<a href="#0" class="wish_bt"></a>
-							<img src="static/img/tour_3.jpg" class="img-fluid" alt="" width="800" height="533"/>
-							<small>Historic</small>
-						</figure>
-						<div class="wrapper">
-							<h3><a href="tour-detail.html">Versailles</a></h3>
-							<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cu.</p>
-						</div>
-						<ul>
-							<li><i class="icon_clock_alt"></i> 1h 30min</li>
-							<li><div class="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div></li>
-						</ul>
-					</div>
-				</div>
-				<!-- /item -->
-				<div class="item">
-					<div class="box_grid">
-						<figure>
-							<a href="#0" class="wish_bt"></a>
-							<img src="static/img/tour_4.jpg" class="img-fluid" alt="" width="800" height="533"/>
-							<small>Museum</small>
-						</figure>
-						<div class="wrapper">
-							<h3><a href="tour-detail.html">Pompidue Museum</a></h3>
-							<p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cu.</p>
-						</div>
-						<ul>
-							<li><i class="icon_clock_alt"></i> 2h 30min</li>
-							<li><div class="score"><span>Superb<em>350 Reviews</em></span><strong>9.0</strong></div></li>
-						</ul>
-					</div>
-				</div>
-			</div>
+                        <h3><strong>{{ les_data[i]['edu_name'] }}</strong></h3>
+                        <p>수업내용: {{ les_data[i]['edu_content'] }}<br>
+                            참고사항: {{ les_data[i]['edu_ref'] }}<br>
+                            수업료: {{ les_data[i]['edu_fee'] }}<br>
+                            <span class="price"><strong>{{ les_data[i]['edu_day'] }}</strong>  {{ les_data[i]['edu_start'] }} ~ {{ les_data[i]['edu_end'] }}, <i>{{ les_data[i]['edu_duration'] }}분</i> </span></p>
+                  </div>
+                  <ul>
+                     <li><i class="ti-export"></i><a href={{ les_data[i]['url_point'] }}> 외부 링크</a>
+                        </li>
+                        <li>
+                            <div class="score">
+                                <span>{{ les_data[i]['edu_category'][2] }}<em>{{ les_data[i]['edu_category'][3] }}</em></span><strong>모집</strong>
+                            </div>
+                        </li>
+                  </ul>
+               </div>
+               </div>
+               {% endfor %}
+            <!-- /item -->
+            </div>
 			<!-- /carousel -->
 			<div class="container">
 				<p class="btn_home_align"><a href="program" class="btn_1 rounded">실내 여가 &교육 프로그램 더보기</a></p>
@@ -256,141 +198,62 @@
 			<hr class="large">
 		</div>
 		<!-- /container -->
-		
-		<div class="container-fluid margin_30_95 pl-lg-5 pr-lg-5">
-			<section class="add_bottom_45">
-				<div class="main_title_3">
-					<span><em></em></span>
-					<h2>이 주의 인기 야외 활동</h2>
-					<p>선선해진 날씨와 함께 즐길 수 있는 야외 활동을 살펴보세요</p>
-				</div>
-				<div class="row">
-					<div class="col-xl-3 col-lg-6 col-md-6">
-						<a href="hotel-detail.html" class="grid_item">
-							<figure>
-								<div class="score"><strong>8.9</strong></div>
-								<img src="static/img/hotel_1.jpg" class="img-fluid" alt="">
-								<div class="info">
-									<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-									<h3>Mariott Hotel</h3>
-								</div>
-							</figure>
-						</a>
-					</div>
-					<!-- /grid_item -->
-					<div class="col-xl-3 col-lg-6 col-md-6">
-						<a href="hotel-detail.html" class="grid_item">
-							<figure>
-								<div class="score"><strong>7.9</strong></div>
-								<img src="static/img/hotel_2.jpg" class="img-fluid" alt="">
-								<div class="info">
-									<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-									<h3>Concorde Hotel </h3>
-								</div>
-							</figure>
-						</a>
-					</div>
-					<!-- /grid_item -->
-					<div class="col-xl-3 col-lg-6 col-md-6">
-						<a href="hotel-detail.html" class="grid_item">
-							<figure>
-								<div class="score"><strong>7.0</strong></div>
-								<img src="static/img/hotel_3.jpg" class="img-fluid" alt="">
-								<div class="info">
-									<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-									<h3>Louvre Hotel</h3>
-								</div>
-							</figure>
-						</a>
-					</div>
-					<!-- /grid_item -->
-					<div class="col-xl-3 col-lg-6 col-md-6">
-						<a href="hotel-detail.html" class="grid_item">
-							<figure>
-								<div class="score"><strong>8.9</strong></div>
-								<img src="static/img/hotel_4.jpg" class="img-fluid" alt="">
-								<div class="info">
-									<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-									<h3>Park Yatt Hotel</h3>
-								</div>
-							</figure>
-						</a>
-					</div>
-					<!-- /grid_item -->
-				</div>
-				<!-- /row -->
-				<a href="activities"><strong>야외 활동 더보기 <i class="arrow_carrot-right"></i></strong></a>
-			</section>
-			<!-- /section -->
-		</div>
-		<!-- /container -->
-        	<div class="container-fluid margin_30_95 pl-lg-5 pr-lg-5">
-			<section class="add_bottom_45">
-				<div class="main_title_3">
-					<span><em></em></span>
-					<h2>동행이 알려드리는 직업 정보</h2>
-					<p>서울시에서 지원해주는 직업 프로그램에 참여해보세요</p>
-				</div>
-				<div class="row">
-					<div class="col-xl-3 col-lg-6 col-md-6">
-						<a href="hotel-detail.html" class="grid_item">
-							<figure>
-								<div class="score"><strong>8.9</strong></div>
-								<img src="static/img/hotel_1.jpg" class="img-fluid" alt="">
-								<div class="info">
-									<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-									<h3>Mariott Hotel</h3>
-								</div>
-							</figure>
-						</a>
-					</div>
-					<!-- /grid_item -->
-					<div class="col-xl-3 col-lg-6 col-md-6">
-						<a href="hotel-detail.html" class="grid_item">
-							<figure>
-								<div class="score"><strong>7.9</strong></div>
-								<img src="static/img/hotel_2.jpg" class="img-fluid" alt="">
-								<div class="info">
-									<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-									<h3>Concorde Hotel </h3>
-								</div>
-							</figure>
-						</a>
-					</div>
-					<!-- /grid_item -->
-					<div class="col-xl-3 col-lg-6 col-md-6">
-						<a href="hotel-detail.html" class="grid_item">
-							<figure>
-								<div class="score"><strong>7.0</strong></div>
-								<img src="static/img/hotel_3.jpg" class="img-fluid" alt="">
-								<div class="info">
-									<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-									<h3>Louvre Hotel</h3>
-								</div>
-							</figure>
-						</a>
-					</div>
-					<!-- /grid_item -->
-					<div class="col-xl-3 col-lg-6 col-md-6">
-						<a href="hotel-detail.html" class="grid_item">
-							<figure>
-								<div class="score"><strong>8.9</strong></div>
-								<img src="static/img/hotel_4.jpg" class="img-fluid" alt="">
-								<div class="info">
-									<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-									<h3>Park Yatt Hotel</h3>
-								</div>
-							</figure>
-						</a>
-					</div>
-					<!-- /grid_item -->
-				</div>
-				<!-- /row -->
-				<a href="activities"><strong>직업 정보 더보기 <i class="arrow_carrot-right"></i></strong></a>
-			</section>
-			<!-- /section -->
-		</div>
-		<!-- /container -->
+
+     <div class="container-fluid margin_30_95 pl-lg-5 pr-lg-5">
+         <section class="add_bottom_45">
+            <div class="main_title_3">
+               <span><em></em></span>
+               <h2>이 주의 인기 야외 활동</h2>
+               <p>선선해진 날씨와 함께 즐길 수 있는 야외 활동을 살펴보세요</p>
+            </div>
+            <div class="row">
+                {% for i in range(4) %}
+               <div class="col-xl-3 col-lg-6 col-md-6">
+                  <a href='{{ act_data[i]['url_point'] }}' class="grid_item">
+                     <figure>
+                        <div class="score"><strong>{{ act_data[i]['act_field'] }}</strong></div>
+                        <img src="{{ act_data[i]['map_image_url'] }}" alt="" width="400" height="267">
+                        <div class="info">
+                           <h3>{{ act_data[i]['name'] }}</h3>
+                        </div>
+                     </figure>
+                  </a>
+               </div>
+               {% endfor %}
+            </div>
+            <!-- /row -->
+            <a href="activities"><strong>야외 활동 더보기 <i class="arrow_carrot-right"></i></strong></a>
+         </section>
+         <!-- /section -->
+
+         <section>
+            <div class="main_title_3">
+               <span><em></em></span>
+               <h2>동행이 알려드리는 직업 정보</h2>
+               <p>서울시에서 지원해주는 직업 프로그램에 참여해보세요</p>
+            </div>
+            <div class="row">
+               {% for i in range(4) %}
+               <div class="col-xl-3 col-lg-6 col-md-6">
+                  <a href='{{ job_data[i]['url_point'] }}' class="grid_item">
+                    <figure>
+                        <div class="score"><strong>모집중</strong></div>
+                        <img src="{{   job_data[i]['map_image_url'] }}" class="img-fluid" width="400" height="267">
+                        <div class="info">
+                           <h3>{{ job_data[i]['name'] }}</h3>
+                        </div>
+                    </figure>
+                  </a>
+               </div>
+               {% endfor %}
+               <!-- /grid_item -->
+            </div>
+            <!-- /row -->
+            <a href="activities"><strong>직업 정보 더보기 <i class="arrow_carrot-right"></i></strong></a>
+         </section>
+         <!-- /section -->
+      </div>
+
 
 		<div class="bg_color_1">
 			<div class="container margin_80_55">

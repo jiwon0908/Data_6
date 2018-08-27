@@ -576,4 +576,69 @@ def recommend_welfare_center_program(email, password):
 def define_listing():
     return "col-md-6 isotope-item " + random.choice(['popular', 'latest'])
 
+# index페이지에 보여줄 random 선정
+def fetch_random_program(category):
+    if category == "job":
+        program = db_engine.execute("SELECT * FROM jobs")
+        program_df = pd.DataFrame(program.fetchall(),
+                              columns=('companyName', 'jobName', 'fee', 'career', 'working_Area', 'register_Start', 'register_End', 'url', 'address', 'lat', 'long' ))
+    elif category == "activity":
+        program = db_engine.execute("SELECT * FROM outdoor")
+        program_df = pd.DataFrame(program.fetchall(),
+                              columns=('location', 'category_L', 'category_S', 'field', 'address', 'image', 'phone_num',
+                                       'lat', 'long', 'eduday_Sta', 'eduday_End', 'edutime_Sta', 'edutime_End', 'day',
+                                       'url', 'fee', 'notice', 'summary'))
+    elif category == 'program':
+        program = db_engine.execute("SELECT * FROM welfare_lecture")
+        program_df = pd.DataFrame(program.fetchall(),
+                                  columns=(
+                                      'lecture_Name', 'category_L', 'category_S', 'edutime_Sta', 'edutime_End',
+                                      'edu_duration',
+                                      'location', 'fee',
+                                      'eduday_Sta', 'eduday_End', 'entry_Num', 'receipt_Sta', 'receipt_End', 'day',
+                                      'ref',
+                                      'content', 'url'))
+        center = db_engine.execute("SELECT * FROM welfare_center")
+        center_df = pd.DataFrame(center.fetchall(),
+                                 columns=('location', 'lat', 'long', 'phone_num', 'address', 'center_url', 'target',
+                                          'image'))  # target은 이용대상.
+
+    program_list = []
+    seed = random.sample(range(415), 4)
+    program_photo_num = {'A': 1, 'B': 5, 'C': 1, 'D': 5, 'E': 1, 'F': 5, 'G': 1,
+                         'H': 1}  # static/img/program에 들어있는 각 대분류별 사진 개수
+
+    for rand in seed:
+        data2 = program_df.iloc[rand,:]
+        if category == "job":
+            program_list.append({'name': data2.jobName,
+                             'map_image_url': 'static/img/jobs/' + '취업' + str(random.randrange(0, 8)) + '.jpg',
+                             'url_point': data2.url,
+                             })
+        elif category== "activity":
+            program_list.append({'name': data2.location,
+                                       'map_image_url': data2.address,
+                                       'url_point': data2.url,
+                                       'act_field': data2.field,
+                                       })
+        elif category== "program":
+            row_index = center_df[center_df.location == data2.location].index[0]
+            program_list.append({'type_point': re.findall('\S+구', center_df.loc[row_index, 'address'])[0],
+                                 'name': data2.location,
+                                 'map_image_url': 'static/img/program/' + str(data2.category_L) + str(
+                                     random.randrange(0, program_photo_num[data2.category_L])) + '.jpg',
+                                 'url_point': data2.url,
+                                 'center_url': 'center-detail?welfare=' + data2.location,
+                                 'edu_name': data2.lecture_Name,
+                                 'edu_start': str(data2.edutime_Sta)[:5],
+                                 'edu_end': str(data2.edutime_End)[:5],
+                                 'edu_duration': int(data2.edu_duration),
+                                 'edu_fee': data2.fee,
+                                 'edu_day': data2.day,
+                                 'edu_ref': data2.ref,
+                                 'edu_content': data2.content,
+                                 'edu_category': [data2.category_L, data2.category_S, category_dict[data2.category_L],
+                                                  category_dict[data2.category_S]]})
+
+    return program_list
 
