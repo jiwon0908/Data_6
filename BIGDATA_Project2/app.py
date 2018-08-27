@@ -85,9 +85,8 @@ def login():
 
 @app.route('/program')
 def program():
-    import database
-    center_list, program_list = database.fetch_welfare_center_program()
-    return render_template('program.html')
+    _, program_list = fetch_welfare_center_program()
+    return render_template('program.html', data=program_list)
 
 @app.route('/mypage')
 @login_required
@@ -189,9 +188,6 @@ def add_header(response):
     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
