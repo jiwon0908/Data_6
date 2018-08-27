@@ -428,7 +428,7 @@ window.onload = function () {
         };
 
     });
-}
+};
 </script>
 
 </head>
@@ -640,12 +640,12 @@ window.onload = function () {
                                                                                     height="533">
                                                 <div class="read_more"><span>자세히 보기</span></div>
                                             </a>
-                                            <small>{{ data[i]['type_point'] }}</small>
+                                            <small>{{ data[i]['act_field'] }}</small>
                                         </figure>
                                         <div class="wrapper">
-                                            <div class="price"><strong>{{ data[i]['act_field'] }}</strong></div>
+                                            <div class="price"><strong>{{ data[i]['type_point'] }}</strong></div>
                                             <h3><a href={{ data[i]['url_point'] }}><strong>{{ data[i]['name'] }}</strong></a></h3>
-                                            <p>수업내용: {{ data[i]['act_content'] }}<br>
+                                            <p>{{ data[i]['act_content'] }}<br>
                                                 참고사항: {{ data[i]['act_ref'] }}<br>
                                                 입장료: {{ data[i]['act_fee'] }}</p>
                                             <span class="price"><strong>{{ data[i]['act_day'] }}</strong>  {{ data[i]['act_start'] }} ~ {{ data[i]['act_end'] }}</span>

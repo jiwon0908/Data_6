@@ -1,9 +1,9 @@
 # coding: utf-8
 
-import sys
-if sys.version_info.major < 3:
-    reload(sys)
-sys.setdefaultencoding('utf8')
+# import sys
+# if sys.version_info.major < 3:
+#     reload(sys)
+# sys.setdefaultencoding('utf8')
 
 from flask import Flask, render_template, url_for,redirect, request
 from flask_wtf import FlaskForm
@@ -19,7 +19,8 @@ from flask_mail import Mail
 import pandas as pd
 import json
 
-import json
+# 프로그램 내의 파이썬 파일
+from database import *
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # 캐시 설정
@@ -133,7 +134,7 @@ def store():
             user.indoor= form.indoor.data
 
             sql= sql = "select culture_view, culture_parti, sport_view, sport_parti , sightsee, entertain, rest , social_act from question_score"
-            result = engine.execute(sql)
+            result = db_engine.execute(sql)
             question_scores = pd.DataFrame(result.fetchall(),
                                            columns=(
                                            '문화예술관람활동', '문화예술참여활동', '스포츠관람활동', '스포츠참여활동', '관광활동', '취미오락활동', '휴식활동',
@@ -157,6 +158,10 @@ def store():
             db.session.commit()
             new_form= LoginForm()
     return render_template('index.html', form= new_form)
+
+@app.route('/')
+def home():
+    return render_template('coming_soon.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -199,9 +204,18 @@ def logout():
     logout_user()
     return redirect(url_for('show_home'))
 
-@app.route('/')
-def home():
-    return render_template('coming_soon.html')
+@app.route('/recommend_leisure')
+@login_required
+def recommend_leisure():
+    _, program_list = recommend_welfare_center_program(current_user.email, current_user.password)
+    random_listing = define_listing()
+    return render_template('recommend_leisure.html', data=program_list, random_listing=random_listing)
+
+@app.route('/worklist')
+def worklist():
+    program_list = fetch_job_program()
+    random_listing = define_listing()
+    return render_template('worklist.html', data=program_list, random_listing=random_listing)
 
 @app.route('/index')
 def show_home():
