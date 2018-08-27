@@ -83,6 +83,15 @@ def login():
         flash('잘못된 이메일/비밀번호 입니다')
     return render_template('login.html', title='login', form=form)
 
+# 수정한 부분 - 태욱
+@app.route('/recommend_leisure')
+@login_required
+def recommend_leisure():
+    _, program_list = recommend_welfare_center_program(current_user.email, current_user.password)
+    random_listing = define_listing()
+    return render_template('recommend_leisure.html', data=program_list, random_listing=random_listing)
+
+
 @app.route('/program')
 def program():
     _, program_list = fetch_welfare_center_program()
@@ -94,6 +103,8 @@ def worklist():
     program_list = fetch_job_program()
     random_listing = define_listing()
     return render_template('worklist.html', data=program_list, random_listing=random_listing)
+#여기까지
+
 
 @app.route('/mypage')
 @login_required
