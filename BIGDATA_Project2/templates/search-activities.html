@@ -31,7 +31,7 @@
 
     <script type="text/javascript">
 window.onload = function () {
-                for (i = 0; i < 30; i++) {
+                for (i = 0; i <  {{ len }}; i++) {
             $("#wish_btn" + i).click(function () {
                 $.ajax({
                     type: "POST",
@@ -629,7 +629,7 @@ window.onload = function () {
                 <div class="col-lg-9">
                     <div class="isotope-wrapper">
                         <div class="row">
-                            {% for i in range(30) %}
+                            {% for i in range(len) %}
                                 <div class="{{ random_listing }}">
                                     <div class="box_grid">
                                         <figure>
@@ -648,9 +648,9 @@ window.onload = function () {
                                         <div class="wrapper">
                                             <div class="price">{{ data[i]['type_point'] }}</div>
                                             <h3><a href={{ data[i]['url_point'] }}><strong>{{ data[i]['name'] }}</strong></a></h3>
-                                            <p><strong>개요: </strong>{{ data[i]['act_content'] }}<br>
-                                                <strong>참고사항: </strong>{{ data[i]['act_ref'] }}<br>
-                                                <strong>입장료: </strong>{{ data[i]['act_fee'] }}</p>
+                                            <p><strong>개요:</strong>{{ data[i]['act_content'] }}<br>
+                                                <strong>참고사항:</strong> {{ data[i]['act_ref'] }}<br>
+                                                <strong>입장료:</strong> {{ data[i]['act_fee'] }}</p>
                                             <span class="price"><strong>{{ data[i]['act_day'] }}</strong>  {{ data[i]['act_start'] }} ~ {{ data[i]['act_end'] }}</span>
                                         </div>
                                         <ul>
@@ -658,7 +658,7 @@ window.onload = function () {
                                             </li>
                                             <li>
                                                 <div class="score">
-                                                    <span>{{ data[i]['act_category'][2] }}<em>{{ data[i]['act_category'][3] }}</em></span><strong>8.9</strong>
+                                                    <span>{{ data[i]['act_category'][0] }}<em>{{ data[i]['act_category'][1] }}</em></span><strong>8.9</strong>
                                                 </div>
                                             </li>
                                         </ul>

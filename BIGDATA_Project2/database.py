@@ -25,6 +25,55 @@ def insert_welfare_review(email, content, rating, name, location):
     user_engine.execute(sql)
 
 
+def activity_search(email, name, local, category):
+    if local == '0' and category == '0':
+        sql = "select * from outdoor where location like '%{}%'".format(name)
+    elif local == '0':
+        sql = "select * from outdoor where location like '%{}%' and category_L='{}'".format(name,category)
+    elif category == '0':
+        sql = "select * from outdoor where location like '%{}%' and address like'%{}%'".format(name,local)
+    else:
+        sql = "select * from outdoor where location like '%{}%' and address like '%{}%' and category_L='{}'".format(name,local, category)
+
+
+    act_df = pd.DataFrame(db_engine.execute(sql).fetchall(),
+                          columns=('location', 'category_L', 'category_S', 'field', 'address', 'image', 'phone_num',
+                                   'lat', 'long', 'eduday_Sta', 'eduday_End', 'edutime_Sta', 'edutime_End', 'day',
+                                   'url', 'fee', 'notice', 'summary'))
+
+    wish_program = db_engine.execute(
+        "select email, lecture, center from lecture_wish where email='{}' and category='activity'".format(email))
+    wish_program = pd.DataFrame(wish_program.fetchall(), columns=('email', 'location', 'field'))
+    wish_program = act_df.merge(wish_program, on=['location', 'field'], right_index=True)
+    act_df['wish_flag'] = "wish_bt"
+    act_df.loc[wish_program.index.tolist(), 'wish_flag'] = "wish_bt liked"
+
+    activitiy_list = []
+    for _, data3 in act_df.iterrows():
+        activitiy_list.append({'type_point': data3.image,
+                               'name': data3.location,
+                               'location_latitude': data3.lat,
+                               'location_longitude': data3.long,
+                               'map_image_url': data3.address,
+                               'rate': '',
+                               'name_point': data3.location,
+                               'get_directions_start_address': '',
+                               'phone': data3.phone_num,
+                               'url_point': data3.url,
+                               'act_field': data3.field,
+                               'act_start': str(data3.edutime_Sta)[:5],
+                               'act_end': str(data3.edutime_End)[:5],
+                               'actday_start': str(data3.eduday_Sta)[:10],
+                               'actday_end': str(data3.eduday_End)[:10],
+                               'act_fee': data3.fee,
+                               'act_day': data3.day,
+                               'act_ref': data3.notice,
+                               'act_content': data3.summary,
+                               'act_category': [data3.category_L, data3.category_S],
+                               'wish_flag': data3.wish_flag
+                               })
+    return activitiy_list
+
 def welfare_search(email, name, local, category):
 
     if local=='0' and category == '0':
