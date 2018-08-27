@@ -4,6 +4,14 @@ import re
 
 engine = create_engine('sqlite:///DB.db', echo=True)
 
+
+def get_welfare_center(center):
+    result = engine.execute("select * from welfare_center where location = '{}'".format(center)).fetchall()
+    result_dict = {'location': result[0][0], 'lat':  result[0][1], 'long':  result[0][2], 'phone_num':  result[0][3],
+                       'address':  result[0][4], 'center_url':  result[0][5], 'target':  result[0][6], 'image':  result[0][7]}
+
+    return result_dict
+
 def fetch_welfare_center_program():
     center = engine.execute("SELECT * FROM welfare_center")
     center_df = pd.DataFrame(center.fetchall(),

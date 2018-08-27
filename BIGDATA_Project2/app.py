@@ -128,6 +128,14 @@ def show_home():
 #         flash('잘못된 이메일/비밀번호 입니다')
 #     return render_template("faq.html", form=form)
 
+
+@app.route('/center-detail', methods=['get'])
+def center_detail_get():
+    center = request.args.get("welfare")
+    center_data = get_welfare_center(center)
+    return render_template('center-detail.html', data= center_data)
+
+
 @app.route('/<path>')
 def faq(path):
     form = LoginForm()
@@ -154,6 +162,9 @@ def add_header(response):
     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
