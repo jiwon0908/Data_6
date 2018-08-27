@@ -35,7 +35,7 @@
     <script type="text/javascript">
         window.onload = function () {
 
-            for (i = 0; i < 30; i++) {
+            for (i = 0; i < {{ len }}; i++) {
                 $("#wish_btn" + i).click(function () {
                     $.ajax({
                         type: "POST",
@@ -641,7 +641,7 @@
                 <div class="col-lg-9">
                     <div class="isotope-wrapper">
                         <div class="row">
-                            {% for i in range(30) %}
+                            {% for i in range(len) %}
 
                                 <div class="{{ random_listing }}">
                                     <div class="box_grid">
