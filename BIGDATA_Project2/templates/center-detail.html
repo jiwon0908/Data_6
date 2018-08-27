@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
-{% import "bootstrap/wtf.html" as wtf %}
-
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -32,7 +30,7 @@
     <style type="text/css">
 
         .hero_in.hotels_detail:before {
-            background: url({{ data['image'] }}) center center repeat;
+            background: url({{ data[0]['image'] }}) center center repeat;
             -webkit-background-size: contain;
             -moz-background-size: contain;
             -o-background-size: contain;
@@ -53,20 +51,21 @@
 
             })(Array.prototype);
 
+
             var mapObject,
                 markers = [],
                 markersData = {
                     'Marker': [
                         {
-                            type_point: 'Paris Centre',
-                            name: 'Mariott Hotel',
-                            location_latitude: {{ data['lat'] }},
-                            location_longitude: {{ data['long'] }},
-                            map_image_url: 'img/thumb_map_single_hotel.jpg',
-                            rate: 'Superb | 7.5',
-                            name_point: 'Mariott Hotel',
+                            type_point: '{{ data[0]['address'].split(' ')[1] }}',
+                            name:'{{ data[0]['location'] }}',
+                            location_latitude: {{ data[0]['lat'] }},
+                            location_longitude: {{ data[0]['long'] }},
+                            map_image_url: '{{ data[0]['image'] }}',
+                            rate: 'Rating | {{ data[1]['mean'] }}',
+                            name_point: '{{ data[0]['location'] }}',
                             get_directions_start_address: '',
-                            phone: '+3934245255'
+                            phone: '{{ data[0]['phone_num'] }}'
                         }
                     ]
 
@@ -74,7 +73,7 @@
 
             var mapOptions = {
                 zoom: 14,
-                center: new google.maps.LatLng({{ data['lat'] }}, {{ data['long'] }}),
+                center: new google.maps.LatLng({{ data[0]['lat'] }}, {{ data[0]['long'] }}),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
 
                 mapTypeControl: false,
@@ -392,7 +391,7 @@
                 return new InfoBox({
                     content:
                     '<div class="marker_info" id="marker_info">' +
-                    '<img src="' + item.map_image_url + '" alt=""/>' +
+                    '<img src="' + item.map_image_url + '" width=100% height=50% alt=""/>' +
                     '<span>' +
                     '<span class="infobox_rate">' + item.rate + '</span>' +
                     '<h3>' + item.name_point + '</h3>' +
@@ -482,10 +481,10 @@
         <section class="hero_in hotels_detail">
             <div class="wrapper">
                 <div class="container">
-                    <h1 class="fadeInUp">{{ data['location'] }}</h1>
+                    <h1 class="fadeInUp">{{ data[0]['location'] }}</h1>
                 </div>
                 <span class="magnific-gallery">
-					<a href="{{ data['image'] }}" class="btn_photos" title="Photo title" data-effect="mfp-zoom-in">View photos</a>
+					<a href="{{ data[0]['image'] }}" class="btn_photos" title="Photo title" data-effect="mfp-zoom-in">View photos</a>
 				</span>
             </div>
         </section>
@@ -505,15 +504,15 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <section id="description">
-                            <h2>{{ data['location'] }}</h2>
+                            <h2>{{ data[0]['location'] }}</h2>
                             <br>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <ul class="bullets">
-                                        <li>주소 : {{ data['address'] }}</li>
-                                        <li>전화번호 : {{ data['phone_num'] }}</li>
-                                        <li>이용 대상 : {{ data['target'] }} </li>
-                                        <li>복지관 홈페이지 : <a href = "{{ data['center_url'] }} ">{{ data['center_url'] }} </a></li>
+                                        <li>주소 : {{ data[0]['address'] }}</li>
+                                        <li>전화번호 : {{ data[0]['phone_num'] }}</li>
+                                        <li>이용 대상 : {{ data[0]['target'] }} </li>
+                                        <li>복지관 홈페이지 : <a href = "{{ data[0]['center_url'] }} ">{{ data[0]['center_url'] }} </a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -532,17 +531,17 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div id="review_summary">
-                                            <strong>8.5</strong>
-                                            <em>Superb</em>
-                                            <small>Based on 4 reviews</small>
+                                            <strong>{{ data[1]['mean'] }}</strong>
+{#                                            <em>Superb</em>#}
+                                            <small>Based on {{ data[1]['len'] }} reviews</small>
                                         </div>
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="row">
                                             <div class="col-lg-10 col-9">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                         aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ data[1]['star5'] }}%"
+                                                         aria-valuenow="{{ data[1]['star5'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 col-3">
@@ -553,8 +552,8 @@
                                         <div class="row">
                                             <div class="col-lg-10 col-9">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 95%"
-                                                         aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ data[1]['star4'] }}%"
+                                                         aria-valuenow="{{ data[1]['star4'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 col-3">
@@ -565,8 +564,8 @@
                                         <div class="row">
                                             <div class="col-lg-10 col-9">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 60%"
-                                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ data[1]['star3'] }}%"
+                                                         aria-valuenow="{{ data[1]['star3'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 col-3">
@@ -577,8 +576,8 @@
                                         <div class="row">
                                             <div class="col-lg-10 col-9">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 20%"
-                                                         aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ data[1]['star2'] }}%"
+                                                         aria-valuenow="{{ data[1]['star2'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 col-3">
@@ -589,8 +588,8 @@
                                         <div class="row">
                                             <div class="col-lg-10 col-9">
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 0"
-                                                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ data[1]['star1'] }}%"
+                                                         aria-valuenow="{{ data[1]['star1'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 col-3">
@@ -606,68 +605,98 @@
                             <hr>
 
                             <div class="reviews-container">
-
-                                <div class="review-box clearfix">
-                                    <figure class="rev-thumb"><img src="img/avatar1.jpg" alt="">
+                                {% for review in data[1]['review'] %}
+                                    <div class="review-box clearfix">
+                                    <figure class="rev-thumb"><img src="/static/img/avatar1.jpg" alt="">
                                     </figure>
                                     <div class="rev-content">
                                         <div class="rating">
-                                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star"></i>
+                                            {% for review in range(review['rating']) %}
+                                                <i class="icon_star voted"></i>
+                                            {% endfor %}
+                                            {% for review in range(5-review['rating']) %}
+                                                <i class="icon_star"></i>
+                                            {% endfor %}
                                         </div>
                                         <div class="rev-info">
-                                            Admin – April 03, 2016:
+                                            {{ review['name'] }} / {{ review['date'] }}
                                         </div>
                                         <div class="rev-text">
                                             <p>
-                                                Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar
-                                                hendrerit. Cum sociis natoque penatibus et magnis dis
+                                                {{ review['content'] }}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /review-box -->
-                                <div class="review-box clearfix">
-                                    <figure class="rev-thumb"><img src="img/avatar2.jpg" alt="">
-                                    </figure>
-                                    <div class="rev-content">
-                                        <div class="rating">
-                                            <i class="icon-star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star"></i>
-                                        </div>
-                                        <div class="rev-info">
-                                            Ahsan – April 01, 2016:
-                                        </div>
-                                        <div class="rev-text">
-                                            <p>
-                                                Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar
-                                                hendrerit. Cum sociis natoque penatibus et magnis dis
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /review-box -->
-                                <div class="review-box clearfix">
-                                    <figure class="rev-thumb"><img src="img/avatar3.jpg" alt="">
-                                    </figure>
-                                    <div class="rev-content">
-                                        <div class="rating">
-                                            <i class="icon-star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star"></i>
-                                        </div>
-                                        <div class="rev-info">
-                                            Sara – March 31, 2016:
-                                        </div>
-                                        <div class="rev-text">
-                                            <p>
-                                                Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar
-                                                hendrerit. Cum sociis natoque penatibus et magnis dis
-                                            </p>
-                                        </div>
-                                    </div>
+                                {% endfor %}
+{#                                    {% for i in moon %}#}
+{#                                    <tr>#}
+{#                                        <td>{{ i[0] }}</td>#}
+{#                                        <td>{{ i[1] }}</td>#}
+{#                                    </tr>#}
+{#                                #}
+{#                                    {% endfor %}#}
+{#                                <div class="review-box clearfix">#}
+{#                                    <figure class="rev-thumb"><img src="/static/img/avatar1.jpg" alt="">#}
+{#                                    </figure>#}
+{#                                    <div class="rev-content">#}
+{#                                        <div class="rating">#}
+{#                                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i#}
+{#                                                class="icon_star voted"></i><i class="icon_star voted"></i><i#}
+{#                                                class="icon_star"></i>#}
+{#                                        </div>#}
+{#                                        <div class="rev-info">#}
+{#                                            Admin – April 03, 2016:#}
+{#                                        </div>#}
+{#                                        <div class="rev-text">#}
+{#                                            <p>#}
+{#                                                Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar#}
+{#                                                hendrerit. Cum sociis natoque penatibus et magnis dis#}
+{#                                            </p>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <!-- /review-box -->#}
+{#                                <div class="review-box clearfix">#}
+{#                                    <figure class="rev-thumb"><img src="img/avatar2.jpg" alt="">#}
+{#                                    </figure>#}
+{#                                    <div class="rev-content">#}
+{#                                        <div class="rating">#}
+{#                                            <i class="icon-star voted"></i><i class="icon_star voted"></i><i#}
+{#                                                class="icon_star voted"></i><i class="icon_star voted"></i><i#}
+{#                                                class="icon_star"></i>#}
+{#                                        </div>#}
+{#                                        <div class="rev-info">#}
+{#                                            Ahsan – April 01, 2016:#}
+{#                                        </div>#}
+{#                                        <div class="rev-text">#}
+{#                                            <p>#}
+{#                                                Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar#}
+{#                                                hendrerit. Cum sociis natoque penatibus et magnis dis#}
+{#                                            </p>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <!-- /review-box -->#}
+{#                                <div class="review-box clearfix">#}
+{#                                    <figure class="rev-thumb"><img src="img/avatar3.jpg" alt="">#}
+{#                                    </figure>#}
+{#                                    <div class="rev-content">#}
+{#                                        <div class="rating">#}
+{#                                            <i class="icon-star voted"></i><i class="icon_star voted"></i><i#}
+{#                                                class="icon_star voted"></i><i class="icon_star voted"></i><i#}
+{#                                                class="icon_star"></i>#}
+{#                                        </div>#}
+{#                                        <div class="rev-info">#}
+{#                                            Sara – March 31, 2016:#}
+{#                                        </div>#}
+{#                                        <div class="rev-text">#}
+{#                                            <p>#}
+{#                                                Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar#}
+{#                                                hendrerit. Cum sociis natoque penatibus et magnis dis#}
+{#                                            </p>#}
+{#                                        </div>#}
+{#                                    </div>#}
                                 </div>
                                 <!-- /review-box -->
                             </div>
@@ -678,7 +707,8 @@
 
                         <div class="add-review">
                             <h5>Leave a Review</h5>
-                            <form>
+                            <form action="/center-detail" method="post" name="review">
+{#                            <form>#}
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Name and Lastname *</label>
@@ -712,6 +742,7 @@
                                                   style="height:130px;"></textarea>
                                     </div>
                                     <div class="form-group col-md-12 add_top_20">
+                                        <input name="location" type="hidden" value="{{ data[0]['location'] }}">
                                         <input type="submit" value="Submit" class="btn_1" id="submit-review">
                                     </div>
                                 </div>
@@ -915,24 +946,24 @@
 <script src="http://maps.googleapis.com/maps/api/js"></script>
 {#	<script src="static/js/map_single_hotel.js"></script>#}
 <script src="static/js/infobox.js"></script>
-	
+
 <!-- DATEPICKER  -->
 <script>
-$(function() {
-  $('input[name="dates"]').daterangepicker({
-    autoUpdateInput: false,
-    opens: 'left',
-    locale: {
-      cancelLabel: 'Clear'
-    }
-  });
-  $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
-    $(this).val(picker.startDate.format('MM-DD-YY') + ' > ' + picker.endDate.format('MM-DD-YY'));
-  });
-  $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
-    $(this).val('');
-  });
-});
+    $(function () {
+        $('input[name="dates"]').daterangepicker({
+            autoUpdateInput: false,
+            opens: 'left',
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+        $('input[name="dates"]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('MM-DD-YY') + ' > ' + picker.endDate.format('MM-DD-YY'));
+        });
+        $('input[name="dates"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+    });
 </script>
 
 <!-- INPUT QUANTITY  -->
@@ -940,22 +971,24 @@ $(function() {
 
 <!-- INSTAGRAM FEED  -->
 <script>
-$(window).on('load', function(){
-    "use strict";
-    $.instagramFeed({
-      'username': 'hotelwailea',
-      'container': "#instagram-feed-hotel",
-      'display_profile': false,
-      'display_biography': false,
-      'display_gallery': true,
-      'get_raw_json': false,
-      'callback': null,
-      'styling': true,
-      'items': 12,
-      'items_per_row': 6,
-      'margin': 1 
+    $(window).on('load', function () {
+        "use strict";
+        $.instagramFeed({
+            'username': 'hotelwailea',
+            'container': "#instagram-feed-hotel",
+            'display_profile': false,
+            'display_biography': false,
+            'display_gallery': true,
+            'get_raw_json': false,
+            'callback': null,
+            'styling': true,
+            'items': 12,
+            'items_per_row': 6,
+            'margin': 1
+        });
     });
-  });
-	</script>
+</script>
+
+
 </body>
 </html>
