@@ -16,6 +16,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, login_user
 from flask_mail import Mail
 
+import json
+
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # 캐시 설정
 app.config['SECRET_KEY'] = '빅데이터고려대학교6조'
@@ -101,11 +103,12 @@ def login():
         flash('잘못된 이메일/비밀번호 입니다')
     return render_template('login.html', title='login', form=form)
 
-@app.route('/program')
+@app.route('/program', methods=['get'])
 def program():
-    _, program_list = fetch_welfare_center_program()
+    email = request.args.get('email')
+    _, program_list = fetch_welfare_center_program(email)
     random_listing = define_listing()
-    return render_template('program.html', data=program_list, random_listing=random_listing)
+    return render_template('program.html', data=program_list, random_listing=random_listing, email=email)
 
 @app.route('/mypage', methods=['get'])
 @login_required
@@ -158,8 +161,6 @@ def center_review_register():
 
     return render_template('center-detail.html', data= center_data)
 
-
-
 @app.route('/mypage_reviews', methods=['get'])
 def my_review():
     email = request.args.get("email")
@@ -172,6 +173,22 @@ def my_review():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html')
+
+@app.route('/register_wish', methods=['post'])
+def reg_wish_ajax():
+    info = request.form['info'][1:].split(' ')
+    email = info[0]
+    lecture = info[1]
+    center = info[2]
+
+    flag = request.form['class']
+    if flag == "wish_bt liked":
+        flag = True
+    else:
+        flag = False
+    register_wish(email, center, lecture, flag)
+    return json.dumps({'status': 'OK'})
+
 
 @app.route('/faq')
 def faq():
