@@ -115,6 +115,13 @@ def program():
     random_listing = define_listing()
     return render_template('program.html', data=program_list, random_listing=random_listing, email=email)
 
+@app.route('/activities', methods=['get'])
+def activity():
+    email = request.args.get('email')
+    act_list = fetch_activity(email)
+    random_listing = define_listing()
+    return render_template('activities.html', data=act_list, random_listing=random_listing, email=email)
+
 @app.route('/mypage', methods=['get'])
 @login_required
 def mypage():
@@ -192,28 +199,16 @@ def reg_wish_ajax():
     email = info[0]
     lecture = info[1]
     center = info[2]
+    category = info[3]
 
     flag = request.form['class']
     if flag == "wish_bt liked":
         flag = True
     else:
         flag = False
-    register_wish(email, center, lecture, flag)
+    register_wish(email, center, lecture,category, flag)
     return json.dumps({'status': 'OK'})
 
-
-@app.route('/<path>')
-def faq(path):
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            if check_password_hash(user.password, form.password.data):
-                login_user(user, remember=form.remember_me.data)
-                return redirect(url_for('show_home'))
-    else:
-        flash('잘못된 이메일/비밀번호 입니다')
-    return render_template("faq.html", form=form)
 
 @app.errorhandler(404)
 def page_not_found(error):

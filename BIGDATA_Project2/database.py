@@ -90,9 +90,9 @@ def get_my_page(email):
     return data
 
 
-def register_wish(email, center, lecture, flag):
+def register_wish(email, center, lecture, category, flag):
     if flag == True:
-        sql = "insert into lecture_wish values('{}','{}','{}')".format(email, lecture, center)
+        sql = "insert into lecture_wish values('{}','{}','{}', '{}')".format(email, lecture, center, category)
         db_engine.execute(sql)
     else:
         sql = "delete from lecture_wish where email='{}' and center='{}' and lecture='{}'".format(email,center,lecture)
@@ -127,7 +127,7 @@ def fetch_welfare_center_program(email):
                                   'eduday_Sta', 'eduday_End', 'entry_Num', 'receipt_Sta', 'receipt_End', 'day', 'ref',
                                   'content', 'url'))
 
-    wish_program = db_engine.execute("select * from lecture_wish where email='{}'".format(email))
+    wish_program = db_engine.execute("select email, lecture, center from lecture_wish where email='{}' and category='indoor'".format(email))
     wish_program = pd.DataFrame(wish_program.fetchall(), columns=('email','lecture_Name','location'))
     wish_program = program_df.merge(wish_program, on=['lecture_Name', 'location'], right_index=True)
     program_df['wish_flag'] = "wish_bt"
@@ -164,36 +164,45 @@ def fetch_welfare_center_program(email):
     return center_list, program_list
 
 # 야외활동
-def fetch_activity():
+def fetch_activity(email):
     act = db_engine.execute("SELECT * FROM outdoor")
     act_df = pd.DataFrame(act.fetchall(),
                              columns=('location', 'category_L', 'category_S', 'field', 'address', 'image', 'phone_num',
                                       'lat', 'long', 'eduday_Sta', 'eduday_End', 'edutime_Sta', 'edutime_End', 'day',
                                       'url', 'fee', 'notice', 'summary'))
+
+    wish_program = db_engine.execute("select * from lecture_wish where email='{}'".format(email))
+    wish_program = pd.DataFrame(wish_program.fetchall(), columns=('email', 'location', 'field'))
+    wish_program = act_df.merge(wish_program, on=['location', 'field'], right_index=True)
+    act_df['wish_flag'] = "wish_bt"
+    act_df.loc[wish_program.index.tolist(), 'wish_flag'] = "wish_bt liked"
+
     activitiy_list = []
     for _, data3 in act_df.iterrows():
-        activitiy_list.append({'type_point': re.findall('\S+구', center_df.loc[row_index, 'address'])[0],
-                                                'name': data2.location,
-                                                'location_latitude': center_df.loc[row_index, 'lat'],
-                                                'location_longitude': center_df.loc[row_index, 'long'],
-                                                'map_image_url': 'static/img/program/'+str(data2.category_L)+str(random.randrange(0,program_photo_num[data2.category_L]))+'.jpg',
-                                                'rate':'' ,
-                                                'name_point': data2.location,
-                                                'get_directions_start_address': '',
-                                                'phone': center_df.loc[row_index, 'phone_num'],
-                                                'url_point': data2.url,
-                                                'center_url': 'center-detail?welfare='+data2.location,
-                                                 'edu_name': data2.lecture_Name,
-                                                 'edu_start': str(data2.edutime_Sta)[:5],
-                                                 'edu_end': str(data2.edutime_End)[:5],
-                                                 'edu_duration': int(data2.edu_duration),
-                                                 'edu_fee': data2.fee,
-                                                 'edu_day': data2.day,
-                                                 'edu_ref': data2.ref,
-                                                 'edu_content': data2.content,
-                                                 'edu_category': [data2.category_L, data2.category_S],
-                                                 'edu_entrynum': data2.entry_Num
+        activitiy_list.append({'type_point': data3.address,
+                                'name': data3.location,
+                                'location_latitude': data3.lat,
+                                'location_longitude': data3.long,
+                                'map_image_url': data3.image,
+                                'rate':'' ,
+                                'name_point': data3.location,
+                                'get_directions_start_address': '',
+                                'phone': data3.phone_num,
+                                'url_point': data3.url,
+                                 'act_field': data3.field,
+                                 'act_start': str(data3.edutime_Sta)[:5],
+                                 'act_end': str(data3.edutime_End)[:5],
+                                 'actday_start': str(data3.eduday_Sta)[:10],
+                                 'actday_end': str(data3.eduday_End)[:10],
+                                 'act_fee': data3.fee,
+                                 'act_day': data3.day,
+                                 'act_ref': data3.notice,
+                                 'act_content': data3.summary,
+                                 'act_category': [data3.category_L, data3.category_S],
+                                  'wish_flag': data3.wish_flag
                              })
+
+    return activitiy_list
 
 
 
