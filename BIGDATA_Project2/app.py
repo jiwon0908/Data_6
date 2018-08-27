@@ -164,6 +164,14 @@ def my_wish():
     data = get_wish(email)
     return render_template('mypage_bookmarks.html', data= data)
 
+
+@app.route('/wishlist', methods=['get'])
+def wishlist():
+    email = request.args.get("email")
+    _, data = get_wishlist(email)
+    return render_template('wishlist.html', data= data, email=email)
+
+
 @app.route('/mypage_reviews', methods=['get'])
 def my_review():
     email = request.args.get("email")

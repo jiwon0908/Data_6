@@ -60,7 +60,6 @@ def get_review(email, order):
 
     def get_location_img(location):
         img_url = db_engine.execute("select image from welfare_center where location='{}'".format(location)).fetchall()[0]
-        print(img_url)
         return pd.DataFrame({'location':location, 'image':img_url})
 
     executor = futures.ThreadPoolExecutor(max_workers=5)
@@ -108,18 +107,21 @@ def remove_wish(email, lecture, center):
 
 
 def get_wish(email):
-    wish_datas = db_engine.execute("select a.category_L, a.url, b.lecture, b.center from (select * from welfare_lecture) "
+    wish_datas = db_engine.execute("select a.category_L, a.url, b.lecture, b.center, b.category from (select * from welfare_lecture) "
                                   "as a inner join (select * from lecture_wish where email='{}') as b "
                                   "on a.lecture_Name = b.lecture and a.location=b.center".format(email))
-    wish_datas = pd.DataFrame(wish_datas.fetchall(), columns=('category_L','url', 'lecture', 'center'))
+    wish_datas = pd.DataFrame(wish_datas.fetchall(), columns=('category_L','url', 'lecture', 'center', 'category'))
 
     result_dict = {}
     result_dict['email'] = email
-    result_dict['category'] = '실내프로그램'
     result_list = []
     program_photo_num = {'A': 1, 'B': 5, 'C': 1, 'D': 5, 'E': 1, 'F': 5, 'G': 1, 'H': 1}
     for _, wish_data in wish_datas.iterrows():
         data = {}
+        if wish_data.category == "indoor":
+            data['category'] = "실내프로그램"
+        elif wish_data.category == "activity":
+            data['category'] = "야외프로그램"
         data['lecture'] = wish_data.lecture
         data['center'] = wish_data.center
         data['url'] = wish_data.url
@@ -128,9 +130,85 @@ def get_wish(email):
     result_dict['wish'] = result_list
     result_dict['len'] = len(result_list)
 
-    print(result_list)
     return result_dict
 
+
+def get_wishlist(email):
+    sql = "select c.location, c.lat, c.long, c.phone_num, c.address, c.center_url, c.target, c.image " \
+          "from (select * from welfare_center) " \
+          "as c inner join " \
+          "(select b.lecture, b.center from (select * from welfare_lecture) " \
+          "as a inner join " \
+          "(select * from lecture_wish where email='{}') as b " \
+          "on a.lecture_Name = b.lecture and a.location=b.center) as d " \
+          "on c.location = d.center".format(email)
+    center_df = pd.DataFrame(db_engine.execute(sql).fetchall(),
+                             columns=('location', 'lat', 'long', 'phone_num', 'address', 'center_url', 'target',
+                                      'image'))
+
+
+    center_list = []
+    for _, data in center_df.iterrows():
+        center_list.append({'type_point': re.findall('\S+구', data.address)[0],
+                            'name': data.location,
+                            'location_latitude': data.lat,
+                            'location_longitude': data.long,
+                            'map_image_url': data.image,
+                            'rate': '',
+                            'name_point': data.location,
+                            'get_directions_start_address': '',
+                            'phone': data.phone_num,
+                            'url_point': data.center_url})
+
+    sql = "select a.lecture_Name, a.category_L, a.category_S, a.edutime_Sta, a.edutime_End, " \
+          "a.edu_duration, a.location, a.fee, a.eduday_Sta, a.eduday_End, a.entry_Num," \
+          " 'a.receipt_Sta', 'a.receipt_End', a.day, a.ref,a.content, a.url " \
+          "from (select * from welfare_lecture) " \
+          "as a inner join " \
+          "(select * from lecture_wish where email='{}') as b " \
+          "on a.lecture_Name = b.lecture and a.location=b.center".format(email)
+
+    programs = db_engine.execute(sql)
+    program_df = pd.DataFrame(programs.fetchall(),
+                              columns=(
+                                  'lecture_Name', 'category_L', 'category_S', 'edutime_Sta', 'edutime_End',
+                                  'edu_duration',
+                                  'location', 'fee',
+                                  'eduday_Sta', 'eduday_End', 'entry_Num', 'receipt_Sta', 'receipt_End', 'day', 'ref',
+                                  'content', 'url'))
+
+    result_dict = {}
+    result_dict['len'] = len(program_df)
+    program_list = []
+    program_photo_num = {'A':1, 'B':5, 'C':1, 'D':5, 'E':1, 'F':5, 'G':1, 'H':1} # static/img/program에 들어있는 각 대분류별 사진 개수
+    for _,data2 in program_df.iterrows():
+        row_index = center_df[center_df.location==data2.location].index[0]
+        program_list.append({'type_point': re.findall('\S+구', center_df.loc[row_index, 'address'])[0],
+                                                'name': data2.location,
+                                                'location_latitude': center_df.loc[row_index, 'lat'],
+                                                'location_longitude': center_df.loc[row_index, 'long'],
+                                                'map_image_url': 'static/img/program/'+str(data2.category_L)+str(random.randrange(0,program_photo_num[data2.category_L]))+'.jpg',
+                                                'rate':'' ,
+                                                'name_point': data2.location,
+                                                'get_directions_start_address': '',
+                                                'phone': center_df.loc[row_index, 'phone_num'],
+                                                'url_point': data2.url,
+                                                'center_url': 'center-detail?welfare='+data2.location,
+                                                 'edu_name': data2.lecture_Name,
+                                                 'edu_start': str(data2.edutime_Sta)[:5],
+                                                 'edu_end': str(data2.edutime_End)[:5],
+                                                 'edu_duration': int(data2.edu_duration),
+                                                 'edu_fee': data2.fee,
+                                                 'edu_day': data2.day,
+                                                 'edu_ref': data2.ref,
+                                                 'edu_content': data2.content,
+                                                 'edu_category': [data2.category_L, data2.category_S],
+                                                 'edu_entrynum': data2.entry_Num,
+                             })
+
+        result_dict['program_list'] = program_list
+
+    return center_list, result_dict
 
 
 def fetch_welfare_center_program(email):
