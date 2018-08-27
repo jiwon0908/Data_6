@@ -34,6 +34,22 @@
 
     <script type="text/javascript">
 window.onload = function () {
+            for (i = 0; i < 30; i++) {
+            $("#wish_btn" + i).click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "./register_wish",
+                    data: {class: $(this).attr("class"), info: $(this).attr("href")},
+                    dataType: "json",
+                    success: function (json) {
+                    },
+                    error: function (xhr, status, error) {
+                        alert("error");
+                    }
+                });
+            });
+        }
+
     $('#collapseMap').on('shown.bs.collapse', function (e) {
         (function (A) {
 
@@ -625,7 +641,7 @@ window.onload = function () {
                                     <div class="box_grid">
                                         <figure>
                                             <a id="wish_btn{{ i }}"
-                                               href="#{{ email }} {{ data[i]['edu_name'] }} {{ data[i]['name'] }}"
+                                               href="#{{ email }} {{ data[i]['edu_name'] }} {{ data[i]['name'] }} indoor"
                                                class="{{ data[i]['wish_flag'] }}"></a>
                                             <script>
                                                 $('#wish_btn0').addClass("wish_bt");</script>
