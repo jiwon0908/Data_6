@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 import pandas as pd
+import numpy as np
 import random
 import re
 import datetime
@@ -53,14 +54,12 @@ def get_review(email, order):
     review_frame = pd.DataFrame(review.fetchall(), columns=('date', 'content', 'rating', 'name', 'location'))
 
     name = user_engine.execute("select username from user where email='{}'".format(email)).fetchall()[0][0]
-
     review_info = {}
     review_info['email'] = email
     review_info['name'] = name
 
     def get_location_img(location):
         img_url = db_engine.execute("select image from welfare_center where location='{}'".format(location)).fetchall()[0]
-        print(img_url)
         return pd.DataFrame({'location':location, 'image':img_url})
 
     executor = futures.ThreadPoolExecutor(max_workers=5)
@@ -70,7 +69,8 @@ def get_review(email, order):
     img_df = pd.DataFrame()
     for result in return_list:
         img_df = img_df.append(result.result(), ignore_index=True)
-    review_frame = review_frame.merge(img_df, how='left', on='location')
+    if len(img_df) != 0:
+        review_frame = review_frame.merge(img_df, how='left', on='location')
 
     review_list = []
     for _, data in review_frame.iterrows():
@@ -133,6 +133,83 @@ def get_wish(email):
 
     return result_dict
 
+
+def get_wishlist(email):
+    sql = "select c.location, c.lat, c.long, c.phone_num, c.address, c.center_url, c.target, c.image " \
+          "from (select * from welfare_center) " \
+          "as c inner join " \
+          "(select b.lecture, b.center from (select * from welfare_lecture) " \
+          "as a inner join " \
+          "(select * from lecture_wish where email='{}') as b " \
+          "on a.lecture_Name = b.lecture and a.location=b.center) as d " \
+          "on c.location = d.center".format(email)
+    center_df = pd.DataFrame(db_engine.execute(sql).fetchall(),
+                             columns=('location', 'lat', 'long', 'phone_num', 'address', 'center_url', 'target',
+                                      'image'))
+
+
+    center_list = []
+    for _, data in center_df.iterrows():
+        center_list.append({'type_point': re.findall('\S+구', data.address)[0],
+                            'name': data.location,
+                            'location_latitude': data.lat,
+                            'location_longitude': data.long,
+                            'map_image_url': data.image,
+                            'rate': '',
+                            'name_point': data.location,
+                            'get_directions_start_address': '',
+                            'phone': data.phone_num,
+                            'url_point': data.center_url})
+
+    sql = "select a.lecture_Name, a.category_L, a.category_S, a.edutime_Sta, a.edutime_End, " \
+          "a.edu_duration, a.location, a.fee, a.eduday_Sta, a.eduday_End, a.entry_Num," \
+          " 'a.receipt_Sta', 'a.receipt_End', a.day, a.ref,a.content, a.url " \
+          "from (select * from welfare_lecture) " \
+          "as a inner join " \
+          "(select * from lecture_wish where email='{}') as b " \
+          "on a.lecture_Name = b.lecture and a.location=b.center".format(email)
+
+    programs = db_engine.execute(sql)
+    program_df = pd.DataFrame(programs.fetchall(),
+                              columns=(
+                                  'lecture_Name', 'category_L', 'category_S', 'edutime_Sta', 'edutime_End',
+                                  'edu_duration',
+                                  'location', 'fee',
+                                  'eduday_Sta', 'eduday_End', 'entry_Num', 'receipt_Sta', 'receipt_End', 'day', 'ref',
+                                  'content', 'url'))
+
+    result_dict = {}
+    result_dict['len'] = len(program_df)
+    program_list = []
+    program_photo_num = {'A':1, 'B':5, 'C':1, 'D':5, 'E':1, 'F':5, 'G':1, 'H':1} # static/img/program에 들어있는 각 대분류별 사진 개수
+    for _,data2 in program_df.iterrows():
+        row_index = center_df[center_df.location==data2.location].index[0]
+        program_list.append({'type_point': re.findall('\S+구', center_df.loc[row_index, 'address'])[0],
+                                                'name': data2.location,
+                                                'location_latitude': center_df.loc[row_index, 'lat'],
+                                                'location_longitude': center_df.loc[row_index, 'long'],
+                                                'map_image_url': 'static/img/program/'+str(data2.category_L)+str(random.randrange(0,program_photo_num[data2.category_L]))+'.jpg',
+                                                'rate':'' ,
+                                                'name_point': data2.location,
+                                                'get_directions_start_address': '',
+                                                'phone': center_df.loc[row_index, 'phone_num'],
+                                                'url_point': data2.url,
+                                                'center_url': 'center-detail?welfare='+data2.location,
+                                                 'edu_name': data2.lecture_Name,
+                                                 'edu_start': str(data2.edutime_Sta)[:5],
+                                                 'edu_end': str(data2.edutime_End)[:5],
+                                                 'edu_duration': int(data2.edu_duration),
+                                                 'edu_fee': data2.fee,
+                                                 'edu_day': data2.day,
+                                                 'edu_ref': data2.ref,
+                                                 'edu_content': data2.content,
+                                                 'edu_category': [data2.category_L, data2.category_S],
+                                                 'edu_entrynum': data2.entry_Num,
+                             })
+
+        result_dict['program_list'] = program_list
+
+    return center_list, result_dict
 
 
 def fetch_welfare_center_program(email):
@@ -273,9 +350,12 @@ def fetch_job_program():
 def cos_similarity(target, base):
     numerator = np.sum(target * base)
     denominator = np.sqrt(np.sum(target ** 2)) * np.sqrt(np.sum(base ** 2))
+
     return numerator / denominator
 
 def get_similarity(input_data, target, n_neigh):
+
+
     user_simi = input_data.apply(lambda x: cos_similarity(x, target), axis=1).sort_values(ascending=False).iloc[
                     :n_neigh]
     return input_data.loc[user_simi.index].mean(axis=0)
@@ -311,8 +391,9 @@ def recommend_welfare_center_program(email, password):
     user_evaluation = db_engine.execute("SELECT * FROM false_user_data")
     user_evaluation_df = pd.DataFrame(user_evaluation.fetchall(), columns = ('culture_view', 'culture_parti', 'sport_view', 'sport_parti', 'sightsee', 'entertain', 'rest', 'social_art'))
 
-    my_evaluation = user_engine.execute("SELECT culture_view, culture_parti, sport_view, sport_parti , sightsee, entertain, rest , social_act  FROM user WHERE email="+email+"and password="+password)
-    my_evaluation_df = pd.DataFrame(my_evaluation.fetch(), columns = ('culture_view', 'culture_parti', 'sport_view', 'sport_parti', 'sightsee', 'entertain', 'rest', 'social_art'))
+    my_evaluation = user_engine.execute("SELECT culture_view, culture_parti, sport_view, sport_parti , sightsee, entertain, rest , social_act  FROM user WHERE email='"+email+"' and password='"+password+"'")
+    my_evaluation_df = pd.DataFrame(my_evaluation.fetchall(), columns = ('culture_view', 'culture_parti', 'sport_view', 'sport_parti', 'sightsee', 'entertain', 'rest', 'social_art'))
+    my_evaluation_df = my_evaluation_df.sum(axis=0)
     category_rank = get_similarity(user_evaluation_df, my_evaluation_df,10)
     category_rank = category_rank.sort_values(ascending=False).keys()[:3]
 

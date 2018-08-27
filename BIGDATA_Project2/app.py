@@ -95,14 +95,13 @@ class Survey(FlaskForm):
 @app.route('/register',  methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    if form.validate_on_submit():
+    if request.method=='POST':
         hashed_password= generate_password_hash(form.password.data, method='sha256')
         new_user= User(username=form.username.data, email=form.email.data, password=hashed_password, address= form.address.data)
         db.session.add(new_user)
         db.session.commit()
         form.email.default = form.email.data
         form.username.default = form.username.data
-        print("!!!!!")
         return render_template('survey.html', form=form)
     return render_template('register.html', form=form)
 
@@ -259,10 +258,6 @@ def my_review():
     review_info = get_review(email, order)
     return render_template('mypage_reviews.html' , data=review_info)
 
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('404.html')
-
 @app.route('/register_wish', methods=['post'])
 def reg_wish_ajax():
     info = request.form['info'][1:].split(' ')
@@ -289,6 +284,18 @@ def remove_wish_ajax():
     remove_wish(email, lecture, center)
     return json.dumps({'status': 'OK'})
 
+@app.route('/mypage_bookmarks', methods=['get'])
+def my_wish():
+    email = request.args.get("email")
+    data = get_wish(email)
+    return render_template('mypage_bookmarks.html', data= data)
+
+
+@app.route('/wishlist', methods=['get'])
+def wishlist():
+    email = request.args.get("email")
+    _, data = get_wishlist(email)
+    return render_template('wishlist.html', data= data, email=email)
 
 @app.route('/faq')
 def faq():
