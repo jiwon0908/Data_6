@@ -608,11 +608,11 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 				<div class="col-lg-9">
 					<div class="isotope-wrapper">
 						<div class="row">
-                            {%  for program in data[:30] %}
-							<div class={{ random_listing }}>
+                            {%  for program in data[:6] %}
+							<div class="{{ random_listing }}">
 								<div class="box_grid">
 									<figure>
-										<a href="#0" class="wish_bt"></a>
+										<a href="#" class="wish_bt"></a>
 										<a href={{ program['url_point'] }}><img src='{{ program['map_image_url'] }}' class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>자세히 보기</span></div></a>
 										<small>{{ program['type_point'] }}</small>
 									</figure>
@@ -621,7 +621,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 										<h3><strong>{{ program['edu_name'] }}</strong></h3>
 										<p>수업내용: {{ program['edu_content'] }}<br>
                                        참고사항: {{ program['edu_ref'] }}<br>
-                                       수업료: {{ program['edu_fee'] }} 원</p>
+                                       수업료: {{ program['edu_fee'] }}</p>
 										<span class="price"><strong>{{ program['edu_day'] }}</strong>  {{ program['edu_start'] }} ~ {{ program['edu_end'] }}, <i>{{ program['edu_duration'] }}분</i> </span>
 									</div>
 									<ul>
