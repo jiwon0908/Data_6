@@ -305,7 +305,7 @@ def center_review_register():
     email = request.form['email_review']
     rating = request.form['rating_review']
     content = request.form['review_text']
-    location = request.form['location']
+    location = request.form['welfare']
 
     insert_welfare_review(email, content, rating, name, location)
     center_data = get_welfare_center(location)
