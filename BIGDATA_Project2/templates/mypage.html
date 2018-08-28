@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+{% import "bootstrap/wtf.html" as wtf %}
 
 <head>
     <meta charset="utf-8">
@@ -10,7 +11,7 @@
     <title>동행 - 내 정보</title>
 
   <!-- Favicons-->
-  <link rel="shortcut icon" href="static/admin_section/img/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="static/admin_section/img/favicon.png" type="image/x-icon">
   <link rel="apple-touch-icon" type="image/x-icon" href="static/admin_section/img/apple-touch-icon-57x57-precomposed.png">
   <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="static/admin_section/img/apple-touch-icon-72x72-precomposed.png">
   <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="static/admin_section/img/apple-touch-icon-114x114-precomposed.png">
@@ -26,6 +27,7 @@
   <link href="static/admin_section/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
   <!-- Your custom styles -->
   <link href="static/admin_section/css/custom.css" rel="stylesheet">
+
 	
 </head>
 
@@ -39,7 +41,7 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="mypage">
+          <a class="nav-link" href="mypage?email={{ data['email'] }}">
             <i class="fa fa-fw fa-dashboard"></i>
             <span class="nav-link-text">한 눈에 보기</span>
           </a>
@@ -51,13 +53,13 @@
           </a>
         </li>
 		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
-          <a class="nav-link" href="mypage_reviews">
+          <a class="nav-link" href="mypage_reviews?email={{ data['email'] }}">
             <i class="fa fa-fw fa-star"></i>
             <span class="nav-link-text">리뷰</span>
           </a>
         </li>
 		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
-          <a class="nav-link" href="mypage_bookmarks">
+          <a class="nav-link" href="mypage_bookmarks?email={{ data['email'] }}">
             <i class="fa fa-fw fa-heart"></i>
             <span class="nav-link-text">찜한 목록</span>
           </a>
@@ -190,9 +192,9 @@
               <div class="card-body-icon">
                 <i class="fa fa-fw fa-star"></i>
               </div>
-				<div class="mr-5"><h5>0개의 새로운 리뷰</h5></div>
+				<div class="mr-5"><h5>{{ data['review_len'] }}개의 새로운 리뷰</h5></div>
             </div>
-            <a class="card-footer text-white clearfix small z-1" href="mypage_reviews">
+            <a class="card-footer text-white clearfix small z-1" href="mypage_reviews?email={{ data['email'] }}">
               <span class="float-left">자세히 보기</span>
               <span class="float-right">
                 <i class="fa fa-angle-right"></i>
@@ -266,7 +268,7 @@
           <div class="modal-body">로그아웃 버튼을 누르면 현재 세션이 종료됩니다.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
-            <a class="btn btn-primary" href="login">로그아웃</a>
+            <a class="btn btn-primary" href="logout">로그아웃</a>
           </div>
         </div>
       </div>

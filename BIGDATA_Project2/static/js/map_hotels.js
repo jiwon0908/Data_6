@@ -18,7 +18,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 			{
 				type_point: 'Paris Centre',
 				name: 'Park Hyatt Paris',
-				location_latitude: 48.865633, 
+				location_latitude: 48.865633,
 				location_longitude: 2.321236,
 				map_image_url: 'img/thumb_map_single_hotel.jpg',
 				rate: 'Superb | 7.5',
@@ -42,7 +42,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 			{
 				type_point: 'Paris Centre',
 				name: 'Hotel Lumiere',
-				location_latitude: 48.863893, 
+				location_latitude: 48.863893,
 				location_longitude: 2.342348,
 				map_image_url: 'img/thumb_map_single_hotel.jpg',
 				rate: 'Superb | 7.5',
@@ -66,7 +66,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 			{
 				type_point: 'Paris Centre',
 				name: 'Hotel Name',
-				location_latitude: 48.858370, 
+				location_latitude: 48.858370,
 				location_longitude: 2.294481,
 				map_image_url: 'img/thumb_map_single_hotel.jpg',
 				rate: 'Superb | 7.5',
@@ -90,7 +90,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 			{
 				type_point: 'Paris Centre',
 				name: 'Hotel Name',
-				location_latitude: 48.860819, 
+				location_latitude: 48.860819,
 				location_longitude: 2.354507,
 				map_image_url: 'img/thumb_map_single_hotel.jpg',
 				rate: 'Superb | 7.5',
@@ -114,7 +114,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 			{
 				type_point: 'Paris Centre',
 				name: 'Hotel Name',
-				location_latitude: 48.862880, 
+				location_latitude: 48.862880,
 				location_longitude: 2.287205,
 				map_image_url: 'img/thumb_map_single_hotel.jpg',
 				rate: 'Superb | 7.5',
@@ -138,7 +138,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 			{
 				type_point: 'Paris Centre',
 				name: 'Hotel Name',
-				location_latitude: 48.852729, 
+				location_latitude: 48.852729,
 				location_longitude: 2.350564,
 				map_image_url: 'img/thumb_map_single_hotel.jpg',
 				rate: 'Superb | 7.5',
@@ -150,7 +150,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 			{
 				type_point: 'Paris Centre',
 				name: 'Hotel Name',
-				location_latitude: 48.870587, 
+				location_latitude: 48.870587,
 				location_longitude: 2.318943,
 				map_image_url: 'img/thumb_map_single_hotel.jpg',
 				rate: 'Superb | 7.5',
@@ -165,7 +165,7 @@ $('#collapseMap').on('shown.bs.collapse', function(e){
 
 			var mapOptions = {
 				zoom: 12,
-				center: new google.maps.LatLng(37.540705, 126.956764),
+				center: new google.maps.LatLng(48.858370, 2.318943),
 				mapTypeId: google.maps.MapTypeId.ROADMAP,
 
 				mapTypeControl: false,

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+{% import "bootstrap/wtf.html" as wtf %}
 
 <head>
     <meta charset="utf-8">
@@ -10,7 +11,7 @@
     <title>동행 | 서울시 어르신 여가,교육,일자리 정보 시스템</title>
 
     <!-- Favicons-->
-    <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="static/img/favicon.png" type="image/x-icon">
     <link rel="apple-touch-icon" type="image/x-icon" href="static/img/apple-touch-icon-57x57-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="static/img/apple-touch-icon-72x72-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="static/img/apple-touch-icon-114x114-precomposed.png">
@@ -23,7 +24,10 @@
 
     <!-- YOUR CUSTOM CSS -->
     <link href="static/css/custom.css" rel="stylesheet">
-	
+
+     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
 
 <body id="register_bg">
@@ -40,68 +44,67 @@
 			<figure>
 				<a href="index"><img src="static/img/logo_sticky.png" width="155" height="36" data-retina="true" alt="" class="logo_sticky"></a>
 			</figure>
-			<form autocomplete="off">
+			<form method="post" action="register" id="reg1"novalidate >
+                {{ form.hidden_tag() }}
 				<div class="form-group">
-					<label>이름</label>
-					<input class="form-control" type="text">
-					<i class="ti-user"></i>
+                    {{ wtf.form_field(form.username) }}
 				</div>
 				<div class="form-group">
-					<label>거주 지역</label>
-					       <select class="form-control">
-                                <option value="0"></option>
-                                <option value="1">강남구</option>
-                                <option value="2">강동구</option>
-                                <option value="3">강북구</option>
-                                <option value="4">강서구</option>
-                                <option value="5">관악구</option>
-                                <option value="6">광진구</option>
-                                <option value="7">구로구</option>
-                                <option value="8">금천구</option>
-                                <option value="9">노원구</option>
-                                <option value="10">도봉구</option>
-                                <option value="11">동대문구</option>
-                                <option value="12">동작구</option>
-                                <option value="13">마포구</option>
-                                <option value="14">서대문구</option>
-                                <option value="15">서초구</option>
-                                <option value="16">성동구</option>
-                                <option value="17">성북구</option>
-                                <option value="18">송파구</option>
-                                <option value="19">양천구</option>
-                                <option value="20">영등포구</option>
-                                <option value="21">용산구</option>
-                                <option value="22">은평구</option>
-                                <option value="23">종로구</option>
-                                <option value="24">중구</option>
-                                <option value="25">중랑구</option>
-                            </select>
-					<i class="ti-map"></i>
+                    {{ wtf.form_field(form.address) }}
 				</div>
 				<div class="form-group">
-					<label>이메일</label>
-					<input class="form-control" type="email">
-					<i class="icon_mail_alt"></i>
+                    {{ wtf.form_field(form.email) }}
 				</div>
 				<div class="form-group">
-					<label>비밀번호</label>
-					<input class="form-control" type="password" id="password1">
-					<i class="icon_lock_alt"></i>
-				</div>
-				<div class="form-group">
-					<label>비밀번호 재입력</label>
-					<input class="form-control" type="password" id="password2">
-					<i class="icon_lock_alt"></i>
+                    {{ wtf.form_field(form.password) }}
 				</div>
 				<div id="pass-info" class="clearfix"></div>
-				<a href="#0" class="btn_1 rounded full-width add_top_30">지금 가입하세요!</a>
+                <button  class="btn_1 rounded full-width add_top_30" type="submit">지금 가입하세요!</button>
 				<div class="text-center add_top_10">이미 계정이 있으십니까? <strong><a href="login">로그인</a></strong></div>
 			</form>
 			<div class="copy">© 2018 고려대학교 BIG DATA X CAMPUS 6조</div>
 		</aside>
 	</div>
 	<!-- /login -->
-	
+
+           <!-- Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="false">
+   <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">설문 조사</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form method="post" action="register" id="reg2"novalidate>
+      <div class="modal-body">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.health.label }} {{ wtf.form_field(form.health) }}
+                {{ form.group.label }} {{ wtf.form_field(form.group) }}
+                {{ form.self_develop.label }} {{ wtf.form_field(form.self_develop) }}
+                {{ form.IT.label }} {{ wtf.form_field(form.IT) }}
+                {{ form.sports.label }} {{ wtf.form_field(form.sports) }}
+                {{ form.music.label }} {{ wtf.form_field(form.music) }}
+                {{ form.history.label }} {{ wtf.form_field(form.history) }}
+                {{ form.study.label }} {{ wtf.form_field(form.study) }}
+                {{ form.walk.label }} {{ wtf.form_field(form.walk) }}
+                {{ form.art.label }} {{ wtf.form_field(form.art) }}
+                {{ form.handicap.label }} {{ wtf.form_field(form.handicap) }}
+                {{ form.indoor.label }} {{ wtf.form_field(form.indoor) }}
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn_1 rounded add_top_30" data-dismiss="modal">닫기</button>
+        <button  class="btn_1 rounded add_top_30" id = "myform" onclick="submitter()"  type="submit">제출하기</button>
+      </div>
+        </form>
+        <button> just nothing</button>
+    </div>
+  </div>
+</div>
+
 	<!-- COMMON SCRIPTS -->
     <script src="static/js/jquery-2.2.4.min.js"></script>
     <script src="static/js/common_scripts.js"></script>
@@ -110,8 +113,29 @@
 	
 	<!-- SPECIFIC SCRIPTS -->
 	<script src="static/js/pw_strenght.js"></script>
-	
-	
-  
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+$(document).ready(function(){
+    $("#myform").on("click", function()
+    {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/test",
+            data: $("#reg1").serialize() + "&" + $("#reg2").serialize(),
+            success: function(data)
+            {
+                alert(data);
+            }
+        });
+    });
+});
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 </body>
 </html>
