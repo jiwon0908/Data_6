@@ -607,68 +607,30 @@
 
                             <div class="reviews-container">
 
-                                <div class="review-box clearfix">
-                                    <figure class="rev-thumb"><img src="img/avatar1.jpg" alt="">
+                                {% for review in data[1]['review'] %}
+                                    <div class="review-box clearfix">
+                                    <figure class="rev-thumb"><img src="/static/img/avatar1.jpg" alt="">
                                     </figure>
                                     <div class="rev-content">
                                         <div class="rating">
-                                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star"></i>
+                                            {% for review in range(review['rating']) %}
+                                                <i class="icon_star voted"></i>
+                                            {% endfor %}
+                                            {% for review in range(5-review['rating']) %}
+                                                <i class="icon_star"></i>
+                                            {% endfor %}
                                         </div>
                                         <div class="rev-info">
-                                            Admin – April 03, 2016:
+                                            {{ review['name'] }} / {{ review['date'] }}
                                         </div>
                                         <div class="rev-text">
                                             <p>
-                                                Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar
-                                                hendrerit. Cum sociis natoque penatibus et magnis dis
+                                                {{ review['content'] }}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /review-box -->
-                                <div class="review-box clearfix">
-                                    <figure class="rev-thumb"><img src="img/avatar2.jpg" alt="">
-                                    </figure>
-                                    <div class="rev-content">
-                                        <div class="rating">
-                                            <i class="icon-star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star"></i>
-                                        </div>
-                                        <div class="rev-info">
-                                            Ahsan – April 01, 2016:
-                                        </div>
-                                        <div class="rev-text">
-                                            <p>
-                                                Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar
-                                                hendrerit. Cum sociis natoque penatibus et magnis dis
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /review-box -->
-                                <div class="review-box clearfix">
-                                    <figure class="rev-thumb"><img src="img/avatar3.jpg" alt="">
-                                    </figure>
-                                    <div class="rev-content">
-                                        <div class="rating">
-                                            <i class="icon-star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star voted"></i><i class="icon_star voted"></i><i
-                                                class="icon_star"></i>
-                                        </div>
-                                        <div class="rev-info">
-                                            Sara – March 31, 2016:
-                                        </div>
-                                        <div class="rev-text">
-                                            <p>
-                                                Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar
-                                                hendrerit. Cum sociis natoque penatibus et magnis dis
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                                 <!-- /review-box -->
                             </div>
                             <!-- /review-container -->
@@ -677,32 +639,32 @@
                         <hr>
 
                         <div class="add-review">
-                            <h5>Leave a Review</h5>
+                            <h5>덧글 남기기</h5>
                             <form>
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label>Name and Lastname *</label>
+                                        <label>이름 *</label>
                                         <input type="text" name="name_review" id="name_review" placeholder=""
                                                class="form-control">
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Email *</label>
+                                        <label>이메일 *</label>
                                         <input type="email" name="email_review" id="email_review" class="form-control">
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Rating </label>
+                                        <label>평가 </label>
                                         <div class="custom-select-form">
                                             <select name="rating_review" id="rating_review" class="wide">
-                                                <option value="1">1 (lowest)</option>
+                                                <option value="1">1 (최저)</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
-                                                <option value="5" selected>5 (medium)</option>
+                                                <option value="5" selected>5 (중간)</option>
                                                 <option value="6">6</option>
                                                 <option value="7">7</option>
                                                 <option value="8">8</option>
                                                 <option value="9">9</option>
-                                                <option value="10">10 (highest)</option>
+                                                <option value="10">10 (최고)</option>
                                             </select>
                                         </div>
                                     </div>
@@ -712,6 +674,7 @@
                                                   style="height:130px;"></textarea>
                                     </div>
                                     <div class="form-group col-md-12 add_top_20">
+                                        <input name="location" type="hidden" value="{{ data[0]['location'] }}">
                                         <input type="submit" value="Submit" class="btn_1" id="submit-review">
                                     </div>
                                 </div>
@@ -723,8 +686,8 @@
                     <aside class="col-lg-4" id="sidebar">
                         <div class="box_detail booking">
                             <div class="price">
-                                <span>45$ <small>person</small></span>
-                                <div class="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div>
+                                <span>무료<small>수강료</small></span>
+                                <div class="score"><span>좋음<em>25개의 리뷰</em></span><strong>7.0</strong></div>
                             </div>
 
                             <div class="form-group">
@@ -733,14 +696,14 @@
                             </div>
 
                             <div class="panel-dropdown">
-                                <a href="#">Guests <span class="qtyTotal">1</span></a>
+                                <a href="#">손님<span class="qtyTotal">1</span></a>
                                 <div class="panel-dropdown-content right">
                                     <div class="qtyButtons">
-                                        <label>Adults</label>
+                                        <label>어른</label>
                                         <input type="text" name="qtyInput" value="1">
                                     </div>
                                     <div class="qtyButtons">
-                                        <label>Childrens</label>
+                                        <label>아이</label>
                                         <input type="text" name="qtyInput" value="0">
                                     </div>
                                 </div>
@@ -749,24 +712,23 @@
                             <div class="form-group clearfix">
                                 <div class="custom-select-form">
                                     <select class="wide">
-                                        <option>Room Type</option>
-                                        <option>Single Room</option>
-                                        <option>Double Room</option>
-                                        <option>Suite Room</option>
+                                        <option>신청</option>
+                                        <option>한 사람</option>
+                                        <option>두 사람</option>
+                                        <option>세사람 이상</option>
                                     </select>
                                 </div>
                             </div>
-                            <a href="cart-1.html" class=" add_top_30 btn_1 full-width purchase">Purchase</a>
-                            <a href="wishlist.html" class="btn_1 full-width outline wishlist"><i class="icon_heart"></i>
-                                Add to wishlist</a>
+                            <a href="cart-1" class=" add_top_30 btn_1 full-width purchase">예약</a>
+                            <a href="wishlist.html" class="btn_1 full-width outline wishlist"><i class="icon_heart"></i>찜해 두기</a>
                             <div class="text-center">
-                                <small>No money charged in this step</small>
+                                <small>아무런 요금이 청구되지 않습니다.</small>
                             </div>
                         </div>
                         <ul class="share-buttons">
-                            <li><a class="fb-share" href="#0"><i class="social_facebook"></i> Share</a></li>
-                            <li><a class="twitter-share" href="#0"><i class="social_twitter"></i> Tweet</a></li>
-                            <li><a class="gplus-share" href="#0"><i class="social_googleplus"></i> Share</a></li>
+                            <li><a class="fb-share" href="#0"><i class="social_facebook"></i> 공유하기</a></li>
+                            <li><a class="twitter-share" href="#0"><i class="social_twitter"></i> 트윗하기</a></li>
+                            <li><a class="gplus-share" href="#0"><i class="social_googleplus"></i> 공유하기</a></li>
                         </ul>
                     </aside>
                 </div>
