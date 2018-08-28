@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
+{% import "bootstrap/wtf.html" as wtf %}
+
 
 <head>
     <meta charset="utf-8">
@@ -10,7 +12,7 @@
     <title>동행 | 서울시 어르신 여가,교육,일자리 정보 시스템</title>
 
     <!-- Favicons-->
-    <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="static/img/favicon.png" type="image/x-icon">
     <link rel="apple-touch-icon" type="image/x-icon" href="static/img/apple-touch-icon-57x57-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="static/img/apple-touch-icon-72x72-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="static/img/apple-touch-icon-114x114-precomposed.png">
@@ -23,6 +25,392 @@
 
     <!-- YOUR CUSTOM CSS -->
     <link href="static/css/custom.css" rel="stylesheet">
+
+     <script type="text/javascript">
+window.onload = function () {
+    $('#collapseMap').on('shown.bs.collapse', function (e) {
+        (function (A) {
+
+            if (!Array.prototype.forEach)
+                A.forEach = A.forEach || function (action, that) {
+                    for (var i = 0, l = this.length; i < l; i++)
+                        if (i in this)
+                            action.call(that, this[i], i, this);
+                };
+
+        })(Array.prototype);
+
+        var
+            mapObject,
+            markers = [],
+            markersData = {
+                'Marker': [
+                    {% for program in data %}
+                        {
+                            type_point: '{{ program['type_point'] }}',
+                            name: '{{ program['name'] }}',
+                            location_latitude: {{ program['location_latitude'] }},
+                            location_longitude: {{ program['location_longitude'] }},
+                            map_image_url: '{{ program['map_image_url'] }}',
+                            rate: '{{ program['rate'] }}',
+                            name_point: '{{ program['name_point'] }}',
+                            get_directions_start_address: '',
+                            phone: '{{ program['phone'] }}',
+                            url_point: '{{ program['url_point'] }}'
+                        },
+                    {% endfor %}
+                ]
+            };
+        var mapOptions = {
+            zoom: 12,
+            center: new google.maps.LatLng(37.540705, 126.956764),
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+
+            mapTypeControl: false,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                position: google.maps.ControlPosition.LEFT_CENTER
+            },
+            panControl: false,
+            panControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.LARGE,
+                position: google.maps.ControlPosition.TOP_LEFT
+            },
+            scrollwheel: false,
+            scaleControl: false,
+            scaleControlOptions: {
+                position: google.maps.ControlPosition.TOP_LEFT
+            },
+            streetViewControl: true,
+            streetViewControlOptions: {
+                position: google.maps.ControlPosition.LEFT_TOP
+            },
+            styles: [
+                {
+                    "featureType": "administrative.country",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.province",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.locality",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.neighborhood",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.land_parcel",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape.man_made",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "simplified"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape.natural.landcover",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape.natural.terrain",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.attraction",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.business",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.government",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.medical",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "labels",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.place_of_worship",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.school",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.sports_complex",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "labels",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway.controlled_access",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "simplified"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.local",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "simplified"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit.line",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit.station.airport",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit.station.bus",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit.station.rail",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "labels",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                }
+            ]
+        };
+        var
+            marker;
+        mapObject = new google.maps.Map(document.getElementById('map'), mapOptions);
+        for (var key in markersData)
+            markersData[key].forEach(function (item) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(item.location_latitude, item.location_longitude),
+                    map: mapObject,
+                    icon: 'static/img/pins/' + key + '.png',
+                });
+
+                if ('undefined' === typeof markers[key])
+                    markers[key] = [];
+                markers[key].push(marker);
+                google.maps.event.addListener(marker, 'click', (function () {
+                    closeInfoBox();
+                    getInfoBox(item).open(mapObject, this);
+                    mapObject.setCenter(new google.maps.LatLng(item.location_latitude, item.location_longitude));
+                }));
+
+            });
+
+        new MarkerClusterer(mapObject, markers[key]);
+
+        function hideAllMarkers() {
+            for (var key in markers)
+                markers[key].forEach(function (marker) {
+                    marker.setMap(null);
+                });
+        };
+
+        function closeInfoBox() {
+            $('div.infoBox').remove();
+        };
+
+        function getInfoBox(item) {
+            return new InfoBox({
+                content:
+                '<div class="marker_info" id="marker_info">' +
+                '<img src="' + item.map_image_url + '" width="240" height="140" alt=""/>' +
+                '<span>' +
+                '<span class="infobox_rate">' + item.rate + '</span>' +
+                '<h3>' + item.name_point + '</h3>' +
+                '<em>' + item.type_point + '</em>' +
+                '<strong>' + item.description_point + '</strong>' +
+                '<a href="' + item.url_point + '" class="btn_infobox_detail"></a>' +
+                '<form action="http://maps.google.com/maps" method="get" target="_blank"><input name="saddr" value="' + item.get_directions_start_address + '" type="hidden"><input type="hidden" name="daddr" value="' + item.location_latitude + ',' + item.location_longitude + '"><button type="submit" value="Get directions" class="btn_infobox_get_directions">Get directions</button></form>' +
+                '<a href="tel://' + item.phone + '" class="btn_infobox_phone">' + item.phone + '</a>' +
+                '</span>' +
+                '</div>',
+                disableAutoPan: false,
+                maxWidth: 0,
+                pixelOffset: new google.maps.Size(10, 92),
+                closeBoxMargin: '',
+                closeBoxURL: "static/img/close_infobox.png",
+                isHidden: false,
+                alignBottom: true,
+                pane: 'floatPane',
+                enableEventPropagation: true
+            });
+
+
+        };
+
+    });
+};
+</script>
 
 </head>
 
@@ -121,126 +509,44 @@
 		<!-- End Map -->
 
 		<div class="container margin_60_35">
+            {% for i in range(30) %}
 			<div class="box_list">
 				<div class="row no-gutters">
 					<div class="col-lg-5">
 						<figure>
-							<small>Parirs Centre</small>
-							<a href="hotel-detail.html"><img src="img/hotel_1.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
+                          <a id="wish_btn{{ i }}"
+                           href="#{{ email }} {{ data[i]['edu_name'] }} {{ data[i]['name'] }}"
+                           class="{{ data[i]['wish_flag'] }}"></a>
+                        <script>
+                            $('#wish_btn0').addClass("wish_bt");</script>
+							<small>{{ data[i]['type_point'] }}</small>
+							<a href="{{ data[i]['url_point'] }}"><img src="{{ data[i]['map_image_url'] }}" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>자세히 보기</span></div></a>
 						</figure>
 					</div>
 					<div class="col-lg-7">
 						<div class="wrapper">
-							<a href="#0" class="wish_bt"></a>
-							<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-							<h3><a href="hotel-detail.html">Park Hyatt Hotel</a></h3>
-							<p>Dicam diceret ut ius, no epicuri dissentiet philosophia vix. Id usu zril tacimates neglegentur. Eam id legimus torquatos cotidieque, usu decore percipitur definitiones ex, nihil utinam recusabo mel no.</p>
-							<span class="price">From <strong>$54</strong> /per person</span>
+                            <h5><a href="{{ data[i]['center_url'] }}">{{ data[i]['name'] }}</a></h5>
+							<h2><a href="{{ data[i]['url_point'] }}">{{ data[i]['edu_name'] }}</a></h2>
+                                <p>수업내용: {{ data[i]['edu_content'] }}<br>
+                                    참고사항: {{ data[i]['edu_ref'] }}<br>
+                                    수업료: {{ data[i]['edu_fee'] }}</p>
+                                <span class="price"><strong>{{ data[i]['edu_day'] }}</strong>  {{ data[i]['edu_start'] }} ~ {{ data[i]['edu_end'] }}, <i>{{ data[i]['edu_duration'] }}분</i> </span>
+
 						</div>
 						<ul>
-							<li><i class="ti-eye"></i> 164 views</li>
-							<li><div class="score"><span>Superb<em>350 Reviews</em></span><strong>8.9</strong></div></li>
+                            <li><i class="ti-export"></i><a href={{ data[i]['url_point'] }}> 외부 링크</a>
+                            </li>
+                            <li>
+                                <div class="score">
+                                    <span>{{ data[i]['edu_category'][2] }}<em>{{ data[i]['edu_category'][3] }}</em></span><strong>8.9</strong>
+                                </div>
+                            </li>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<!-- /box_list -->
-			<div class="box_list">
-				<div class="row no-gutters">
-					<div class="col-lg-5">
-						<figure>
-							<small>Parirs Centre</small>
-							<a href="tour-detail.html"><img src="img/hotel_2.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
-						</figure>
-					</div>
-					<div class="col-lg-7">
-						<div class="wrapper">
-							<a href="#0" class="wish_bt"></a>
-							<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-							<h3><a href="hotel-detail.html">Mariott Hotel</a></h3>
-							<p>Dicam diceret ut ius, no epicuri dissentiet philosophia vix. Id usu zril tacimates neglegentur. Eam id legimus torquatos cotidieque, usu decore percipitur definitiones ex, nihil utinam recusabo mel no.</p>
-							<span class="price">From <strong>$124</strong> /per person</span>
-						</div>
-						<ul>
-							<li><i class="ti-eye"></i> 164 views</li>
-							<li><div class="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /box_list -->
-			<div class="box_list">
-				<div class="row no-gutters">
-					<div class="col-lg-5">
-						<figure>
-							<small>Parirs Centre</small>
-							<a href="tour-detail.html"><img src="img/hotel_3.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
-						</figure>
-					</div>
-					<div class="col-lg-7">
-						<div class="wrapper">
-							<a href="#0" class="wish_bt"></a>
-							<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-							<h3><a href="hotel-detail.html">Lumiere Hotel</a></h3>
-							<p>Dicam diceret ut ius, no epicuri dissentiet philosophia vix. Id usu zril tacimates neglegentur. Eam id legimus torquatos cotidieque, usu decore percipitur definitiones ex, nihil utinam recusabo mel no.</p>
-							<span class="price">From <strong>$45</strong> /per person</span>
-						</div>
-						<ul>
-							<li><i class="ti-eye"></i> 164 views</li>
-							<li><div class="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /box_list -->
-			<div class="box_list">
-				<div class="row no-gutters">
-					<div class="col-lg-5">
-						<figure>
-							<small>Parirs Centre</small>
-							<a href="tour-detail.html"><img src="img/hotel_4.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
-						</figure>
-					</div>
-					<div class="col-lg-7">
-						<div class="wrapper">
-							<a href="#0" class="wish_bt"></a>
-							<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-							<h3><a href="hotel-detail.html">Louvre Hotel</a></h3>
-							<p>Dicam diceret ut ius, no epicuri dissentiet philosophia vix. Id usu zril tacimates neglegentur. Eam id legimus torquatos cotidieque, usu decore percipitur definitiones ex, nihil utinam recusabo mel no.</p>
-							<span class="price">From <strong>$25</strong> /per person</span>
-						</div>
-						<ul>
-							<li><i class="ti-eye"></i> 164 views</li>
-							<li><div class="score"><span>Superb<em>350 Reviews</em></span><strong>9.0</strong></div></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /box_list -->
-			<div class="box_list">
-				<div class="row no-gutters">
-					<div class="col-lg-5">
-						<figure>
-							<small>Parirs Centre</small>
-							<a href="tour-detail.html"><img src="img/hotel_5.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"><span>Read more</span></div></a>
-						</figure>
-					</div>
-					<div class="col-lg-7">
-						<div class="wrapper">
-							<a href="#0" class="wish_bt"></a>
-							<div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-							<h3><a href="hotel-detail.html">Concorde Hotel</a></h3>
-							<p>Dicam diceret ut ius, no epicuri dissentiet philosophia vix. Id usu zril tacimates neglegentur. Eam id legimus torquatos cotidieque, usu decore percipitur definitiones ex, nihil utinam recusabo mel no.</p>
-							<span class="price">From <strong>$65</strong> /per person</span>
-						</div>
-						<ul>
-							<li><i class="ti-eye"></i> 164 views</li>
-							<li><div class="score"><span>Superb<em>350 Reviews</em></span><strong>9.0</strong></div></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /box_list -->
+			{% endfor %}
 			
 			<p class="text-center add_top_60"><a href="#0" class="btn_1 rounded">Load more</a></p>
 		
@@ -353,53 +659,38 @@
 	</div>
 	<!-- page -->
 
-	<!-- Sign In Popup -->
-	<div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
-		<div class="small-dialog-header">
-			<h3>로그인</h3>
-		</div>
-		<form>
-			<div class="sign-in-wrapper">
-				<a href="#0" class="social_bt facebook">페이스북으로 로그인</a>
-				<a href="#0" class="social_bt google">구글계정으로 로그인</a>
-				<div class="divider"><span>혹은</span></div>
-				<div class="form-group">
-					<label>이메일</label>
-					<input type="email" class="form-control" name="email" id="email">
-					<i class="icon_mail_alt"></i>
-				</div>
-				<div class="form-group">
-					<label>비밀번호</label>
-					<input type="password" class="form-control" name="password" id="password" value="">
-					<i class="icon_lock_alt"></i>
-				</div>
-				<div class="clearfix add_bottom_15">
-					<div class="checkboxes float-left">
-						<label class="container_check">로그인 유지
-						  <input type="checkbox">
-						  <span class="checkmark"></span>
-						</label>
-					</div>
-					<div class="float-right mt-1"><a id="forgot" href="javascript:void(0);">비밀번호를 잊어버렸나요?</a></div>
-				</div>
-				<div class="text-center"><input type="submit" value="로그인" class="btn_1 full-width"></div>
-				<div class="text-center">
-					계정이 없으신가요? <a href="register.html">회원가입</a>
-				</div>
-				<div id="forgot_pw">
-					<div class="form-group">
-						<label>비밀번호를 재설정할 메일주소 입력</label>
-						<input type="email" class="form-control" name="email_forgot" id="email_forgot">
-						<i class="icon_mail_alt"></i>
-					</div>
-					<p>아래 버튼을 누르시면 비밀번호를 재설정 할 수 있는 링크가 메일로 발송됩니다.</p>
-					<div class="text-center"><input type="submit" value="비밀번호 재설정" class="btn_1"></div>
-				</div>
-			</div>
-		</form>
-		<!--form -->
-	</div>
-	<!-- /Sign In Popup -->
+{#<!-- Sign In Popup -->#}
+{#	<div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">#}
+{#		<div class="small-dialog-header">#}
+{#			<h3>로그인</h3>#}
+{#		</div>#}
+{#		<form method="post" action="login" novalidate>#}
+{#            {{ form.hidden_tag()}}#}
+{#			<div class="sign-in-wrapper">#}
+{#				<div class="form-group">#}
+{#                    {{ wtf.form_field(form.username) }}#}
+{#					<i class="icon_mail_alt"></i>#}
+{#				</div>#}
+{#				<div class="form-group">#}
+{#				     {{ wtf.form_field(form.password) }}#}
+{#					<i class="icon_lock_alt"></i>#}
+{#				</div>#}
+{#				<div class="clearfix add_bottom_15">#}
+{#					<div class="checkboxes float-left">#}
+{#                         {{ wtf.form_field(form.remember_me) }}#}
+{#						  <span class="checkmark"></span>#}
+{#						</label>#}
+{#					</div>#}
+{#				</div>#}
+{#				<div class="text-center"><input type="submit" value="로그인" class="btn_1 full-width"></div>#}
+{#				<div class="text-center">#}
+{#					계정이 없으신가요? <a href="register">회원가입</a>#}
+{#				</div>#}
+{#			</div>#}
+{#		</form>#}
+{#		<!--form -->#}
+{#	</div>#}
+{#	<!-- /Sign In Popup -->#}
 	
 	<div id="toTop"></div><!-- Back to top button -->
 	

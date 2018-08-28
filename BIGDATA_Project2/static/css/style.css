@@ -6528,6 +6528,9 @@ ul.bullets li:before {
   margin-bottom: 75px;
 }
 
+.add_bottom_100 {
+  margin-bottom: 100px;
+}
 .add_top_10 {
   margin-top: 10px;
 }

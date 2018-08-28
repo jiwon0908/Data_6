@@ -1,0 +1,1224 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        section
+{
+    width: 100%;
+    /* display: inlineblock; */ /* remove this */
+    margin:auto;
+}
+        body {
+            color: #555;
+            background: #eeeeee;
+            margin:0;
+            padding: 0;
+            box-sizing: border-box;}
+
+        h1 {
+            padding: 50px 0;
+            font-weight: 400;
+            text-align: center;}
+
+        p {
+            margin: 0 0 20px;
+            line-height: 1.5;}
+
+        .main {
+            min-width: 320px;
+            max-width: 800px;
+            padding: 50px;
+            margin: 0 auto;
+            background: #ffffff;}
+
+        section {
+            display: none;
+            padding: 20px 0 0;
+            border-top: 1px solid #ddd;}
+
+        /*라디오버튼 숨김*/
+          input {
+              display: none;}
+
+        label {
+            display: inline-block;
+            margin: 0 0 -1px;
+            padding: 15px 25px;
+            font-weight: 600;
+            text-align: center;
+            color: #bbb;
+            border: 1px solid transparent;}
+
+        label:hover {
+            color: #2e9cdf;
+            cursor: pointer;}
+
+        /*input 클릭시, label 스타일*/
+        input:checked + label {
+              color: #555;
+              border: 1px solid #ddd;
+              border-top: 2px solid #2e9cdf;
+              border-bottom: 1px solid #ffffff;}
+
+        div {
+            margin:auto;
+        }
+
+        #tab1:checked ~ #content1,
+        #tab2:checked ~ #content2,
+        #tab3:checked ~ #content3,
+        #tab4:checked ~ #content4,
+        #tab5:checked ~ #content5,
+        #tab6:checked ~ #content6,
+        #tab7:checked ~ #content7,
+        #tab8:checked ~ #content8,
+        #tab9:checked ~ #content9,
+        #tab10:checked ~ #content10,
+        #tab11:checked ~ #content11,
+        #tab12:checked ~ #content12,
+        #tab13:checked ~ #content13,
+        #tab14:checked ~ #content14,
+        #tab15:checked ~ #content15,
+        #tab16:checked ~ #content16,
+        #tab17:checked ~ #content17,
+        #tab18:checked ~ #content18,
+        #tab19:checked ~ #content19,
+        #tab20:checked ~ #content20,
+        #tab21:checked ~ #content21,
+        #tab22:checked ~ #content22,
+        #tab23:checked ~ #content23,
+        #tab24:checked ~ #content24,
+        #tab25:checked ~ #content25,
+        #tab26:checked ~ #content26
+        {
+            display: block;}
+    </style>
+    <title>Document</title>
+
+
+
+<script type="text/javascript">
+window.onload = function() {
+
+
+    var options = {
+	title: {
+		text: "구별 복지시설 수용 가능 인원 비율",
+        fontSize:30
+	},
+        data: [{
+            type: "pie",
+            startAngle: 200,
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} ({y})",
+            yValueFormatString: "0.%",
+            dataPoints: [
+                {label: "구별 평균 노인 인구 대비 복지시설 수용 가능 인원", y: 0.171},
+                {label: "구별 평균 수용 불가능 인원", y: 1 - 0.171}
+            ]
+        }]
+    };
+    $("#chartContainer").CanvasJSChart(options);
+
+
+    var options = {
+        data: [{
+            type: "pie",
+            startAngle: 200,
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} ({y})",
+            yValueFormatString: "0.%",
+            dataPoints: [
+                {label: "종로구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.320098745},
+                {label: "종로구 수용 불가능 인원", y: 1 - 0.320098745}
+            ]
+        }]
+    };
+    $("#chartContainer1").CanvasJSChart(options);
+
+
+    var options = {
+        data: [{
+            type: "pie",
+            startAngle: 200,
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} ({y})",
+            yValueFormatString: "0.%",
+            dataPoints: [
+                {label: " 중구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.264297141},
+                {label: " 중구 수용 불가능 인원", y: 1 - 0.264297141}
+            ]
+        }]
+    };
+    $("#chartContainer2").CanvasJSChart(options);
+
+
+    var options = {
+        data: [{
+            type: "pie",
+            startAngle: 200,
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} ({y})",
+            yValueFormatString: "0.%",
+            dataPoints: [
+                {label: "용산구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.220503133},
+                {label: "용산구 수용 불가능 인원", y: 1 - 0.220503133}
+            ]
+        }]
+    };
+    $("#chartContainer3").CanvasJSChart(options);
+
+
+    var options = {
+        data: [{
+            type: "pie",
+            startAngle: 200,
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} ({y})",
+            yValueFormatString: "0.%",
+            dataPoints: [
+                {label: "성동구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.22797289},
+                {label: "성동구 수용 불가능 인원", y: 1 - 0.22797289}
+            ]
+        }]
+    };
+    $("#chartContainer4").CanvasJSChart(options);
+
+    var options = {
+        data: [{
+            type: "pie",
+            startAngle: 200,
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} ({y})",
+            yValueFormatString: "0.%",
+            dataPoints: [
+                {label: "광진구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.22797289},
+                {label: "광진구 수용 불가능 인원", y: 1 - 0.22797289}
+            ]
+        }]
+    };
+    $("#chartContainer5").CanvasJSChart(options);
+
+    var options = {
+        data: [{
+            type: "pie",
+            startAngle: 200,
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} ({y})",
+            yValueFormatString: "0.%",
+            dataPoints: [
+                {label: "동대문구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.113263567},
+                {label: "동대문구 수용 불가능 인원", y: 1 - 0.113263567}
+            ]
+        }]
+    };
+    $("#chartContainer6").CanvasJSChart(options);
+
+
+    var options = {
+        data: [{
+            type: "pie",
+            startAngle: 200,
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} ({y})",
+            yValueFormatString: "0.%",
+            dataPoints: [
+                {label: "중랑구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.179755584},
+                {label: "중랑구 수용 불가능 인원", y: 1 - 0.179755584}
+            ]
+        }]
+    };
+    $("#chartContainer7").CanvasJSChart(options);
+
+
+    var options = {
+        data: [{
+            type: "pie",
+            startAngle: 200,
+            showInLegend: "true",
+            legendText: "{label}",
+            indexLabelFontSize: 16,
+            indexLabel: "{label} ({y})",
+            yValueFormatString: "0.%",
+            dataPoints: [
+                {label: "성북구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.142514321},
+                {label: "성북구 수용 불가능 인원", y: 1 - 0.142514321}
+            ]
+        }]
+    };
+    $("#chartContainer8").CanvasJSChart(options);
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "강북구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.114205728 },
+            { label: "강북구 수용 불가능 인원", y: 1-0.114205728 }
+         ]
+   }]
+};
+$("#chartContainer9").CanvasJSChart(options);
+
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "도봉구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.198471729 },
+            { label: "도봉구 수용 불가능 인원", y: 1-0.198471729 }
+         ]
+   }]
+};
+$("#chartContainer10").CanvasJSChart(options);
+
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "노원구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.139070716 },
+            { label: "노원구 수용 불가능 인원", y: 1-0.139070716 }
+         ]
+   }]
+};
+$("#chartContainer11").CanvasJSChart(options);
+
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "은평구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.189782014 },
+            { label: "은평구 수용 불가능 인원", y: 1-0.189782014 }
+         ]
+   }]
+};
+$("#chartContainer12").CanvasJSChart(options);
+
+
+
+
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "서대문구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.102400907 },
+            { label: "서대문구 수용 불가능 인원", y: 1-0.102400907 }
+         ]
+   }]
+};
+$("#chartContainer13").CanvasJSChart(options);
+
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "마포구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.26071369 },
+            { label: "마포구 수용 불가능 인원", y: 1-0.26071369 }
+         ]
+   }]
+};
+$("#chartContainer14").CanvasJSChart(options);
+
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "양천구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.204257002 },
+            { label: "양천구 수용 불가능 인원", y: 1-0.204257002 }
+         ]
+   }]
+};
+$("#chartContainer15").CanvasJSChart(options);
+
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "강서구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.142242113 },
+            { label: "강서구 수용 불가능 인원", y: 1-0.142242113 }
+         ]
+   }]
+};
+$("#chartContainer16").CanvasJSChart(options);
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "구로구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.139877925 },
+            { label: "구로구 수용 불가능 인원", y: 1-0.139877925 }
+         ]
+   }]
+};
+$("#chartContainer17").CanvasJSChart(options);
+
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "금천구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.190084859 },
+            { label: "금천구 수용 불가능 인원", y: 1-0.190084859 }
+         ]
+   }]
+};
+$("#chartContainer18").CanvasJSChart(options);
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "영등포구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.177095949 },
+            { label: "영등포구 수용 불가능 인원", y: 1-0.177095949 }
+         ]
+   }]
+};
+$("#chartContainer19").CanvasJSChart(options);
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "동작구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.148987567 },
+            { label: "동작구 수용 불가능 인원", y: 1-0.148987567 }
+         ]
+   }]
+};
+$("#chartContainer20").CanvasJSChart(options);
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "관악구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.083110191 },
+            { label: "관악구 수용 불가능 인원", y: 1-0.083110191 }
+         ]
+   }]
+};
+$("#chartContainer21").CanvasJSChart(options);
+
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "서초구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.223263968 },
+            { label: "서초구 수용 불가능 인원", y: 1-0.223263968 }
+         ]
+   }]
+};
+$("#chartContainer22").CanvasJSChart(options);
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "강남구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.261656887 },
+            { label: "강남구 수용 불가능 인원", y: 1-0.261656887 }
+         ]
+   }]
+};
+$("#chartContainer23").CanvasJSChart(options);
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "송파구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.093367492 },
+            { label: "송파구 수용 불가능 인원", y: 1-0.093367492 }
+         ]
+   }]
+};
+$("#chartContainer24").CanvasJSChart(options);
+
+
+var options = {
+   data: [{
+         type: "pie",
+         startAngle: 200,
+         showInLegend: "true",
+         legendText: "{label}",
+            indexLabelFontSize: 16,
+         indexLabel: "{label} ({y})",
+         yValueFormatString:"0.%",
+         dataPoints: [
+            { label: "강동구 노인 인구 대비 복지시설 수용 가능 인원", y: 0.157140574 },
+            { label: "강동구 수용 불가능 인원", y: 1-0.157140574 }
+         ]
+   }]
+};
+$("#chartContainer25").CanvasJSChart(options);
+
+
+}
+</script>
+
+
+
+</head>
+<body>
+
+<div class="main">
+    <input id="tab1" type="radio" name="tabs" checked> <!--디폴트 메뉴-->
+    <label for="tab1">서울시 전체</label>
+    <input id="tab2" type="radio" name="tabs">
+    <label for="tab2">종로구</label>
+    <input id="tab3" type="radio" name="tabs">
+    <label for="tab3">중구</label>
+    <input id="tab4" type="radio" name="tabs">
+    <label for="tab4">용산구</label>
+    <input id="tab5" type="radio" name="tabs">
+    <label for="tab5">성동구</label>
+    <input id="tab6" type="radio" name="tabs">
+    <label for="tab6">광진구</label>
+    <input id="tab7" type="radio" name="tabs">
+    <label for="tab7">동대문구</label>
+    <input id="tab8" type="radio" name="tabs">
+    <label for="tab8">중랑구</label>
+    <input id="tab9" type="radio" name="tabs">
+    <label for="tab9">성북구</label>
+    <input id="tab10" type="radio" name="tabs">
+    <label for="tab10">강북구</label>
+    <input id="tab11" type="radio" name="tabs">
+    <label for="tab11">도봉구</label>
+    <input id="tab12" type="radio" name="tabs">
+    <label for="tab12">노원구</label>
+    <input id="tab13" type="radio" name="tabs">
+    <label for="tab13">은평구</label>
+    <input id="tab14" type="radio" name="tabs">
+    <label for="tab14">서대문구</label>
+    <input id="tab15" type="radio" name="tabs">
+    <label for="tab15">마포구</label>
+    <input id="tab16" type="radio" name="tabs">
+    <label for="tab16">양천구</label>
+    <input id="tab17" type="radio" name="tabs">
+    <label for="tab17">강서구</label>
+    <input id="tab18" type="radio" name="tabs">
+    <label for="tab18">구로구</label>
+    <input id="tab19" type="radio" name="tabs">
+    <label for="tab19">금천구</label>
+    <input id="tab20" type="radio" name="tabs">
+    <label for="tab20">영등포구</label>
+    <input id="tab21" type="radio" name="tabs">
+    <label for="tab21">동작구</label>
+    <input id="tab22" type="radio" name="tabs">
+    <label for="tab22">관악구</label>
+    <input id="tab23" type="radio" name="tabs">
+    <label for="tab23">서초구</label>
+    <input id="tab24" type="radio" name="tabs">
+    <label for="tab24">강남구</label>
+    <input id="tab25" type="radio" name="tabs">
+    <label for="tab25">송파구</label>
+    <input id="tab26" type="radio" name="tabs">
+    <label for="tab26">강동구</label>
+
+    <section id="content1" >
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer"   style="height: 600px; width: 600px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+</body>
+</html>
+</section>
+
+<section id="content2">
+ <html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer1" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+<section id="content3">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer2" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content4">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer3"  style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content5">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer4" style="height: 500px; width: 500px;" ></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+
+<section id="content6">
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer5" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+</section>
+
+
+<section id="content7">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer6" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content8">
+<html>
+<head>
+<meta charset="UTF-8">
+
+</head>
+<body>
+<div id="chartContainer7" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content9">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+
+
+</head>
+<body>
+<div id="chartContainer8" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content10">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer9" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content11">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer10" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content12">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+
+</head>
+<body>
+<div id="chartContainer11" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content13">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+
+</head>
+<body>
+<div id="chartContainer12" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content14">
+<html>
+<head>
+<meta charset="UTF-8">
+
+</head>
+<body>
+<div id="chartContainer13" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content15">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer14" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content16">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+
+</head>
+<body>
+<div id="chartContainer15" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content17">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer16" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content18">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer17" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content19">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+
+
+</head>
+<body>
+<div id="chartContainer18" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content20">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer19" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content21">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+
+</head>
+<body>
+<div id="chartContainer20" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content22">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+
+</head>
+<body>
+<div id="chartContainer21" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content23">
+<html>
+<head>
+<meta charset="UTF-8">
+
+</head>
+<body>
+<div id="chartContainer22" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content24">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer23" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+<section id="content25">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer24" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+
+
+
+<section id="content26">
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+</head>
+<body>
+<div id="chartContainer25" style="height: 500px; width: 500px;"></div>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+</section>
+</div>
+</body>
+</html>
