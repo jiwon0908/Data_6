@@ -190,14 +190,20 @@ def login():
 
 @app.route('/program', methods=['get'])
 def program():
-    email = current_user.email
+    try:
+        email = current_user.email
+    except:
+        email = ""
     _, program_list = fetch_welfare_center_program(email)
     random_listing = define_listing()
     return render_template('program.html', data=program_list, random_listing=random_listing, email=email)
 
 @app.route('/activities', methods=['get'])
 def activity():
-    email = current_user.email
+    try:
+        email = current_user.email
+    except:
+        email = ""
     act_list = fetch_activity(email)
     random_listing = define_listing()
     return render_template('activities.html', data=act_list, random_listing=random_listing, email=email)
@@ -255,7 +261,10 @@ def show_home():
 
 @app.route('/search_activities', methods=['get'])
 def search_activities():
-    email = current_user.email
+    try:
+        email = current_user.email
+    except:
+        email = ""
     name = request.args.get("name")
     local = request.args.get("local", "0")
     category = request.args.get("category", "0")
@@ -266,7 +275,10 @@ def search_activities():
 
 @app.route('/search_leisures', methods=['get'])
 def search_leisures():
-    email = current_user.email
+    try:
+        email = current_user.email
+    except:
+        email = ""
     name = request.args.get("name")
     category = request.args.get("select")
     if category == "야외":
