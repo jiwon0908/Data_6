@@ -5,11 +5,10 @@
 #     reload(sys)
 # sys.setdefaultencoding('utf8')
 
-from flask import Flask, render_template, url_for, redirect, request
+from flask import Flask, render_template, url_for, redirect, request, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SelectField, RadioField
 from wtforms.validators import DataRequired, InputRequired, Email, Length
-from flask import render_template, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -411,4 +410,4 @@ def add_header(response):
     return response
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
