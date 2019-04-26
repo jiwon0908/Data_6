@@ -28,8 +28,8 @@
 - 구청 및 시청의 노인대상 프로그램 및 여가프로그램 정보, 서울시 독거노인 현황, 어르신 교육시설 현황, 서울시 노인여가 복지시설, 서울시 노인주거 복지시설, 서울시 노인 사회활동 참가 통계, 네이버 지도 API 
 
 #### 개선사항
-4.23 AWS EC2 인스턴스를 활용해 ‘동행’ deploy, 도메인 구입 및 등록
-4.25 Minor bug fix(Google Map API update, etc.)
+- 4.23 AWS EC2 인스턴스를 활용해 ‘동행’ deploy, 도메인 구입 및 등록
+- 4.25 Google Map API update bug fix, Enabled HTTPS with Let's Encrypt & Cerbot
 
 
 #### 추후 개선사항
