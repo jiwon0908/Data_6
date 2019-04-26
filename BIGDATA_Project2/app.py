@@ -22,6 +22,7 @@ import json
 from database import *
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # disable Flask-SQLAlchemy event notification system
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # set cache
 app.config['SECRET_KEY'] = '빅데이터고려대학교6조'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///userdata.db'
@@ -383,7 +384,7 @@ def faq():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('404.html')
+    return render_template('404.html'), 404
 
 @app.route('/<path>')
 def path(path):
